@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a4d3a">
+<title>Meal Plan — Gut Recovery + Recomp</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  line-height: 1.55;
+  color: #1a1a1a;
+  background: #f5f1ea;
+  font-size: 16px;
+  padding-bottom: 80px;
+}
+nav {
+  position: sticky;
+  top: 0;
+  background: #1a4d3a;
+  color: #fff;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+nav .nav-inner {
+  display: flex;
+  padding: 0 8px;
+  min-width: max-content;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 14px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  border-bottom: 3px solid transparent;
+}
+nav a:active { background: #133829; }
+header {
+  padding: 24px 18px 20px;
+  background: linear-gradient(180deg, #1a4d3a 0%, #2a6b54 100%);
+  color: #fff;
+}
+header h1 { font-size: 22px; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+header .sub { font-size: 14px; opacity: 0.9; }
+main { padding: 18px; max-width: 900px; margin: 0 auto; }
+section { margin-bottom: 28px; }
+h2 {
+  font-size: 19px;
+  color: #1a4d3a;
+  border-bottom: 2px solid #1a4d3a;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+  margin-top: 8px;
+}
+h3 { font-size: 16px; color: #1a4d3a; margin: 16px 0 8px; }
+h4 { font-size: 15px; color: #2a6b54; margin: 12px 0 6px; }
+p { margin-bottom: 10px; }
+ul { margin: 6px 0 12px 20px; }
+li { margin-bottom: 4px; }
+strong { color: #1a4d3a; }
+.callout {
+  background: #fff3cd;
+  border-left: 4px solid #d4a82f;
+  padding: 12px 14px;
+  border-radius: 4px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.callout-red {
+  background: #fde8e8;
+  border-left-color: #c0392b;
+}
+.meal-card {
+  background: #fff;
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-left: 3px solid #2a6b54;
+}
+.meal-card .meal-id {
+  display: inline-block;
+  background: #1a4d3a;
+  color: #fff;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  margin-right: 6px;
+}
+.meal-card .macros {
+  font-size: 12px;
+  color: #6b6b6b;
+  margin-top: 4px;
+  font-style: italic;
+}
+.recipe-toggle {
+  margin-top: 10px;
+  border-top: 1px dashed #d4ccbe;
+  padding-top: 8px;
+}
+.recipe-toggle summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a4d3a;
+  padding: 4px 0;
+  list-style: none;
+  user-select: none;
+}
+.recipe-toggle summary::-webkit-details-marker { display: none; }
+.recipe-toggle summary::before {
+  content: "▶ ";
+  font-size: 10px;
+  display: inline-block;
+  transition: transform 0.15s;
+  color: #2a6b54;
+}
+.recipe-toggle[open] summary::before { transform: rotate(90deg); }
+.recipe-toggle .recipe-content {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: #faf8f3;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.recipe-toggle .recipe-meta {
+  font-size: 11px;
+  color: #6b6b6b;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+}
+.recipe-toggle ol { margin: 6px 0 0 18px; padding: 0; }
+.recipe-toggle ol li { margin-bottom: 4px; font-size: 13px; }
+.recipe-toggle .tip {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: #fff3cd;
+  border-left: 3px solid #d4a82f;
+  border-radius: 3px;
+  font-size: 12px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 13px;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+th, td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid #e8e3da;
+  vertical-align: top;
+}
+th {
+  background: #1a4d3a;
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+tr:last-child td { border-bottom: none; }
+.reta-night { background: #fde8e8; }
+
+/* Shopping list */
+.week-block {
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #1a4d3a;
+}
+.week-header h3 { margin: 0; }
+.progress {
+  font-size: 13px;
+  color: #6b6b6b;
+  font-weight: 600;
+}
+.shop-cat {
+  margin-top: 12px;
+  font-weight: 700;
+  color: #2a6b54;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.shop-list {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+}
+.shop-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0ece4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.shop-list li:last-child { border-bottom: none; }
+.shop-list input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  accent-color: #1a4d3a;
+  cursor: pointer;
+}
+.shop-list label {
+  flex: 1;
+  cursor: pointer;
+  font-size: 15px;
+}
+.shop-list li.checked label {
+  text-decoration: line-through;
+  color: #9a9a9a;
+}
+.reset-btn {
+  background: #f0ece4;
+  border: 1px solid #d4ccbe;
+  color: #6b6b6b;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.reset-btn:active { background: #e0dccf; }
+.collapsible {
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+.collapsible-header {
+  padding: 12px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #2a6b54;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.collapsible-header::after {
+  content: "+";
+  font-size: 20px;
+  font-weight: 300;
+}
+.collapsible.open .collapsible-header::after { content: "−"; }
+.collapsible-body { padding: 0 14px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+.collapsible.open .collapsible-body { padding: 14px; max-height: none; }
+@media (min-width: 700px) {
+  body { font-size: 17px; }
+  header h1 { font-size: 28px; }
+  h2 { font-size: 22px; }
+  nav a { font-size: 15px; padding: 16px 18px; }
+}
+
+/* ── Shop tags & seasonal indicators ───────────────── */
+.shop-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-left: 5px;
+  vertical-align: middle;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+.st-cw      { background: #c62828; color: #fff; }
+.st-aldi    { background: #1565c0; color: #fff; }
+.st-butcher { background: #5d4037; color: #fff; }
+.st-fish    { background: #0277bd; color: #fff; }
+.st-chemist { background: #6a1b9a; color: #fff; }
+.st-iherb   { background: #2e7d32; color: #fff; }
+.st-harris  { background: #e64a19; color: #fff; }
+.st-bakery  { background: #795548; color: #fff; }
+.season-warn{ font-size: 10px; color: #c62828; font-weight: 700; margin-left: 3px; }
+.season-ok  { font-size: 10px; color: #2e7d32; font-weight: 700; margin-left: 3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#strategy">Strategy</a>
+    <a href="#daily">Daily</a>
+    <a href="#meals">Meals</a>
+    <a href="#schedule">Schedule</a>
+    <a href="#shopping">Shopping</a>
+    <a href="#supps">Supps</a>
+  </div>
+</nav>
+
+<header>
+  <h1>4-Week Meal Plan</h1>
+  <div class="sub">Gut Recovery + Lean Recomp · 90kg → 1.5-2.5kg lean over 12 weeks (or +3-4kg if Reta paused) · May 2026</div>
+</header>
+
+<main>
+
+<section id="strategy">
+<h2>1. Strategy</h2>
+
+<div class="callout callout-red">
+<strong>Plan updated after full pathology read:</strong> The headline finding is <strong>severely low sIgA</strong> (&lt;30% of lower reference). Your gut barrier is intact (zonulin normal), no inflammation (calprotectin + lactoferrin normal), digestion is excellent (pancreatic elastase 484), microbial diversity is +1.39 SD above average and butyrate producers are healthy. <strong>This is a targeted immune deficiency, not a damaged gut.</strong> Plan now prioritises sIgA recovery + methanogen control, not generic "gut healing".
+</div>
+
+<div class="callout">
+<strong>What we're treating:</strong>
+<ul style="margin-top:6px;">
+<li><strong>Low sIgA</strong> — bovine colostrum, vitamin A (retinol), zinc carnosine, S. boulardii, vitamin D, stress management</li>
+<li><strong>High methanogens</strong> — allicin, curcumin, Atrantil if needed, kiwifruit for motility</li>
+<li><strong>Elevated TMA producers</strong> — EVOO polyphenols, pomegranate, garlic, DIM</li>
+<li><strong>Low oxalate-consumers</strong> — limit high-oxalate foods (still)</li>
+</ul>
+</div>
+
+<div class="callout">
+<strong>What we're NOT treating (because the data says it's fine):</strong>
+<ul style="margin-top:6px;">
+<li>No leaky gut (zonulin 13.45 vs ≤100) — gluten/FODMAP restrictions can ease back</li>
+<li>No inflammation (calprotectin 24 vs ≤50, lactoferrin &lt;0.42 vs ≤7.2) — no IBD</li>
+<li>No bacterial pathogens (clean panel — Salmonella, Campylobacter, C. diff, E. coli all negative)</li>
+<li>No occult blood</li>
+<li>D. fragilis is the only positive — pathogenic role not established, treatment not recommended</li>
+<li>Beta-glucuronidase low (-1.62 SD) = protective for hormone metabolism</li>
+</ul>
+</div>
+
+<div class="callout">
+<strong>Plan structure changed:</strong> Phase 1 compressed to <strong>week 1 only</strong> (gentle introduction). Phase 2 builds from week 2. By week 3 you're on near-full variety with targeted supplementation doing the heavy lifting on the methanogens and sIgA.
+</div>
+
+<div class="callout callout-red">
+<strong>BLOODWORK FINDINGS (May 2025) — read before doing anything:</strong>
+
+<p style="margin-top:8px;"><strong>1. eGFR 58 (Stage 3a CKD range) — needs urgent clarification.</strong> Your serum creatinine is 125 (high). eGFR is calculated from creatinine. <strong>Creatine supplementation (you take 10g/day) artificially raises creatinine and lowers calculated eGFR.</strong> The real number could be anywhere from 75 (normal) to 58 (real CKD). Action: get a <strong>cystatin C eGFR + urine ACR (albumin:creatinine ratio)</strong> at your next bloods. Drop creatine to 5g until then. <strong>If real CKD is confirmed, protein drops from 200g/day to 110-130g/day</strong> — half what this plan currently prescribes. Don't ignore this.</p>
+
+<p><strong>2. Transferrin saturation 48% (high).</strong> Lab flagged "earliest sign of iron overload." Get <strong>haemochromatosis genetic screen (HFE C282Y/H63D)</strong>. Until cleared, drop liver to <strong>once weekly, chicken liver (lower iron than lamb's)</strong>. Don't add iron supplements.</p>
+
+<p><strong>3. LDL 3.9 (target &lt;2.0 for moderate-high risk).</strong> Lab flagged as excessive. TG/HDL ratio is good (0.67) suggesting bigger less-atherogenic particles, but you should get <strong>ApoB and Lp(a)</strong> for true cardio risk read. With TRT + Mast + saturated fat, this needs watching. Pomegranate + EVOO + DIM help. Lean towards more fish, less red meat.</p>
+
+<p><strong>4. Vitamin D 150 nmol/L.</strong> Perfect — you're at the top of the optimal range. <strong>Stay on 2,000 IU/day. Do not bump.</strong></p>
+
+<p><strong>5. Selective IgA deficiency RULED OUT.</strong> Your serum total IgA is normal (1.66 g/L). The low gut sIgA is a localised mucosal issue, not systemic immune deficiency. Reassuring.</p>
+
+<p><strong>6. Coeliac NEGATIVE.</strong> Sourdough and oats confirmed safe.</p>
+
+<p><strong>7. Hct 0.49 on TRT — upper normal.</strong> TRT-induced erythrocytosis is common. Re-test every 3 months. &gt;0.52 needs phlebotomy or dose adjustment.</p>
+
+<p><strong>8. Cortisol 463 AM (upper normal).</strong> HPA moderately activated. Magnesium glycinate + DSIP already in plan. Sleep hygiene non-negotiable.</p>
+
+<p><strong>9. Urate 0.44, previously elevated.</strong> Another reason to keep liver to once a week and watch red meat volume.</p>
+</div>
+
+<h3>Daily macros — TWO SCENARIOS until cystatin C eGFR confirmed</h3>
+<table>
+<tr><th>Target</th><th>If kidney function normal (likely creatine artifact)</th><th>If real CKD Stage 3a (eGFR 58 confirmed)</th></tr>
+<tr><td>Calories</td><td>~2,450 kcal</td><td>~2,450 kcal</td></tr>
+<tr><td>Protein</td><td>200g (2.2g/kg)</td><td><strong>120g (1.3g/kg)</strong></td></tr>
+<tr><td>Carbs</td><td>230g</td><td><strong>280g</strong> (replace lost protein cals)</td></tr>
+<tr><td>Fats</td><td>80g</td><td><strong>90g</strong></td></tr>
+<tr><td>Water</td><td>3.5–4L</td><td>2.5–3L (don't over-hydrate with CKD)</td></tr>
+<tr><td>Phosphorus</td><td>Normal intake</td><td>Limit dairy, processed meats, cola</td></tr>
+<tr><td>Potassium</td><td>Normal intake</td><td>Limit if confirmed CKD with K+ issues</td></tr>
+</table>
+
+<div class="callout callout-red">
+<strong>Default the plan to "kidney function normal" until your cystatin C result comes back.</strong> Most likely scenario: your creatine intake is causing a false low eGFR. But don't bulk hard until you've confirmed.
+</div>
+
+<h3>Reta-day pattern</h3>
+<p><strong>Mon, Tue, Thu, Fri:</strong> appetite suppressed post-injection. Lean on smoothies, soups, broths. Don't force solid food.</p>
+<p><strong>Sat, Sun:</strong> appetite returning. This is when you make up the week's protein average.</p>
+
+<h3>Lean into</h3>
+<p><strong>Proteins:</strong> grass-fed beef, lamb, kangaroo, chicken thigh, salmon, barramundi, snapper, prawns, eggs (esp. yolks for vitamin A), whey isolate, biltong (nitrate-free where possible), <strong>chicken liver ONCE weekly only</strong> (lower iron than lamb's liver) — until iron studies are repeated and haemochromatosis genetic screen comes back clear.</p>
+<p><strong>Carbs:</strong> jasmine rice, sushi rice, sourdough (fermented), oats, kent pumpkin, butternut, carrots, parsnip, swede, white potato, rice noodles, rice paper. From week 2: lentils, chickpeas in moderate portions.</p>
+<p><strong>Fats:</strong> EVOO (target 30ml+ daily — polyphenols inhibit TMAO formation), avocado, macadamias, walnuts, oily fish, ghee, butter, <strong>cod liver oil (replace standard fish oil — bonus retinol + vitamin D)</strong>.</p>
+<p><strong>Veg:</strong> zucchini, capsicum, cucumber, rocket, butter lettuce, bok choy, kent pumpkin, parsnip, swede, asparagus, green beans, cooked tomato, garlic (cooked — TMA mitigation), onion (cooked, from week 2).</p>
+<p><strong>Fruit:</strong> blueberries, strawberries, raspberries, kiwifruit (motility), papaya, pineapple, banana, lemon, <strong>pomegranate or pomegranate juice 250ml daily — TMAO mitigation + sIgA support</strong>.</p>
+<p><strong>sIgA + immune support:</strong> bovine colostrum (10-20g daily in shake), bone broth, kefir, Greek yoghurt, sauerkraut, kimchi, ginger, turmeric, mushrooms (shiitake, oyster — beta-glucans).</p>
+
+<h3>Limit / skip</h3>
+<p><strong>High oxalate (kidney stone risk given low oxalate-consumers):</strong> spinach, silverbeet, almonds (raw), sweet potato, beetroot, raw cacao, peanuts, soy.</p>
+<p><strong>Mind the volume of (don't ban):</strong> red meat (TMA producer — keep to 4-5 servings/week, balance with fish), eggs in extreme volume (over 6/day), choline supplements (these directly raise TMAO).</p>
+<p><strong>Skip entirely:</strong> alcohol, seed oils (canola, soy, sunflower), processed sugar, packaged snacks, anything with carrageenan or polysorbate-80 (these damage mucosal lining = bad for sIgA recovery).</p>
+<p style="font-size:13px;color:#6b6b6b;margin-top:8px;"><em>Note: gluten and FODMAP restrictions deliberately relaxed compared to first version — your zonulin and butyrate are good, so over-restricting fibre would starve your healthy bugs. Real sourdough and oats stay in. Use cooked onion/garlic from week 2.</em></p>
+
+<h3 style="color:#c0392b;margin-top:24px;">Foods + habits to AVOID for bloating &amp; gas (your methanogen problem)</h3>
+
+<p>Your gut produces too much methane. That's what's causing the bloating, slow transit and excess gas. Methane producers feed on fermentable carbohydrates. Cut these <strong>completely in week 1</strong>, then reintroduce strategically from week 2 onwards while you watch for symptoms.</p>
+
+<h4>HIGH-FODMAP foods that directly feed methanogens (worst offenders)</h4>
+<table>
+<tr><th>Category</th><th>Avoid</th><th>Better swap</th></tr>
+<tr><td><strong>Onion family (fructans)</strong></td><td>Raw onion, raw garlic, leek, shallots, spring onion white parts</td><td>Garlic-infused olive oil, spring onion green tops, chives, asafoetida (hing) powder</td></tr>
+<tr><td><strong>Wheat in volume (fructans)</strong></td><td>Regular wheat bread, pasta, pizza dough, wraps, couscous, breakfast cereal, breaded foods</td><td>Real long-fermented sourdough, rice, jasmine rice, rice noodles, rice paper, oats</td></tr>
+<tr><td><strong>Legumes (GOS)</strong></td><td>Kidney beans, black beans, chickpeas (large portions), red lentils, baked beans, soy beans, hummus in volume</td><td>Small portions of canned chickpeas (rinsed) week 3+, firm tofu, animal protein</td></tr>
+<tr><td><strong>Cruciferous in volume</strong></td><td>Raw cauliflower, raw broccoli, brussels sprouts, savoy cabbage, kale in big portions</td><td>Cooked broccoli (small), bok choy, zucchini, capsicum, rocket, cucumber</td></tr>
+<tr><td><strong>High-fructose fruit</strong></td><td>Apple, pear, mango, watermelon, dried fruit, fruit juice in volume, persimmon, fig</td><td>Blueberry, strawberry, raspberry, kiwifruit, banana (firm), pineapple, papaya, citrus, grapes (small)</td></tr>
+<tr><td><strong>Stone fruits (polyols)</strong></td><td>Peach, plum, nectarine, apricot, cherry</td><td>Same low-fructose list above</td></tr>
+<tr><td><strong>Sugar alcohols (polyols)</strong></td><td>Sorbitol, mannitol, xylitol, maltitol — in sugar-free gum, mints, "diet" foods, protein bars</td><td>Stevia, monk fruit, small amounts of honey or maple</td></tr>
+<tr><td><strong>Lactose (dairy)</strong></td><td>Regular milk, ice cream, ricotta in volume, soft cheeses</td><td>Lactose-free milk, kefir (fermented), Greek yoghurt (fermented), hard cheeses (parmesan, cheddar, feta)</td></tr>
+<tr><td><strong>Hidden FOS/inulin</strong></td><td>Chicory root, "prebiotic" added bars and protein powders, agave, "fibre-enriched" cereals</td><td>Read labels — anything saying inulin, FOS, chicory, agave is OUT</td></tr>
+</table>
+
+<h4>Other gut-irritating things to remove entirely</h4>
+<ul>
+<li><strong>Carbonated drinks</strong> — sparkling water, soft drinks, kombucha (yes, even kombucha), beer. Direct gas into the gut.</li>
+<li><strong>Artificial sweeteners</strong> — sucralose (Splenda), aspartame, ace-K. Alter microbiome and feed dysbiosis.</li>
+<li><strong>Sugar alcohols in protein bars</strong> — most "low-carb" bars contain maltitol or sorbitol. Wreck your gut.</li>
+<li><strong>Seed oils</strong> — canola, soy, sunflower, safflower, rice bran (in restaurant cooking, processed snacks). Pro-inflammatory, hit mucosal lining.</li>
+<li><strong>Emulsifiers/thickeners</strong> — carrageenan, polysorbate-80, CMC (carboxymethylcellulose), xanthan gum in volume. Damage gut barrier — known to lower sIgA further.</li>
+<li><strong>Alcohol</strong> — already excluded, but worth restating: alcohol directly suppresses sIgA and feeds methanogens.</li>
+<li><strong>Processed meats with additives</strong> — most cheap deli meats contain dextrose, additives, fillers. Stick to whole cuts.</li>
+<li><strong>Overly processed protein powders</strong> — many contain inulin, sucralose, maltitol. Use unflavoured isolate or check the label.</li>
+</ul>
+
+<h4>Habits that worsen bloating (just as important as food)</h4>
+<ul>
+<li><strong>Eating too fast</strong> — you swallow air. Each bite ≥20 chews. Put fork down between bites.</li>
+<li><strong>Drinking through a straw</strong> — pulls air in.</li>
+<li><strong>Chewing gum</strong> — swallows air + sugar alcohols. Double hit.</li>
+<li><strong>Talking while eating</strong> — air in.</li>
+<li><strong>Drinking large amounts of water with meals</strong> — dilutes stomach acid, slows protein digestion. Sip only. Drink between meals.</li>
+<li><strong>Lying down after eating</strong> — slows gastric emptying, worsens reflux. Wait 2-3 hours.</li>
+<li><strong>Skipping meals then eating huge ones</strong> — overwhelms digestion. Stick to roughly even portions.</li>
+<li><strong>Not chewing properly</strong> — undigested food = more fermentation = more gas.</li>
+<li><strong>Late-night eating</strong> — gut motility slows at night. Last meal 2-3hrs before bed.</li>
+<li><strong>Cold drinks with hot meals</strong> — slows enzyme activity. Room temp or warm with meals.</li>
+</ul>
+
+<h4>Pro-motility moves (counter-attack the methane-driven slow transit)</h4>
+<ul>
+<li><strong>2 kiwifruit daily</strong> — clinically proven motility booster (better than psyllium for IMO patients).</li>
+<li><strong>Magnesium glycinate or citrate at night</strong> — already in plan. Citrate is more laxative if you need extra push.</li>
+<li><strong>Walk after meals</strong> — even 10 minutes. Stimulates migrating motor complex.</li>
+<li><strong>16:8 intermittent fasting if tolerated</strong> — gives the migrating motor complex (MMC) time to clear small intestine. The MMC is what literally sweeps debris through your gut between meals — methanogens thrive when you graze.</li>
+<li><strong>Ginger tea after meals</strong> — prokinetic, reduces bloating.</li>
+<li><strong>Squat posture for bowel movements</strong> — Squatty Potty or footstool. Mechanically straightens the puborectalis sling.</li>
+</ul>
+
+<div class="callout">
+<strong>The bloating audit:</strong> Bloating that doesn't improve in 2 weeks of strict adherence above means it's pharmacological territory. Allicin (already in the plan) + Atrantil for 4 weeks is the next move. If still no improvement, you need a <strong>SIBO breath test (lactulose, 3-hour, methane + hydrogen)</strong> via your GP — this measures the actual gas production directly and confirms IMO (intestinal methanogen overgrowth). Treatment for confirmed IMO is rifaximin + neomycin (prescription-only) for 14 days. Diet alone often won't fix entrenched IMO.
+</div>
+</section>
+
+<section id="daily">
+<h2>2. Daily structure</h2>
+
+<table>
+<tr><th>Time</th><th>What</th></tr>
+<tr><td>Wake (~5:30am)</td><td>HGH + GHKCu sub-Q. 500ml water + lemon + pinch sea salt. Black coffee fine.</td></tr>
+<tr><td>6:00am</td><td>200ml warm bone broth + 5g L-glutamine + morning supps (incl. cod liver oil, colostrum 10g, vit A)</td></tr>
+<tr><td>6:30am</td><td>Breakfast (see rotation) — at least 2x/week include eggs (yolks = retinol)</td></tr>
+<tr><td>9:30am</td><td>Snack 1 + 250ml pomegranate juice (or 1g pom extract with lunch)</td></tr>
+<tr><td>12:30pm</td><td>Lunch (prepped night before)</td></tr>
+<tr><td>3:30pm</td><td>Pre-gym: banana + 30g whey in water</td></tr>
+<tr><td>5:30pm</td><td>Post-gym: 40g whey + 250ml kefir or banana + 10g colostrum</td></tr>
+<tr><td>7:00pm</td><td>Dinner</td></tr>
+<tr><td>9:30pm</td><td>HGH + DSIP + 200g Greek yoghurt + 10g collagen + Mg glycinate + zinc carnosine</td></tr>
+</table>
+
+<div class="callout">
+<strong>Liver weekly (sIgA driver) — UPDATED dose:</strong> 50-80g <strong>chicken liver</strong> (lower iron than lamb's), <strong>once a week only</strong> until your transferrin saturation is rechecked + haemochromatosis screen is back. Pâté or Vietnamese-style chicken liver salad. One serve gives you ~7,000 IU of retinol. <strong>If you can't stomach it OR your iron studies confirm loading, take vitamin A (retinol palmitate) 5,000 IU/day with breakfast instead.</strong>
+</div>
+
+<div class="callout callout-red">
+<strong>Reta nights (Sun + Wed):</strong> dinner at 6pm (lighter). Inject sequence after dinner. See Supps section for full Wed-night injection order.
+</div>
+</section>
+
+<section id="meals">
+<h2>3. Meals</h2>
+<p style="font-size:14px;color:#6b6b6b;margin-bottom:14px;">Tap a phase to expand all meals. B = breakfast, L = lunch, D = dinner, S = snack.</p>
+
+<div class="collapsible">
+<div class="collapsible-header" onclick="toggleCol(this)">Phase 1 — Week 1 only (Strict reset)</div>
+<div class="collapsible-body">
+
+<h4>Breakfasts</h4>
+<div class="meal-card"><span class="meal-id">B1</span><strong>Eggs, salmon, avo, sourdough.</strong> 3 eggs scrambled in butter, 80g smoked salmon, ½ avocado, 1 slice sourdough.<div class="macros">~600 kcal · 38g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 5min · Cook 5min</div><ol><li>Toast 1 slice sourdough.</li><li>Crack 3 eggs into a bowl, whisk with splash of water + pinch of salt.</li><li>Melt 1 tbsp butter in non-stick pan over medium-low heat.</li><li>Pour eggs in, push gently with spatula. Pull off heat while still glossy and slightly underdone — they'll keep cooking.</li><li>Plate eggs alongside 80g smoked salmon, ½ sliced avocado, the toast.</li></ol><div class="tip"><strong>Tip:</strong> Low and slow scrambled = silky. High heat = rubber.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">B2</span><strong>Bone broth poached eggs.</strong> 3 poached eggs over sautéed zucchini & tomato (no garlic), 200ml broth, 1 slice sourdough.<div class="macros">~520 kcal · 30g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 5min · Cook 10min</div><ol><li>Heat 200ml bone broth in mug or small saucepan.</li><li>Bring small pot of water to gentle simmer with 1 tbsp white vinegar (helps eggs hold shape).</li><li>Sauté 1 sliced zucchini + 6 halved cherry tomatoes in 1 tbsp olive oil over medium heat 4 min, season salt + pepper.</li><li>Crack each egg into a ramekin first, then slide into simmering water. Poach 3 min for soft yolk.</li><li>Toast sourdough. Plate veg, top with poached eggs (drain on paper towel), broth on the side.</li></ol></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">B3</span><strong>Recovery smoothie</strong> (Reta-day default). 40g whey, 250ml kefir, frozen banana, ½ cup blueberries, 1 tbsp macadamia butter, chia, 10g collagen.<div class="macros">~620 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 3min · No cook</div><ol><li>Add to blender in this order: 250ml kefir (liquid first protects blades), 40g whey, 1 frozen banana broken into chunks, ½ cup blueberries, 1 tbsp macadamia butter, 1 tbsp chia, 10g collagen, 4 ice cubes.</li><li>Blend 60-90 sec until smooth (start low, ramp to high).</li><li>Drink within 10 min for best texture (chia thickens fast).</li></ol><div class="tip"><strong>Tip:</strong> Freeze ripe bananas in chunks ready-to-go for the week — saves prep.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">B4</span><strong>Beef mince breakfast bowl.</strong> 150g beef mince with capsicum & herbs, 2 fried eggs, ½ cup jasmine rice, ¼ avo.<div class="macros">~700 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 5min · Cook 15min</div><ol><li>Cook ½ cup jasmine rice (rinse first, 1 cup water, simmer covered 10 min, rest off heat 5 min).</li><li>Heat skillet medium-high, add 150g beef mince. Brown 4 min, breaking up.</li><li>Add ½ diced red capsicum + pinch salt + paprika + dried oregano, cook 3 min.</li><li>Push mince to one side of pan, fry 2 eggs in same pan (yolk runny).</li><li>Plate rice, top with mince + capsicum, slide eggs on top, add ¼ sliced avocado.</li></ol></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">B5</span><strong>Greek yoghurt power bowl.</strong> 250g Greek yoghurt, ½ cup blueberries, ¼ cup macadamias, 1 tbsp honey, chia, scoop collagen.<div class="macros">~580 kcal · 35g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 3min · No cook</div><ol><li>Spoon 250g Greek yoghurt into bowl.</li><li>Stir in 1 scoop collagen + 1 tbsp chia until dissolved.</li><li>Top with ½ cup blueberries, ¼ cup macadamias.</li><li>Drizzle 1 tbsp honey.</li></ol></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">B6</span><strong>Salmon & rice breakfast.</strong> 150g salmon, 2 soft-boiled eggs, ½ cup jasmine rice, sautéed zucchini, sesame, tamari.<div class="macros">~640 kcal · 48g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 5min · Cook 12min</div><ol><li>Start ½ cup jasmine rice (10 min simmer).</li><li>Soft-boil 2 eggs: gently lower into already-boiling water, set timer 6.5 min, then ice bath.</li><li>Pat 150g salmon dry, salt skin. Sear skin-down in oiled pan medium-high 4 min (don't move it). Flip, 2 min flesh side.</li><li>Same pan: sauté 1 sliced zucchini in sesame oil 3 min.</li><li>Plate rice, top with flaked salmon, peeled halved eggs, zucchini. Drizzle 1 tbsp tamari, sprinkle sesame seeds.</li></ol></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">B7</span><strong>Ricotta hotcakes.</strong> ½ cup ricotta + 2 eggs + ½ cup oats + cinnamon, blended, cooked in butter. Topped with strawberries + 1 tbsp maple.<div class="macros">~580 kcal · 32g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 5min · Cook 8min</div><ol><li>In blender combine ½ cup ricotta, 2 eggs, ½ cup oats, 1 tsp cinnamon, pinch salt. Blend 30 sec until smooth.</li><li>Heat 1 tsp butter in non-stick pan over medium-LOW (key — these scorch easily).</li><li>Pour ¼ cup batter per hotcake (makes 3-4).</li><li>Cook 2 min until bubbles form on top, flip, 1.5 min on other side.</li><li>Stack, top with ½ cup sliced strawberries, drizzle 1 tbsp maple syrup.</li></ol><div class="tip"><strong>Tip:</strong> Sunday morning meal — batter doesn't keep well. Eat fresh.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">B8</span><strong>Chicken & rice bowl</strong> (Reta-day light). 150g shredded chicken, ½ cup jasmine rice, cucumber, cherry tomato, EVOO, lemon.<div class="macros">~520 kcal · 42g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 5min · No cook (uses leftovers)</div><ol><li>Combine in bowl: 150g pre-cooked shredded chicken (use Sunday's batch), ½ cup pre-cooked cold jasmine rice, sliced ½ cucumber, halved cherry tomatoes, chopped parsley.</li><li>Drizzle 1 tbsp EVOO + juice of ½ lemon, salt + pepper.</li><li>Toss. Done.</li></ol><div class="tip"><strong>Tip:</strong> Designed for Reta-suppressed days — minimal effort, easy on appetite.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">B11</span><strong>Chicken liver & egg brekkie</strong> (sIgA hero — once weekly). 80g chicken liver pan-fried in butter with thyme (cooked onion from week 2+), 2 poached eggs, 1 slice sourdough, ½ avo.<div class="macros">~620 kcal · 42g P · ~6,000 IU retinol</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 5min · Cook 10min</div><ol><li>Pat 80g chicken liver dry, trim any sinew, season generously with salt + pepper.</li><li>Heat 1 tbsp butter in pan medium-high. Add liver + sprig thyme (+ ¼ chopped onion if Phase 2+). Sear 90 sec/side until golden outside, slightly pink inside. Rest 2 min on plate.</li><li>In same pan turn heat down to low: poach 2 eggs (splash of water, lid on, 3 min) OR fry sunny-side up.</li><li>Toast sourdough.</li><li>Plate: liver, eggs, ½ sliced avocado, sourdough.</li></ol><div class="tip"><strong>Tip:</strong> Chicken liver is mild compared to lamb's. Don't overcook — past pink and it goes chalky/bitter. If totally new to liver, soak in milk 30 min first to mellow flavour.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">B12</span><strong>Pomegranate yoghurt power bowl.</strong> 250g Greek yoghurt, ¼ cup pomegranate seeds, ½ cup blueberries, ¼ cup macadamias, 10g colostrum, 1 tbsp honey, scoop collagen.<div class="macros">~600 kcal · 38g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 4min · No cook</div><ol><li>Spoon 250g Greek yoghurt into bowl.</li><li>Stir in 10g colostrum + 1 scoop collagen until dissolved (do this BEFORE adding fruit — easier to mix smooth).</li><li>Top with ¼ cup pomegranate seeds, ½ cup blueberries, ¼ cup macadamias.</li><li>Drizzle 1 tbsp honey.</li></ol><div class="tip"><strong>De-seeding pomegranate:</strong> Halve, hold cut-side down over bowl, hit back with wooden spoon — seeds fall out. 30 seconds, no mess.</div></div></details>
+</div>
+
+<h4>Lunches (prep night before)</h4>
+<div class="meal-card"><span class="meal-id">L1</span><strong>Chicken jasmine rice bowl.</strong> 200g chicken thigh, 1 cup jasmine, roasted carrot & kent pumpkin, rocket, EVOO + lemon.<div class="macros">~720 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 25min · Sunday batch-friendly</div><ol><li>Marinate 200g chicken thigh in 1 tbsp tamari + 1 tsp olive oil + lemon juice + pepper, 10 min.</li><li>Cube kent pumpkin (~200g) + slice 2 carrots into rounds. Toss with 1 tbsp EVOO + salt. Roast 200°C 20 min on baking tray.</li><li>Cook 1 cup jasmine rice (rinsed, simmer covered 12 min, rest 5 min).</li><li>Pan-sear chicken thigh medium-high in oiled pan, 4 min/side until 75°C internal. Slice.</li><li>Bowl up: rice, roasted veg, sliced chicken, handful rocket. Dress with extra EVOO + lemon + salt.</li></ol><div class="tip"><strong>Batch tip:</strong> Triple this on Sunday — 3 lunches for the week. Chicken keeps 4 days in fridge.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">L2</span><strong>Salmon sushi bowl.</strong> 180g salmon, 1 cup sushi rice, cucumber, edamame, nori, sesame, tamari, pickled ginger.<div class="macros">~700 kcal · 45g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 20min</div><ol><li>Cook 1 cup sushi rice per pack instructions. While hot, fold through 1 tbsp rice vinegar + ½ tsp sugar + pinch salt.</li><li>Pat 180g salmon dry, salt skin. Sear skin-down in oiled pan medium-high 4 min, flip 2 min flesh-side. Rest, then flake.</li><li>Slice ½ cucumber into batons. Defrost ¼ cup edamame (microwave 90 sec).</li><li>Bowl up: rice, flaked salmon, cucumber, edamame, crumbled nori, sesame seeds.</li><li>Drizzle 1 tbsp tamari, top with 1 tbsp pickled ginger.</li></ol><div class="tip"><strong>Tip:</strong> Cook salmon Sunday for Sunday + Monday lunch. Refrigerated cooked salmon is fine cold.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">L3</span><strong>Beef & rice noodles.</strong> 180g beef strips with capsicum & ginger, 100g rice noodles, sesame, tamari, coriander.<div class="macros">~680 kcal · 48g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 12min</div><ol><li>Soak 100g rice noodles in hot water 5 min. Drain, set aside.</li><li>Heat 1 tbsp sesame oil in wok or large pan medium-HIGH (key — wok must be hot).</li><li>Add 1 tbsp grated/sliced ginger, stir 30 sec.</li><li>Add 180g beef strips in single layer. Sear 90 sec, flip, 60 sec. Push to side of pan.</li><li>Add 1 sliced red capsicum, stir-fry 2 min.</li><li>Toss noodles in with everything, add 2 tbsp tamari + 1 tsp sesame oil. Toss 1 min to coat.</li><li>Garnish coriander + sesame seeds.</li></ol><div class="tip"><strong>Tip:</strong> Don't overcook beef strips — 2.5 min total max. Tender = pink inside.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">L4</span><strong>Prawn rice salad.</strong> 200g cooked prawns, 1 cup jasmine, cucumber, cherry tomato, dill, lemon, EVOO.<div class="macros">~620 kcal · 45g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 12min</div><ol><li>Cook 1 cup jasmine rice. Spread on tray to cool slightly.</li><li>If raw prawns: pan-fry 200g in EVOO + lemon over medium 2-3 min until pink. If pre-cooked, just warm 1 min.</li><li>Slice ½ cucumber into rounds, halve handful cherry tomatoes, chop 1 tbsp fresh dill.</li><li>Combine rice + prawns + veg + dill in container.</li><li>Dress: 2 tbsp EVOO + juice of ½ lemon + salt + cracked pepper. Toss.</li></ol><div class="tip"><strong>Eats well cold</strong> — perfect prepped lunch.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">L5</span><strong>Lamb & pumpkin bowl.</strong> 180g lamb backstrap, ½ cup quinoa, roasted kent pumpkin, rocket, 30g feta, EVOO.<div class="macros">~720 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 25min</div><ol><li>Cube 200g kent pumpkin, toss with 1 tbsp EVOO + salt + pepper. Roast 200°C 20 min until golden.</li><li>Rinse ½ cup quinoa, simmer with 1 cup water covered 15 min until water absorbed.</li><li>Pat 180g lamb backstrap dry, salt heavily. Cast-iron pan smoking hot. Sear 3 min/side for medium-rare. Rest 5 min, slice across the grain.</li><li>Bowl up: quinoa, pumpkin, large handful rocket, sliced lamb, 30g crumbled feta.</li><li>Drizzle EVOO + lemon, cracked pepper.</li></ol><div class="tip"><strong>Tip:</strong> Lamb backstrap is lean — overcooking ruins it. Pull at 56°C internal for medium-rare, rests up to 60°C.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">L6</span><strong>Slow-cooker beef stew.</strong> 200g chuck slow-cooked with carrot, parsnip, swede in beef broth, ½ cup mashed pumpkin.<div class="macros">~650 kcal · 48g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 15min · Cook 6hrs slow / 25min veg</div><ol><li>Cube 250g beef chuck. Season heavily with salt + pepper.</li><li>Heat oil in pan. Brown beef on all sides 5 min — don't crowd, do in batches.</li><li>Slow cooker: browned beef + 2 chunked carrots + 1 chunked parsnip + ½ cubed swede + 500ml beef broth + sprig rosemary + 1 bay leaf.</li><li>Cook LOW 6 hrs (or HIGH 4 hrs).</li><li>Last 30 min: cube 200g kent pumpkin, boil 15 min until soft. Mash with 1 tsp butter + salt.</li><li>Plate stew over mashed pumpkin.</li></ol><div class="tip"><strong>Set this up Sunday morning</strong> — by lunch it's done. Makes 2 portions for week.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">L7</span><strong>Chicken pho-style soup.</strong> 180g shredded chicken in broth, 80g rice noodles, bok choy, ginger, coriander, lime.<div class="macros">~580 kcal · 45g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 15min</div><ol><li>Heat 750ml chicken broth in saucepan with 4 slices fresh ginger + 1 star anise (optional). Simmer 10 min.</li><li>Soak 80g rice noodles in hot tap water 5 min. Drain, divide into bowl.</li><li>Top with 180g pre-cooked shredded chicken + 1 bok choy quartered.</li><li>Pour boiling broth over (will cook bok choy in seconds). Fish out ginger/anise.</li><li>Garnish: fresh coriander leaves, lime wedge, sliced spring onion green tops, optional sriracha.</li></ol><div class="tip"><strong>Tip:</strong> Make broth Sunday or use Nutra Organics powder + water. The fresh ginger is what makes it pho-like.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">L8</span><strong>Tuna rice paper rolls.</strong> 2x 95g tuna in olive oil, avo, cucumber, carrot, mint in 4 rice paper rolls, tamari-lime dip.<div class="macros">~640 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 15min · No cook</div><ol><li>Drain 2 tins tuna into bowl, mix with 1 tbsp EVOO + lemon juice + salt + pepper.</li><li>Slice ½ cucumber + 1 carrot + ½ avocado into matchsticks.</li><li>Fill wide bowl or pie dish with warm water (just hot tap).</li><li>Submerge 1 rice paper sheet 8-10 sec until pliable but not mushy. Lay flat on plate or board.</li><li>Layer fillings on lower third: tuna, cucumber, carrot, avocado, 4 mint leaves.</li><li>Fold sides in, then roll bottom up tightly (like a burrito). Repeat for 4 rolls.</li><li>Dip: 2 tbsp tamari + 1 tbsp lime juice + chilli flakes.</li></ol><div class="tip"><strong>Tip:</strong> Don't oversoak the rice paper — it should still feel slightly stiff when you start filling. It softens fully as it sits.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">L12</span><strong>Vietnamese chicken liver salad</strong> (sIgA hero). 80g chicken liver flash-fried + 100g shredded chicken, vermicelli rice noodles, cucumber, carrot, mint, coriander, lime-tamari-chilli dressing, crushed peanuts (optional skip).<div class="macros">~620 kcal · 50g P · ~6,000 IU retinol</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 15min · Cook 5min</div><ol><li>Cook 80g vermicelli rice noodles: pour boiling water over, soak 3 min, drain, rinse cold to stop cooking.</li><li>Pat 80g chicken liver dry, trim sinew, season salt + pepper. Heat sesame oil in pan smoking hot. Sear liver 90 sec/side. Rest, slice.</li><li>Julienne 1 carrot + ½ cucumber. Pick mint + coriander leaves.</li><li>Combine in large bowl: noodles + 100g pre-cooked shredded chicken + carrot + cucumber + herbs.</li><li>Dressing: 2 tbsp lime juice + 2 tbsp tamari + 1 tsp honey + 1 sliced bird's-eye chilli. Whisk.</li><li>Top noodle salad with sliced liver, drizzle dressing. Skip peanuts if oxalate-conscious.</li></ol><div class="tip"><strong>Tip:</strong> Liver should be just pink inside — chalky if overcooked.</div></div></details>
+</div>
+
+<h4>Dinners</h4>
+<div class="meal-card"><span class="meal-id">D1</span><strong>Steak + pumpkin.</strong> 220g porterhouse, roasted kent pumpkin, rocket salad with EVOO + lemon, 30g macadamias.<div class="macros">~680 kcal · 55g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 5min · Cook 25min</div><ol><li>Cube 250g kent pumpkin. Toss with 1 tbsp EVOO + salt + pepper. Roast 200°C 20 min.</li><li>Bring 220g porterhouse to room temp 20-30 min before cooking. Pat dry, salt heavily on both sides.</li><li>Cast-iron pan smoking hot (no oil — steak's fat is enough). Add steak, sear 2-3 min/side for medium-rare (use thermometer: pull at 52°C).</li><li>Rest steak 5-7 min on plate (mandatory — locks in juice).</li><li>Toss handful rocket with 1 tbsp EVOO + lemon juice + salt.</li><li>Plate steak, pumpkin, rocket. Sprinkle 30g macadamias.</li></ol><div class="tip"><strong>Tip:</strong> Resting time = half the cook time. Skip it and the juice runs out onto the plate.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">D2</span><strong>Baked barramundi.</strong> 200g barra with lemon & herbs, ½ cup jasmine, steamed bok choy, ginger-tamari.<div class="macros">~580 kcal · 45g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 5min · Cook 15min</div><ol><li>Start ½ cup jasmine rice (10 min simmer).</li><li>Place 200g barramundi fillet on baking paper. Top with 3 lemon slices, sprig dill or thyme, salt, knob butter. Wrap into a parcel.</li><li>Bake 200°C 12 min until flesh flakes easily.</li><li>Steam 1 bok choy halved over boiling water 4 min.</li><li>Mix sauce: 1 tbsp tamari + 1 tsp grated ginger + 1 tsp sesame oil.</li><li>Plate fish (open parcel and slide onto plate, juice and all), rice, bok choy. Drizzle ginger-tamari.</li></ol><div class="tip"><strong>Tip:</strong> Foil parcel works too if no baking paper. Don't overcook fish — 12 min for a 200g fillet is the sweet spot.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">D3</span><strong>Lamb cutlets + tzatziki.</strong> 4 cutlets grilled, grilled zucchini & capsicum, tzatziki, ½ cup jasmine.<div class="macros">~680 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 12min</div><ol><li>Cook ½ cup jasmine rice.</li><li>Tzatziki: grate ½ cucumber, squeeze water out in a clean tea towel. Mix with 100g Greek yoghurt + 1 tbsp chopped dill + lemon juice + salt.</li><li>Slice 1 zucchini and 1 capsicum into rounds. Toss with EVOO + salt + dried oregano.</li><li>Heat grill pan or BBQ very hot. Grill veg 3 min/side until charred.</li><li>Same heat: lamb cutlets 2-3 min/side for medium-rare. Rest 3 min.</li><li>Plate cutlets, grilled veg, rice, dollop tzatziki on top.</li></ol></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">D4</span><strong>Roast chicken & root veg.</strong> 2 thighs (skin on), carrot, parsnip, kent pumpkin, steamed beans.<div class="macros">~640 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 35min</div><ol><li>Cube 1 carrot, 1 parsnip, 200g kent pumpkin. Toss with EVOO + salt + thyme leaves.</li><li>Spread on baking tray. Place 2 chicken thighs (skin on, salted) on top of veg.</li><li>Roast 200°C 30 min until chicken hits 75°C internal and skin crispy.</li><li>Last 5 min: steam 200g green beans 4 min over boiling water.</li><li>Plate everything together. Spoon any pan juices over chicken.</li></ol><div class="tip"><strong>Tip:</strong> Chicken on top of veg means the chicken juices baste the veg as they roast. One tray, minimal washing up.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">D5</span><strong>Kangaroo stir fry.</strong> 200g roo, capsicum, zucchini, ginger, tamari, sesame, ½ cup jasmine.<div class="macros">~580 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 10min</div><ol><li>Cook ½ cup jasmine rice.</li><li>Heat 1 tbsp sesame oil in wok very hot.</li><li>Add 200g kangaroo strips in single layer. Sear 90 sec — DO NOT overcook (roo = lean game meat, turns to leather past medium-rare). Transfer to plate.</li><li>Same wok: 1 tbsp grated ginger 30 sec, then sliced 1 capsicum + 1 zucchini, stir-fry 3 min.</li><li>Return roo to wok briefly with 2 tbsp tamari + sesame seeds. Toss 30 sec to coat.</li><li>Serve over rice.</li></ol><div class="tip"><strong>Critical:</strong> Roo is best at rare-medium-rare. Overcook it once, you'll never want it again. Internal temp 50-55°C max.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">D6</span><strong>Salmon + cauli rice.</strong> 200g salmon baked, ¾ cup cauli rice, asparagus, lemon-butter.<div class="macros">~620 kcal · 45g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 8min · Cook 15min</div><ol><li>Cauliflower rice: pulse ½ cauliflower head in food processor to rice-grain consistency. Sauté in 1 tbsp EVOO + salt over medium 5 min.</li><li>Place 200g salmon on baking paper, season salt + pepper, dot with butter, top with 2 lemon slices. Bake 200°C 12 min.</li><li>Snap woody ends off asparagus bunch. Steam 4 min.</li><li>Lemon-butter sauce: melt 1 tbsp butter in small pan, add juice of ½ lemon + cracked pepper. Don't boil.</li><li>Plate cauli rice as base, top with salmon, asparagus on side. Drizzle lemon-butter.</li></ol></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">D7</span><strong>Slow-cooker lamb shoulder.</strong> 200g pulled lamb, roasted carrot & swede, steamed greens, mint sauce.<div class="macros">~700 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 15min · Cook 6hrs slow / 25min veg</div><ol><li>Rub 500g lamb shoulder all over with: 2 tsp salt, 1 tsp cracked pepper, 1 tbsp garlic-infused olive oil, 1 tbsp dried rosemary.</li><li>Place in slow cooker. Add 100ml water or beef broth in bottom. Cook LOW 6 hrs (or HIGH 4 hrs) until lamb pulls apart with 2 forks.</li><li>Last hour: cube 2 carrots + ½ swede, toss with EVOO + salt + thyme. Roast 200°C 25 min.</li><li>Steam 200g broccolini or green beans 4 min.</li><li>Pull lamb with 2 forks, sit on top of veg. Drizzle pan juices over. Mint sauce on side.</li></ol><div class="tip"><strong>Tip:</strong> 500g raw lamb shoulder yields ~350g cooked = 2 portions. Save half for next day's lunch.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">D8</span><strong>Prawn nasi goreng.</strong> 150g prawns + 100g chicken, jasmine, capsicum, egg, tamari, garlic-infused olive oil, spring onion greens only.<div class="macros">~680 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 15min · Cook 15min</div><ol><li>Cook 1 cup jasmine rice. Spread on tray to cool slightly (cold leftover rice works best — fries up better).</li><li>Heat 1 tbsp garlic-infused olive oil in wok very hot.</li><li>Add 100g diced chicken thigh, sear 4 min.</li><li>Add 150g raw prawns + 1 sliced capsicum, stir-fry 3 min until prawns pink.</li><li>Push everything to one side. Crack 1 egg into empty side, scramble quickly with spatula.</li><li>Mix everything together with rice + 2 tbsp tamari + ½ tsp sesame oil. Toss 2 min over high heat.</li><li>Garnish with chopped spring onion green tops only.</li></ol></div></details>
+</div>
+
+<h4>Snacks (rotate 2/day)</h4>
+<div class="callout" style="font-size:13px;">
+<strong>Snacks are assembly, not cooking.</strong> Quick notes:
+<ul style="margin-top:6px;">
+<li><strong>S1 Bone broth:</strong> heat in mug 60 sec microwave or 2 min stovetop. Berries on the side, raw.</li>
+<li><strong>S2 Eggs + cucumber:</strong> boil eggs 8 min, ice, peel. Slice cucumber rounds. Sprinkle macadamias with sea salt.</li>
+<li><strong>S3 Yoghurt + honey + nuts:</strong> spoon yoghurt, drizzle honey, top with macadamias. Done.</li>
+<li><strong>S4 Whey shake + banana:</strong> shake 30g whey + 250ml water in bottle. Eat banana on the side.</li>
+<li><strong>S5 Biltong + macadamias:</strong> just open the bag. Genuinely zero prep.</li>
+<li><strong>S6 Cottage cheese + pineapple:</strong> spoon cottage cheese into bowl, top with diced pineapple.</li>
+<li><strong>S7 Rice cakes + avo + smoked salmon:</strong> mash avo on rice cakes with fork, lay smoked salmon on top, squeeze of lemon.</li>
+<li><strong>S8 Sardines on cucumber:</strong> slice cucumber into thick rounds, top each with a sardine fillet, lemon zest, cracked pepper. Eat with fingers.</li>
+<li><strong>S9 Kiwifruit + cottage cheese:</strong> halve kiwifruit, scoop with spoon. Cottage cheese on side. Eat in evening — kiwi has natural compounds (actinidin) that aid overnight motility.</li>
+</ul>
+</div>
+<div class="meal-card"><span class="meal-id">S1</span>Bone broth 200ml + ½ cup blueberries</div>
+<div class="meal-card"><span class="meal-id">S2</span>2 hard-boiled eggs + cucumber sticks + macadamia salt</div>
+<div class="meal-card"><span class="meal-id">S3</span>Greek yoghurt 200g + honey + macadamias</div>
+<div class="meal-card"><span class="meal-id">S4</span>Whey shake 30g + 1 banana</div>
+<div class="meal-card"><span class="meal-id">S5</span>Biltong 50g + macadamias 30g</div>
+<div class="meal-card"><span class="meal-id">S6</span>Cottage cheese 150g + pineapple 100g</div>
+<div class="meal-card"><span class="meal-id">S7</span>2 rice cakes + smashed avo + smoked salmon 50g</div>
+<div class="meal-card"><span class="meal-id">S8</span>Tinned sardines on cucumber rounds + lemon</div>
+<div class="meal-card"><span class="meal-id">S9</span>2 kiwifruit + cottage cheese (motility — eat evening)</div>
+
+</div>
+</div>
+
+<div class="collapsible">
+<div class="collapsible-header" onclick="toggleCol(this)">Phase 2 — Weeks 2-4 (Build layer, full variety)</div>
+<div class="collapsible-body">
+
+<p style="font-size:14px;color:#6b6b6b;">Keep all Phase 1 meals available. Add these. Test tolerance — if bloating returns, dial back to Phase 1 list for a few days.</p>
+
+<h4>Phase 2 breakfasts</h4>
+<div class="meal-card"><span class="meal-id">B9</span><strong>Sourdough avo toast + eggs.</strong> 2 slices sourdough, ½ avo, 3 poached eggs, 80g smoked salmon, chilli flakes.<div class="macros">~680 kcal · 42g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 5min · Cook 8min</div><ol><li>Toast 2 slices sourdough.</li><li>Bring saucepan of water to gentle simmer with 1 tbsp white vinegar.</li><li>Crack each egg into ramekin, slide into water. Poach 3 min for runny yolk.</li><li>Smash ½ avocado on toast with fork, season salt + lemon + chilli flakes.</li><li>Top with smoked salmon (40g per slice) and poached eggs (drained on paper towel first).</li></ol></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">B10</span><strong>Overnight oats.</strong> ½ cup oats + 250ml kefir + scoop whey + chia + ½ cup berries + 1 tbsp macadamia butter.<div class="macros">~620 kcal · 45g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 4min the night before · No cook</div><ol><li>In a jar or container with lid: ½ cup rolled oats, 250ml kefir, 1 scoop whey, 1 tbsp chia, 1 tbsp macadamia butter, pinch cinnamon.</li><li>Stir well to combine. Whey can clump — break it up.</li><li>Lid on, fridge overnight (minimum 4 hrs).</li><li>Morning: stir, top with ½ cup fresh berries.</li></ol><div class="tip"><strong>Tip:</strong> Make 2 jars Sunday night for Mon + Thu. Saves morning prep.</div></div></details>
+</div>
+
+<h4>Phase 2 lunches</h4>
+<div class="meal-card"><span class="meal-id">L9</span><strong>Chicken sourdough sandwich.</strong> 200g grilled chicken, 2 slices sourdough, avo, rocket, tomato, hummus (small). Carrot sticks.<div class="macros">~700 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 8min</div><ol><li>Pan-sear 200g chicken thigh medium-high in oiled pan, 4 min/side until 75°C internal. Rest 3 min, slice.</li><li>Toast 2 slices sourdough.</li><li>Spread thin layer hummus (1 heaped tbsp total — small portion intentional) on one slice.</li><li>Layer: sliced chicken, ¼ avocado, sliced tomato, handful rocket, salt + pepper.</li><li>Close, cut diagonally. Side: 1 carrot cut into batons.</li></ol><div class="tip"><strong>Tip:</strong> Cooking chicken Sunday for the week is more efficient — just slice cold and assemble.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">L10</span><strong>Beef & lentil soup.</strong> 150g beef + ½ cup brown lentils (test), carrot, parsnip, broth, herbs. 1 slice sourdough.<div class="macros">~620 kcal · 45g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 15min · Cook 45min</div><ol><li>Sauté ½ chopped onion in 1 tbsp olive oil over medium 5 min until soft (Phase 2+).</li><li>Add 150g cubed beef chuck, brown 5 min on all sides.</li><li>Add 1 diced carrot + ½ diced parsnip + 1 minced clove garlic, cook 2 min.</li><li>Add ½ cup rinsed brown lentils + 1L beef or chicken broth + bay leaf + sprig thyme. Bring to boil.</li><li>Reduce to simmer, cook 35 min until lentils tender. Season salt + pepper.</li><li>Serve with 1 slice toasted sourdough.</li></ol><div class="tip"><strong>Tip:</strong> First time eating lentils since Phase 1 reset — start with the ½ cup amount, not more. If bloating returns, drop lentils.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">L11</span><strong>Chicken Caesar (modified).</strong> 200g chicken, cos, parmesan, sourdough croutons, anchovy-yoghurt dressing (no garlic), 2 boiled eggs.<div class="macros">~660 kcal · 55g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 12min</div><ol><li>Pan-sear 200g chicken thigh medium-high 4 min/side. Rest, slice.</li><li>Boil 2 eggs 8 min, ice bath, peel, halve.</li><li>Croutons: cube 1 slice sourdough, toss with EVOO + salt. Bake 200°C 6 min until crisp.</li><li>Dressing: blend 100g Greek yoghurt + 2 anchovies + juice ½ lemon + 2 tbsp grated parmesan + cracked pepper. (Skip the raw garlic — keeps it gut-friendly.)</li><li>Tear 1 cos lettuce into bowl, toss with dressing.</li><li>Top with sliced chicken, halved eggs, shaved extra parmesan, croutons.</li></ol></div></details>
+</div>
+
+<h4>Phase 2 dinners</h4>
+<div class="meal-card"><span class="meal-id">D9</span><strong>Beef bolognese over rice noodles.</strong> 200g beef mince, tinned tomatoes, herbs, garlic-infused EVOO, over 100g rice noodles or zucchini noodles, parmesan.<div class="macros">~700 kcal · 50g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 30min</div><ol><li>Sauté ½ chopped onion in 1 tbsp garlic-infused EVOO over medium 5 min.</li><li>Add 200g beef mince, brown 5 min, breaking up.</li><li>Add 1 tin tinned tomatoes + ½ punnet halved cherry tomatoes + 1 tsp dried oregano + 1 tsp dried basil + salt + pepper.</li><li>Simmer uncovered 20 min until thick.</li><li>Cook 100g rice noodles per pack (usually 5 min). OR spiralise 1 zucchini for zoodles, sauté 2 min.</li><li>Top noodles with sauce + 2 tbsp grated parmesan + fresh basil if you have it.</li></ol><div class="tip"><strong>Tip:</strong> Sauce keeps 4 days in fridge. Make double, use Tue + Sat.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">D10</span><strong>Chicken curry.</strong> 200g chicken in coconut-tomato-turmeric-ginger curry (no onion/garlic, garlic-infused oil), ½ cup jasmine, coriander.<div class="macros">~720 kcal · 48g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 15min · Cook 30min</div><ol><li>Heat 1 tbsp garlic-infused olive oil in saucepan medium. Add ½ chopped onion (Phase 2+) + 1 tbsp grated ginger. Cook 5 min.</li><li>Add spice mix: 1 tsp turmeric + 1 tsp garam masala + ½ tsp ground coriander + pinch fenugreek. Stir 1 min until fragrant.</li><li>Add 200g cubed chicken thigh, brown 4 min.</li><li>Pour in 1 tin coconut milk + 1 tin tinned tomatoes. Stir, simmer 20 min until chicken cooked + sauce thickened.</li><li>Cook ½ cup jasmine rice in parallel.</li><li>Plate curry over rice. Garnish lots of fresh coriander.</li></ol><div class="tip"><strong>Tip:</strong> Toasting spices in the oil first (step 2) is the key to depth of flavour. Don't skip.</div></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">D11</span><strong>Lamb shawarma plate.</strong> 200g lamb, ½ cup quinoa, cucumber-tomato salad, tzatziki, sourdough flatbread.<div class="macros">~720 kcal · 52g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 15min (+1hr marinate) · Cook 12min</div><ol><li>Marinate 200g lamb backstrap in 1 tbsp shawarma spice mix + 1 tbsp EVOO + juice ½ lemon + salt. Min 1 hr in fridge (longer = better, up to overnight).</li><li>Cook ½ cup quinoa (1:2 quinoa:water, simmer covered 15 min).</li><li>Tzatziki: grate ½ cucumber, squeeze water out. Mix with 100g Greek yoghurt + chopped dill + lemon + salt.</li><li>Salad: dice 1 tomato + ½ cucumber, toss with EVOO + lemon + chopped parsley.</li><li>Cast-iron pan smoking hot. Sear lamb 3 min/side for medium-rare. Rest 5 min, slice across grain.</li><li>Warm 1 sourdough flatbread in same pan 30 sec/side.</li><li>Plate: quinoa, salad, sliced lamb, big dollop tzatziki, flatbread on side.</li></ol></div></details>
+</div>
+<div class="meal-card"><span class="meal-id">D12</span><strong>Snapper Vietnamese-style.</strong> 200g snapper steamed with ginger, spring onion green, tamari, jasmine, cucumber-mint salad.<div class="macros">~580 kcal · 45g P</div>
+<details class="recipe-toggle"><summary>Recipe</summary><div class="recipe-content"><div class="recipe-meta">Prep 10min · Cook 12min</div><ol><li>Cook ½ cup jasmine rice.</li><li>Place 200g snapper fillet on heatproof plate. Top with 4 thin slices fresh ginger and ¼ cup chopped spring onion greens.</li><li>Set up steamer (bamboo or metal) over wok or pot of boiling water. Steam fish 8 min until opaque and flakes easily with fork.</li><li>While fish steams: heat 2 tbsp tamari + 1 tsp sesame oil in small pan, just to warm.</li><li>Salad: slice ½ cucumber, toss with mint leaves + lime juice + EVOO + tiny pinch salt.</li><li>Plate rice, top with snapper (carefully transfer with spatula), pour warm tamari over, salad on side.</li></ol><div class="tip"><strong>Tip:</strong> Steaming fish is unbelievably forgiving — better than baking for white fish. The flesh stays moist.</div></div></details>
+</div>
+
+</div>
+</div>
+
+</section>
+
+<section id="schedule">
+<h2>4. 4-Week Schedule</h2>
+<p style="font-size:13px;color:#6b6b6b;margin-bottom:10px;">Pink rows = Reta nights (lighter dinner). Pick 2 snacks/day from the snack list.</p>
+
+<div class="callout">
+<strong>Liver day (sIgA priority):</strong> ONE chicken-liver meal per week, marked <strong>★</strong> in the schedule. If you can't face it OR if your iron studies confirm loading, take 5,000 IU vitamin A (retinol palmitate) daily instead and swap the ★ meal for any other from the same category.
+</div>
+
+<h3>Week 1 (Phase 1 — Strict reset, gut focus)</h3>
+<table>
+<tr><th>Day</th><th>B'fast</th><th>Lunch</th><th>Dinner</th></tr>
+<tr><td>Mon</td><td>B3</td><td>L7</td><td>D8</td></tr>
+<tr><td>Tue</td><td>B5</td><td>L1</td><td>D5</td></tr>
+<tr class="reta-night"><td>Wed</td><td>B1</td><td>L4</td><td>D6 (Reta)</td></tr>
+<tr><td>Thu</td><td>B2</td><td>L6</td><td>D4</td></tr>
+<tr><td>Fri</td><td>B12</td><td>L3</td><td>D1</td></tr>
+<tr><td>Sat</td><td>B4</td><td>L12 ★</td><td>D3</td></tr>
+<tr class="reta-night"><td>Sun</td><td>B7</td><td>L2</td><td>D2 (Reta)</td></tr>
+</table>
+
+<h3>Week 2 (Phase 2 begins — reintroduce variety)</h3>
+<table>
+<tr><th>Day</th><th>B'fast</th><th>Lunch</th><th>Dinner</th></tr>
+<tr><td>Mon</td><td>B10</td><td>L9</td><td>D12</td></tr>
+<tr><td>Tue</td><td>B9</td><td>L1</td><td>D9</td></tr>
+<tr class="reta-night"><td>Wed</td><td>B3</td><td>L11</td><td>D6 (Reta)</td></tr>
+<tr><td>Thu</td><td>B12</td><td>L7</td><td>D10</td></tr>
+<tr><td>Fri</td><td>B11 ★</td><td>L5</td><td>D1</td></tr>
+<tr><td>Sat</td><td>B4</td><td>L8</td><td>D11</td></tr>
+<tr class="reta-night"><td>Sun</td><td>B7</td><td>L2</td><td>D2 (Reta)</td></tr>
+</table>
+
+<h3>Week 3 (Full variety)</h3>
+<table>
+<tr><th>Day</th><th>B'fast</th><th>Lunch</th><th>Dinner</th></tr>
+<tr><td>Mon</td><td>B10</td><td>L11</td><td>D12</td></tr>
+<tr><td>Tue</td><td>B9</td><td>L9</td><td>D9</td></tr>
+<tr class="reta-night"><td>Wed</td><td>B6</td><td>L10</td><td>D6 (Reta)</td></tr>
+<tr><td>Thu</td><td>B3</td><td>L4</td><td>D10</td></tr>
+<tr><td>Fri</td><td>B1</td><td>L1</td><td>D11</td></tr>
+<tr><td>Sat</td><td>B12</td><td>L12 ★</td><td>D1</td></tr>
+<tr class="reta-night"><td>Sun</td><td>B5</td><td>L2</td><td>D7 (Reta)</td></tr>
+</table>
+
+<h3>Week 4 (Full variety)</h3>
+<table>
+<tr><th>Day</th><th>B'fast</th><th>Lunch</th><th>Dinner</th></tr>
+<tr><td>Mon</td><td>B5</td><td>L11</td><td>D5</td></tr>
+<tr><td>Tue</td><td>B9</td><td>L1</td><td>D9</td></tr>
+<tr class="reta-night"><td>Wed</td><td>B3</td><td>L7</td><td>D6 (Reta)</td></tr>
+<tr><td>Thu</td><td>B10</td><td>L4</td><td>D10</td></tr>
+<tr><td>Fri</td><td>B11 ★</td><td>L9</td><td>D11</td></tr>
+<tr><td>Sat</td><td>B4</td><td>L8</td><td>D1</td></tr>
+<tr class="reta-night"><td>Sun</td><td>B8</td><td>L2</td><td>D7 (Reta)</td></tr>
+</table>
+</section>
+
+<section id="shopping">
+<h2>5. Shopping Lists</h2>
+<p style="font-size:13px;color:#6b6b6b;margin-bottom:14px;">Restructured by shelf life. <strong>Initial Setup</strong> = pantry / long-life items, one shop, lasts the full 4 weeks (or longer). <strong>Weekly Fresh</strong> = perishables you eat in that week only — buy fresh each weekend. Tap any item to tick it off. Ticks save automatically.</p>
+
+<div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:0 0 14px;font-size:12px;line-height:1.6;"><strong style="font-size:12px;margin-right:2px;">Where to shop:</strong> <span class="shop-tag st-cw">Coles/Woolies</span> <span class="shop-tag st-aldi">ALDI</span> <span class="shop-tag st-butcher">Butcher</span> <span class="shop-tag st-fish">Fishmonger</span> <span class="shop-tag st-harris">Harris Farm</span> <span class="shop-tag st-bakery">Local Bakery</span> <span class="shop-tag st-chemist">Chemist Whs</span> <span class="shop-tag st-iherb">iHerb.com</span> &nbsp;<span style="color:#aaa">|</span>&nbsp; <span class="season-ok">✅ peak May</span> <span class="season-warn">⚠️ pricey May</span></div>
+<div class="callout">
+<strong>Shopping rhythm:</strong> Do the Initial Setup shop on Sunday before week 1 (1 large trolley). Then every Sunday thereafter, do the Weekly Fresh shop for the coming week (small basket — 20-25 items only).
+</div>
+
+<!-- INITIAL SETUP -->
+<div class="week-block" data-week="setup">
+  <div class="week-header">
+    <h3>INITIAL SETUP (one shop, lasts 4+ weeks)</h3>
+    <button class="reset-btn" onclick="resetWeek('setup')">Reset</button>
+  </div>
+  <div class="progress" id="prog-setup">0 of 0 items</div>
+
+  <div class="shop-cat">Pantry — grains &amp; carbs (lasts 4-12 weeks)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="su-c1"><label for="su-c1">Jasmine rice — 5kg bag <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-c2"><label for="su-c2">Sushi rice — 500g <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="su-c3"><label for="su-c3">Quinoa — 500g <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="su-c4"><label for="su-c4">Rolled oats — 1kg <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-c5"><label for="su-c5">Rice noodles — 500g (covers wks 1-2) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="su-c6"><label for="su-c6">Rice paper sheets — 1 pack <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="su-c7"><label for="su-c7">Plain rice cakes — 1 pack <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-c8"><label for="su-c8">Brown lentils dried — 250g (Phase 2 wk2+) <span class="shop-tag st-aldi">ALDI</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Pantry — tinned (lasts years)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="su-t1"><label for="su-t1">Tinned tuna in olive oil — 6 tins <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-t2"><label for="su-t2">Tinned sardines in olive oil — 4 tins <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-t3"><label for="su-t3">Tinned tomatoes — 4 tins <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-t4"><label for="su-t4">Coconut milk full fat — 3 tins <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="su-t5"><label for="su-t5">Anchovies in olive oil — 1 tin (for Caesar) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Oils, sauces, vinegars (lasts months)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="su-o1"><label for="su-o1">Extra virgin olive oil — 1L (you use 30ml/day) <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-o2"><label for="su-o2">Garlic-infused olive oil — 250ml <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="su-o3"><label for="su-o3">Tamari (gluten-free soy) — 250ml <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="su-o4"><label for="su-o4">Apple cider vinegar — 1 bottle <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="su-o5"><label for="su-o5">Raw honey — 250g <span class="shop-tag st-harris">Harris Farm</span></label></li>
+    <li><input type="checkbox" id="su-o6"><label for="su-o6">Pure maple syrup — small bottle <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-o7"><label for="su-o7">Mint sauce + pickled ginger jars <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Spices &amp; salts (lasts a year)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="su-sp1"><label for="su-sp1">Sea salt + cracked pepper <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-sp2"><label for="su-sp2">Cinnamon, turmeric, cumin, paprika, dried oregano <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-sp3"><label for="su-sp3">Garam masala, ground coriander, fenugreek (Phase 2 curries) <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-sp4"><label for="su-sp4">Shawarma spice mix (Phase 2 lamb plate) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Nuts &amp; seeds (lasts 1-3 months)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="su-n1"><label for="su-n1">Macadamias raw — 500g <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-n2"><label for="su-n2">Walnuts — 250g <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-n3"><label for="su-n3">Macadamia butter — 1 jar <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="su-n4"><label for="su-n4">Chia seeds — 250g <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-n5"><label for="su-n5">Sesame seeds — small jar <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Frozen (lasts months)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="su-fr1"><label for="su-fr1">Frozen blueberries — 1kg (use in smoothies) <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="su-fr2"><label for="su-fr2">Bone broth (frozen 500ml portions) — 4L worth, OR plan to batch-make weekly <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Long-life fermented (lasts 2-6 months refrigerated)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="su-fe1"><label for="su-fe1">Sauerkraut (raw, refrigerated section) — 1 large jar <span class="shop-tag st-harris">Harris Farm</span></label></li>
+    <li><input type="checkbox" id="su-fe2"><label for="su-fe2">Kimchi — 1 jar <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Protein powders &amp; gut (lasts 4-6 weeks)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="su-pp1"><label for="su-pp1">Whey protein isolate — 1kg tub (~30 servings) <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="su-pp2"><label for="su-pp2">Collagen peptides — 1 tub (lasts 4+ weeks) <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="su-pp3"><label for="su-pp3">Bovine colostrum powder (ATP Science / True Protein / ProImmune) — 250-500g <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="su-pp4"><label for="su-pp4">L-glutamine powder — 500g <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Supplements (one-time, lasts months)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="su-s1"><label for="su-s1">Cod liver oil (Nordic Naturals or Rosita) — replaces standard fish oil <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="su-s2"><label for="su-s2">Vitamin A (retinol palmitate) 5,000 IU — only if NOT eating chicken liver weekly + cod liver oil daily <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="su-s3"><label for="su-s3">Vitamin K2 (MK-7) 100mcg — if not in your D3 cap <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="su-s4"><label for="su-s4">Pomegranate extract 1,000mg (alternative to fresh juice) <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="su-s5"><label for="su-s5">DIM 200mg <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="su-s6"><label for="su-s6">Saccharomyces boulardii — 1 bottle (50+ caps) <span class="shop-tag st-chemist">Chemist Whs</span></label></li>
+    <li><input type="checkbox" id="su-s7"><label for="su-s7">Zinc carnosine — 1 bottle <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="su-s8"><label for="su-s8">Magnesium glycinate — 1 bottle <span class="shop-tag st-chemist">Chemist Whs</span></label></li>
+    <li><input type="checkbox" id="su-s9"><label for="su-s9">Curcumin + piperine — 1 bottle <span class="shop-tag st-chemist">Chemist Whs</span></label></li>
+    <li><input type="checkbox" id="su-s10"><label for="su-s10">Allicin (garlic extract) — 1 bottle (start week 2) <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="su-s11"><label for="su-s11">Digestive enzymes + HCl — 1 bottle <span class="shop-tag st-chemist">Chemist Whs</span></label></li>
+  </ul>
+
+  <div class="callout" style="font-size:13px;margin-top:14px;">
+  <strong>Storage tip:</strong> Tick this list off Sunday before week 1. The whole pantry/supps shop is one trolley. Once done, you only need to do Weekly Fresh shops below. Don't repeat these items in the weekly lists.
+  </div>
+</div>
+
+<!-- WEEK 1 FRESH -->
+<div class="week-block" data-week="w1">
+  <div class="week-header">
+    <h3>WEEK 1 FRESH (perishables only — eat within 7 days)</h3>
+    <button class="reset-btn" onclick="resetWeek('w1')">Reset</button>
+  </div>
+  <div class="progress" id="prog-w1">0 of 0 items</div>
+
+  <div class="shop-cat">Proteins (use this week or freeze portions)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w1-p1"><label for="w1-p1">Eggs free-range — 1 dozen <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-p2"><label for="w1-p2">Smoked salmon (nitrate-free) — 100g <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w1-p3"><label for="w1-p3">Chicken thigh fillets — 900g (Mon L7 + Mon D8 + Tue L1 + Thu D4 + Sat L12) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w1-p4"><label for="w1-p4">Grass-fed beef mince — 250g (Sat B4) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w1-p5"><label for="w1-p5">Beef chuck — 250g (Thu L6 stew) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w1-p6"><label for="w1-p6">Beef strips — 200g (Fri L3) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w1-p7"><label for="w1-p7">Porterhouse steak — 250g (Fri D1) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w1-p8"><label for="w1-p8">Salmon fillets — 400g (Wed D6 + Sun L2) <span class="shop-tag st-fish">Fishmonger</span></label></li>
+    <li><input type="checkbox" id="w1-p9"><label for="w1-p9">Barramundi fillets — 200g (Sun D2 only) <span class="shop-tag st-fish">Fishmonger</span></label></li>
+    <li><input type="checkbox" id="w1-p10"><label for="w1-p10">Kangaroo strips — 200g (Tue D5) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w1-p11"><label for="w1-p11">Green prawns — 400g (Mon D8 150g + Wed L4 250g) <span class="shop-tag st-fish">Fishmonger</span></label></li>
+    <li><input type="checkbox" id="w1-p12"><label for="w1-p12">Lamb cutlets — 8 cutlets ~600g (Sat D3 with tzatziki) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w1-p13"><label for="w1-p13">Chicken liver (free-range) — 80g (★ Sat L12 only — until iron studies cleared) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w1-p14"><label for="w1-p14">Biltong/jerky — 100g (snacks) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Dairy &amp; fermented (5-10 day shelf life)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w1-d1"><label for="w1-d1">Greek yoghurt 5%+ — 2kg (pre-bed daily 200g + B5/B12 + tzatziki) <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="w1-d2"><label for="w1-d2">Kefir plain — 1L (smoothies + post-workout) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w1-d3"><label for="w1-d3">Cottage cheese — 250g (snacks) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w1-d4"><label for="w1-d4">Ricotta — 250g (Sun B7 hotcakes) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w1-d5"><label for="w1-d5">Grass-fed butter — 250g (lasts 4 weeks) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Vegetables (3-7 day shelf life)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w1-v1"><label for="w1-v1">Kent pumpkin — 1.5kg (lasts 1-2 wks) <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-v2"><label for="w1-v2">Carrots — 1kg <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-v3"><label for="w1-v3">Parsnip — 500g (L6 stew + D4 roast) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-v4"><label for="w1-v4">Swede — 1 (L6 + D7) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-v5"><label for="w1-v5">Zucchini — 4 <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w1-v6"><label for="w1-v6">Capsicum — 4 (D5, L3, B4) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w1-v7"><label for="w1-v7">Lebanese cucumber — 6 <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w1-v8"><label for="w1-v8">Cherry tomatoes — 250g <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w1-v9"><label for="w1-v9">Rocket — 1 bag <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-v10"><label for="w1-v10">Bok choy — 3 bunches <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-v11"><label for="w1-v11">Broccolini — 1 bunch 🔄 seasonal swap (asparagus is out of season May; broccolini peak & same use in D6) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-v12"><label for="w1-v12">Green beans — 200g (D4) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w1-v13"><label for="w1-v13">Cauliflower — 1 small (D6 cauli rice) <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-v14"><label for="w1-v14">Spring onions — 1 bunch <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w1-v15"><label for="w1-v15">Fresh herbs: parsley, coriander, mint, dill — 1 each <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w1-v16"><label for="w1-v16">Ginger — 100g <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w1-v17"><label for="w1-v17">Lemons — 4 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-v18"><label for="w1-v18">Limes — 2 <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Fruit (3-7 day shelf life)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w1-f1"><label for="w1-f1">Bananas — 8 (smoothies + pre-gym) <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-f2"><label for="w1-f2">Mandarins — 6 🔄 seasonal swap (strawberries are out of season May; mandarins at peak for B7) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-f3"><label for="w1-f3">Kiwifruit — 6 (motility — 2/day on training days) <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-f4"><label for="w1-f4">Pineapple — 1 small (S6 snacks) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w1-f5"><label for="w1-f5">Avocado — 4 (B1, B4, snacks) <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w1-f6"><label for="w1-f6">Pomegranate juice 100% — 1L (250ml/day = lasts 4 days; OR 1 fresh pomegranate for B12 + extract caps for the rest) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Bread (freeze half)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w1-b1"><label for="w1-b1">Real long-fermented sourdough — 1 loaf (slice, freeze 6 slices, keep 6 in fridge) <span class="shop-tag st-bakery">Local Bakery</span></label></li>
+  </ul>
+
+  <div class="callout" style="font-size:13px;margin-top:14px;">
+  <strong>Sunday prep batch:</strong> slow-cook lamb shoulder (6hrs low) Saturday night for D7. Cook a big batch of jasmine rice (4-6 cups) — keeps 4 days in fridge. Roast a tray of pumpkin, carrot, parsnip Sunday afternoon (use across L1, L6, D4). Hard-boil 6 eggs for snacks.
+  </div>
+</div>
+
+<!-- WEEK 2 FRESH -->
+<div class="week-block" data-week="w2">
+  <div class="week-header">
+    <h3>WEEK 2 FRESH (Phase 2 begins — onion/garlic back in cooked)</h3>
+    <button class="reset-btn" onclick="resetWeek('w2')">Reset</button>
+  </div>
+  <div class="progress" id="prog-w2">0 of 0 items</div>
+
+  <div class="shop-cat">Proteins</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w2-p1"><label for="w2-p1">Eggs — 1 dozen <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w2-p2"><label for="w2-p2">Smoked salmon — 100g (B9) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w2-p3"><label for="w2-p3">Chicken thigh — 1kg (L1, L7, L9, D10 curry, D9 if substituting) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w2-p4"><label for="w2-p4">Beef mince — 250g (D9 bolognese) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w2-p5"><label for="w2-p5">Salmon fillets — 200g (D6) <span class="shop-tag st-fish">Fishmonger</span></label></li>
+    <li><input type="checkbox" id="w2-p6"><label for="w2-p6">Snapper fillet — 200g (Mon D12 Vietnamese-style) <span class="shop-tag st-fish">Fishmonger</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-p6b"><label for="w2-p6b">Barramundi — 200g (Sun D2 Reta night) <span class="shop-tag st-fish">Fishmonger</span></label></li>
+    <li><input type="checkbox" id="w2-p7"><label for="w2-p7">Lamb backstrap — 200g (Fri L5) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w2-p8"><label for="w2-p8">Lamb (shawarma cut) — 200g (Sat D11) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w2-p8b"><label for="w2-p8b">Porterhouse steak — 250g (Fri D1) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w2-p9"><label for="w2-p9">Chicken liver (free-range) — 80g (★ Fri B11 only) <span class="shop-tag st-butcher">Butcher</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Dairy &amp; fermented</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w2-d1"><label for="w2-d1">Greek yoghurt 5%+ — 1.5kg <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="w2-d2"><label for="w2-d2">Kefir — 1L <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w2-d3"><label for="w2-d3">Cottage cheese — 250g <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w2-d4"><label for="w2-d4">Feta — 100g (L5) <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="w2-d5"><label for="w2-d5">Hummus — 1 small tub (L9, watch portion) <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="w2-d6"><label for="w2-d6">Parmesan wedge — 100g (D9 bolognese) <span class="shop-tag st-aldi">ALDI</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Vegetables</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w2-v1"><label for="w2-v1">Kent pumpkin — 1 small (L1) <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-v2"><label for="w2-v2">Carrots — 1kg <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-v3"><label for="w2-v3">Zucchini — 4 (D9 if zoodles) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w2-v4"><label for="w2-v4">Capsicum — 3 <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w2-v5"><label for="w2-v5">Cucumber — 6 <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w2-v6"><label for="w2-v6">Cherry tomatoes — 500g (D9 bolognese needs more) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w2-v7"><label for="w2-v7">Rocket — 1 bag (B9, L9) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-v8"><label for="w2-v8">Cos lettuce — 1 (L11 caesar) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-v9"><label for="w2-v9">Bok choy — 2 bunches (L7) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-v10"><label for="w2-v10">Brown onion — 4 (cooked use only — Phase 2 reintro) <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-v11"><label for="w2-v11">Garlic — 1 bulb (cooked use) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-v12"><label for="w2-v12">Shiitake or oyster mushrooms — 200g (beta-glucans for sIgA) <span class="shop-tag st-harris">Harris Farm</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-v13"><label for="w2-v13">Lemons — 4 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-v14"><label for="w2-v14">Refresh herbs: parsley, coriander, mint <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w2-v15"><label for="w2-v15">Ginger — top-up if low <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Fruit</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w2-f1"><label for="w2-f1">Bananas — 8 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-f2"><label for="w2-f2">Fresh berries 250g — use frozen blueberries from Initial Setup (fresh berries expensive &amp; off-peak in May) <span class="shop-tag st-aldi">ALDI</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w2-f3"><label for="w2-f3">Kiwifruit — 6 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-f4"><label for="w2-f4">Avocado — 5 (B9 + snacks) <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w2-f5"><label for="w2-f5">Pomegranate juice — 1L <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Bread</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w2-b1"><label for="w2-b1">Sourdough loaf — 1 (B9, L9, L10, D11 sandwich) <span class="shop-tag st-bakery">Local Bakery</span></label></li>
+    <li><input type="checkbox" id="w2-b2"><label for="w2-b2">Sourdough flatbread — 1 pack (D11 shawarma) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Bone broth refresh</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w2-br1"><label for="w2-br1">Bone broth — 2L (use frozen from setup OR batch-make Sunday) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+</div>
+
+<!-- WEEK 3 FRESH -->
+<div class="week-block" data-week="w3">
+  <div class="week-header">
+    <h3>WEEK 3 FRESH (full variety)</h3>
+    <button class="reset-btn" onclick="resetWeek('w3')">Reset</button>
+  </div>
+  <div class="progress" id="prog-w3">0 of 0 items</div>
+
+  <div class="shop-cat">Proteins</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w3-p1"><label for="w3-p1">Eggs — 1.5 dozen <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w3-p2"><label for="w3-p2">Smoked salmon — 100g (B9, B1) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w3-p3"><label for="w3-p3">Chicken thigh — 1.2kg (L11, L9, D10 curry, L1) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w3-p4"><label for="w3-p4">Beef mince — 250g (D9 bolognese) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w3-p5"><label for="w3-p5">Beef chuck — 200g (L10 lentil soup) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w3-p6"><label for="w3-p6">Salmon fillets — 400g (B6, B1, D6) <span class="shop-tag st-fish">Fishmonger</span></label></li>
+    <li><input type="checkbox" id="w3-p7"><label for="w3-p7">Snapper fillet — 200g (D12 Vietnamese) <span class="shop-tag st-fish">Fishmonger</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-p8"><label for="w3-p8">Lamb backstrap — 200g (D11) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w3-p9"><label for="w3-p9">Lamb shoulder — 500g (Sun D7 — slow cook) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w3-p10"><label for="w3-p10">Prawns — 200g (Thu L4) <span class="shop-tag st-fish">Fishmonger</span></label></li>
+    <li><input type="checkbox" id="w3-p10b"><label for="w3-p10b">Porterhouse steak — 250g (Sat D1) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w3-p11"><label for="w3-p11">Chicken liver (free-range) — 80g (★ Sat L12 only) <span class="shop-tag st-butcher">Butcher</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Dairy &amp; fermented</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w3-d1"><label for="w3-d1">Greek yoghurt — 1.5kg <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="w3-d2"><label for="w3-d2">Kefir — 1L <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w3-d3"><label for="w3-d3">Cottage cheese — 250g <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w3-d4"><label for="w3-d4">Hummus — 1 small tub (L9) <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="w3-d5"><label for="w3-d5">Parmesan — 100g <span class="shop-tag st-aldi">ALDI</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Vegetables</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w3-v1"><label for="w3-v1">Kent pumpkin — 1 (D1, L1) <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-v2"><label for="w3-v2">Carrots — 1kg <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-v3"><label for="w3-v3">Parsnip — 200g (L10 lentil soup) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-v4"><label for="w3-v4">Zucchini — 3 <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w3-v5"><label for="w3-v5">Capsicum — 3 <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w3-v6"><label for="w3-v6">Cucumber — 6 <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w3-v7"><label for="w3-v7">Cherry tomatoes — 500g (D9 + cucumber salad D11) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w3-v8"><label for="w3-v8">Cos lettuce — 1 (L11) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-v9"><label for="w3-v9">Rocket — 2 bags <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-v10"><label for="w3-v10">Bok choy — 2 bunches <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-v11"><label for="w3-v11">Brown onion — 4 (cooked) <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-v12"><label for="w3-v12">Garlic — 1 bulb <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-v13"><label for="w3-v13">Mushrooms (shiitake/oyster) — 200g <span class="shop-tag st-harris">Harris Farm</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-v14"><label for="w3-v14">Lemons — 4 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-v15"><label for="w3-v15">Limes — 2 <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w3-v16"><label for="w3-v16">Refresh herbs: parsley, coriander, mint, dill <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Fruit</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w3-f1"><label for="w3-f1">Bananas — 10 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-f2"><label for="w3-f2">Fresh berries 250g — use frozen blueberries from Initial Setup (fresh berries expensive &amp; off-peak in May) <span class="shop-tag st-aldi">ALDI</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w3-f3"><label for="w3-f3">Kiwifruit — 6 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-f4"><label for="w3-f4">Avocado — 5 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w3-f5"><label for="w3-f5">Pomegranate juice — 1L <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Bread</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w3-b1"><label for="w3-b1">Sourdough loaf — 1 <span class="shop-tag st-bakery">Local Bakery</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Bone broth refresh</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w3-br1"><label for="w3-br1">Bone broth — 2L (frozen or batch-make) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Pantry top-ups (only if low — most should still last)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w3-pt1"><label for="w3-pt1">Whey isolate — top up if &lt; 200g remaining <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="w3-pt2"><label for="w3-pt2">EVOO — top up if &lt; 250ml remaining <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="w3-pt3"><label for="w3-pt3">Macadamias — top up if low <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="w3-pt4"><label for="w3-pt4">Colostrum — top up if &lt; 100g remaining <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+  </ul>
+</div>
+
+<!-- WEEK 4 FRESH -->
+<div class="week-block" data-week="w4">
+  <div class="week-header">
+    <h3>WEEK 4 FRESH (full variety, similar to wk3)</h3>
+    <button class="reset-btn" onclick="resetWeek('w4')">Reset</button>
+  </div>
+  <div class="progress" id="prog-w4">0 of 0 items</div>
+
+  <div class="shop-cat">Proteins</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w4-p1"><label for="w4-p1">Eggs — 1.5 dozen <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w4-p2"><label for="w4-p2">Smoked salmon — 100g (B9, B1) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w4-p3"><label for="w4-p3">Chicken thigh — 1.2kg (L11, L9, L1, L7, D10) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w4-p4"><label for="w4-p4">Beef mince — 250g (Sat B4 + D9) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w4-p5"><label for="w4-p5">Salmon fillets — 400g (D6 + L2) <span class="shop-tag st-fish">Fishmonger</span></label></li>
+    <li><input type="checkbox" id="w4-p6"><label for="w4-p6">Kangaroo strips — 200g (Mon D5 stir fry) <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w4-p7"><label for="w4-p7">Lamb backstrap — 200g (D11) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w4-p8"><label for="w4-p8">Lamb shoulder — 500g (Sun D7 — slow cook) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w4-p9"><label for="w4-p9">Prawns — 200g (Thu L4) <span class="shop-tag st-fish">Fishmonger</span></label></li>
+    <li><input type="checkbox" id="w4-p9b"><label for="w4-p9b">Porterhouse steak — 250g (Sat D1) <span class="shop-tag st-butcher">Butcher</span></label></li>
+    <li><input type="checkbox" id="w4-p10"><label for="w4-p10">Chicken liver (free-range) — 80g (★ Fri B11 only) <span class="shop-tag st-butcher">Butcher</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Dairy &amp; fermented</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w4-d1"><label for="w4-d1">Greek yoghurt — 1.5kg <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="w4-d2"><label for="w4-d2">Kefir — 1L <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w4-d3"><label for="w4-d3">Cottage cheese — 250g <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+    <li><input type="checkbox" id="w4-d4"><label for="w4-d4">~~Ricotta~~ NOT NEEDED Wk4 (Sun brekkie changed from B7 hotcakes to B8 no-cook chicken bowl)</label></li>
+    <li><input type="checkbox" id="w4-d5"><label for="w4-d5">Hummus — 1 small tub (L9) <span class="shop-tag st-aldi">ALDI</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Vegetables</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w4-v1"><label for="w4-v1">Kent pumpkin — 1 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-v2"><label for="w4-v2">Carrots — 1kg <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-v3"><label for="w4-v3">Zucchini — 3 <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w4-v4"><label for="w4-v4">Capsicum — 3 <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w4-v5"><label for="w4-v5">Cucumber — 6 <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w4-v6"><label for="w4-v6">Cherry tomatoes — 500g <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w4-v7"><label for="w4-v7">Cos lettuce — 1 (L11) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-v8"><label for="w4-v8">Rocket — 2 bags <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-v9"><label for="w4-v9">Bok choy — 2 bunches <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-v10"><label for="w4-v10">Brown onion — 4 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-v11"><label for="w4-v11">Garlic — 1 bulb <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-v12"><label for="w4-v12">Mushrooms — 200g <span class="shop-tag st-harris">Harris Farm</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-v13"><label for="w4-v13">Lemons — 4 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-v14"><label for="w4-v14">Refresh herbs: parsley, coriander, mint <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Fruit</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w4-f1"><label for="w4-f1">Bananas — 10 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-f2"><label for="w4-f2">Fresh berries 250g — use frozen blueberries from Initial Setup (fresh berries expensive &amp; off-peak in May) <span class="shop-tag st-aldi">ALDI</span> <span class="season-warn">⚠️ pricey May</span></label></li>
+    <li><input type="checkbox" id="w4-f3"><label for="w4-f3">Kiwifruit — 6 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-f4"><label for="w4-f4">Mandarins — 6 🔄 seasonal swap (strawberries out of season May; mandarins at peak for B7) <span class="shop-tag st-cw">Coles/Woolies</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-f5"><label for="w4-f5">Avocado — 5 <span class="shop-tag st-aldi">ALDI</span> <span class="season-ok">✅ peak May</span></label></li>
+    <li><input type="checkbox" id="w4-f6"><label for="w4-f6">Pomegranate juice — 1L <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Bread</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w4-b1"><label for="w4-b1">Sourdough loaf — 1 <span class="shop-tag st-bakery">Local Bakery</span></label></li>
+  </ul>
+
+  <div class="shop-cat">Pantry top-ups (check before buying)</div>
+  <ul class="shop-list">
+    <li><input type="checkbox" id="w4-pt1"><label for="w4-pt1">Whey isolate — top up if low <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="w4-pt2"><label for="w4-pt2">Collagen peptides — top up if low <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="w4-pt3"><label for="w4-pt3">Cod liver oil — top up if low <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="w4-pt4"><label for="w4-pt4">Colostrum — top up if low <span class="shop-tag st-iherb">iHerb.com</span></label></li>
+    <li><input type="checkbox" id="w4-pt5"><label for="w4-pt5">EVOO + macadamias — top up if low <span class="shop-tag st-aldi">ALDI</span></label></li>
+    <li><input type="checkbox" id="w4-pt6"><label for="w4-pt6">Bone broth — top up frozen stash <span class="shop-tag st-cw">Coles/Woolies</span></label></li>
+  </ul>
+</div>
+
+</section>
+
+<section id="supps">
+<h2>6. Supplements & Peptides</h2>
+
+<div class="callout">
+<strong>Confirmed dosing (May 2025 bloodwork + your reply):</strong>
+<ul style="margin-top:6px;">
+<li>Creatine — 10g/day → <strong>drop to 5g</strong> until cystatin C eGFR confirms kidney function</li>
+<li>Vitamin D3 — 2,000 IU/day → <strong>keep as is</strong> (serum 25(OH)D was 150 nmol/L — top of optimal range)</li>
+<li>Fish oil — confirm EPA+DHA per cap. If under 2g/day combined, switch to cod liver oil (covers omega-3 + retinol + D in one)</li>
+<li>B complex + Mito Xcell — check both labels for B6 doubling (long-term high B6 = peripheral neuropathy)</li>
+</ul>
+</div>
+
+<div class="callout callout-red">
+<strong>Talk to your prescriber about Masteron given the eGFR finding.</strong> Of your stack, Masteron is the most kidney-loading anabolic. If your cystatin C eGFR confirms real CKD, dropping Mast (or pausing it) is the lowest-cost first move before changing TRT or Reta.
+</div>
+
+<h3>sIgA recovery stack (the new priority)</h3>
+<table>
+<tr><th>Item</th><th>Dose</th><th>Why</th></tr>
+<tr><td><strong>Bovine colostrum</strong></td><td>10-20g daily (split AM + post-workout)</td><td>Strongest natural sIgA driver. Mix in shake. Australian brands: ATP Science, True Protein, ProImmune.</td></tr>
+<tr><td><strong>Vitamin A (retinol)</strong></td><td>5,000 IU/day OR chicken liver 1x weekly</td><td>Critical cofactor for sIgA production. Retinol palmitate, NOT beta-carotene. Don't combine high-dose supplement + cod liver oil + liver — total retinol can hit toxicity (&gt;25,000 IU/day).</td></tr>
+<tr><td><strong>Cod liver oil</strong></td><td>1 tsp daily (replaces standard fish oil)</td><td>Bonus retinol + vit D + EPA/DHA in one. Nordic Naturals or Rosita.</td></tr>
+<tr><td><strong>Zinc carnosine</strong></td><td>75mg pre-bed</td><td>Mucosal lining + sIgA support</td></tr>
+<tr><td><strong>S. boulardii</strong></td><td>1 cap empty stomach</td><td>Specifically raises sIgA. Best evidence of any probiotic for this.</td></tr>
+<tr><td><strong>Vitamin D3 + K2</strong></td><td>2,000 IU D3 (your existing) + 100mcg K2</td><td>Your serum 25(OH)D is 150 nmol/L — already optimal on your current dose. Add K2 if not in your D3 cap. Do NOT increase D3.</td></tr>
+<tr><td><strong>Mushroom beta-glucans</strong></td><td>From food (shiitake, oyster) or supp 500mg</td><td>Mucosal immune activation</td></tr>
+</table>
+
+<h3>Methanogen / TMAO stack</h3>
+<table>
+<tr><th>Item</th><th>Dose</th><th>Why</th></tr>
+<tr><td>Allicin (garlic extract)</td><td>Per label, 2 weeks on / 2 off</td><td>Targeted methanogen reduction</td></tr>
+<tr><td>Curcumin + piperine</td><td>500mg with dinner</td><td>Anti-inflammatory, mild methanogen effect</td></tr>
+<tr><td>Atrantil</td><td>If methanogens not improving by week 4</td><td>Methanogen-specific quinone blend</td></tr>
+<tr><td><strong>Pomegranate juice or extract</strong></td><td>250ml juice OR 1,000mg extract daily</td><td>Polyphenols inhibit TMA→TMAO conversion. Also raises sIgA.</td></tr>
+<tr><td><strong>DIM (Diindolylmethane)</strong></td><td>200mg daily</td><td>Lowers TMAO, supports oestrogen metabolism on TRT</td></tr>
+<tr><td>EVOO</td><td>30ml+ daily (food)</td><td>Polyphenols inhibit gut TMA lyase</td></tr>
+</table>
+
+<h3>Morning (existing stack — keep as-is)</h3>
+<table>
+<tr><th>Item</th><th>Why</th></tr>
+<tr><td>HGH (your dose)</td><td>Recovery, body comp — sub-Q fasted</td></tr>
+<tr><td>GHKCu (your dose)</td><td>Skin/connective tissue</td></tr>
+<tr><td>Bone broth 200ml + L-glutamine 5g</td><td>Mucosal repair</td></tr>
+<tr><td>Vitamin D3 x 2 = 2,000 IU/day (your existing) ✓ CONFIRMED OPTIMAL</td><td>Your serum 25(OH)D is 150 nmol/L — top of optimal range. Stay on this dose. Do NOT bump.</td></tr>
+<tr><td>B complex (your existing)</td><td>Energy, especially with HCG/TRT</td></tr>
+<tr><td><strong>Creatine 5g (REDUCED from 10g pending kidney check)</strong></td><td>Drop to 5g until cystatin C eGFR confirms kidney function. Creatine raises serum creatinine which artificially lowers eGFR — likely why your eGFR reads 58.</td></tr>
+<tr><td>PHGG (your existing)</td><td>Reduces methane over 8-12wk</td></tr>
+<tr><td>Mito Xcell (your existing)</td><td>Mitochondrial — check B6 overlap with B complex</td></tr>
+</table>
+
+<div class="callout callout-red">
+<strong>Cod liver oil + your existing D3 = potential overdose:</strong> Your D3 of 2,000 IU/day already has you at 150 nmol/L (top of optimal). Most cod liver oils contain 400-1,000 IU vitamin D per serve. If you switch to cod liver oil:
+<ul style="margin-top:6px;">
+<li>Drop your standard fish oil (no double up)</li>
+<li>Either drop one D3 cap (so you're on 1,000 IU + cod liver oil's D), OR pick a cod liver oil with no added D</li>
+<li>If you also take vitamin A supplement + eat liver weekly + cod liver oil = retinol toxicity risk. Pick one source.</li>
+</ul>
+The cleanest stack: cod liver oil daily (covers D, A, EPA/DHA) + drop standalone D3 to 1 cap + skip standalone vitamin A + chicken liver once weekly.
+</div>
+
+<h3>With lunch (weeks 2-4)</h3>
+<table>
+<tr><th>Item</th><th>Why</th></tr>
+<tr><td>Allicin (garlic extract) 2 weeks on/off</td><td>Targeted methanogen reduction</td></tr>
+<tr><td>Curcumin + piperine 500mg</td><td>Anti-inflammatory</td></tr>
+<tr><td>Digestive enzymes + HCl with biggest meal</td><td>Protein breakdown given low sIgA</td></tr>
+</table>
+
+<h3>Pre-bed</h3>
+<table>
+<tr><th>Item</th><th>Why</th></tr>
+<tr><td>HGH (your dose)</td><td>Overnight recovery</td></tr>
+<tr><td>DSIP peptide (your existing)</td><td>Deep sleep — pairs with HGH</td></tr>
+<tr><td>HCG (Mon/Wed/Fri, your existing)</td><td>Testicular function on TRT</td></tr>
+<tr><td>Reta (Sun/Wed)</td><td>GLP-1/GIP/glucagon</td></tr>
+<tr><td>TRT + Mast 0.5ml each (Sun/Wed)</td><td>Hormonal</td></tr>
+<tr><td>Magnesium glycinate 400mg</td><td>Sleep, motility, recovery</td></tr>
+<tr><td>Zinc carnosine 75mg</td><td>Mucosal repair, sIgA</td></tr>
+<tr><td>L-glutamine 5g</td><td>Overnight gut repair</td></tr>
+<tr><td>200g Greek yoghurt + 10g collagen</td><td>Slow protein</td></tr>
+</table>
+
+<h3>Wednesday night injection sequence (busiest)</h3>
+<ol style="margin-left:20px;">
+<li>Dinner ~6pm (lighter)</li>
+<li>~7:30pm — HCG sub-Q (one site)</li>
+<li>~8:00pm — Reta sub-Q (different site, e.g. opposite abdomen)</li>
+<li>~8:00pm — TRT + Mast IM (glute)</li>
+<li>~9:30pm — HGH sub-Q + DSIP sub-Q (separate sites)</li>
+<li>Pre-bed yoghurt + Mg + zinc carnosine + glutamine</li>
+</ol>
+
+<h3>Escalation (if gut not improving by week 2)</h3>
+<table>
+<tr><th>Add</th><th>Why</th></tr>
+<tr><td>Atrantil</td><td>Methanogen-specific, well-tolerated</td></tr>
+<tr><td>MegaSporeBiotic (week 4+)</td><td>Soil-based, for low-diversity guts</td></tr>
+<tr><td>Berberine (if breath test confirms IMO)</td><td>Antimicrobial</td></tr>
+</table>
+</section>
+
+<section>
+<h2>7. Track weekly + key milestones</h2>
+<ul>
+<li>Bodyweight (Sat morning fasted)</li>
+<li>Waist at navel</li>
+<li>Bowel transit — should be daily, formed</li>
+<li>Bloating 1-10</li>
+<li>Sleep quality 1-10</li>
+<li>How often you got sick (any colds, sinus, sore throat) — sIgA recovery shows up as fewer infections</li>
+<li>Top-set performance on key lifts</li>
+</ul>
+
+<h3>Bloodwork priority order (based on May 2025 results)</h3>
+<ol>
+<li><strong>Cystatin C eGFR + urine ACR</strong> — MOST IMPORTANT. Confirms whether your eGFR 58 is real CKD or creatine artifact. Drives the protein scenario in this plan. Also a urine dipstick.</li>
+<li><strong>Haemochromatosis genetic screen (HFE C282Y/H63D)</strong> + repeat fasting iron studies — your transferrin saturation 48% needs a definitive answer before more heme iron loading.</li>
+<li><strong>ApoB and Lp(a)</strong> — true cardio risk markers given LDL 3.9. Lp(a) is a one-off lifetime test, do once.</li>
+<li><strong>Hct, Hb, full FBC every 3 months on TRT</strong> — your Hct 0.49 is upper-normal. Watch for erythrocytosis.</li>
+<li><strong>HbA1c</strong> — wasn't on your last panel. Get one. With Reta + insulin 7 + glucose 4.7 you should be excellent, but confirm.</li>
+<li><strong>PSA quarterly on TRT</strong> — your last was 0.56. Track the trend.</li>
+<li><strong>Repeat gut-mapping pathology at 12 weeks</strong> — verify methanogens dropped + sIgA recovered.</li>
+</ol>
+
+<div class="callout">
+Coeliac is RULED OUT (May 2025 panel negative) — no need to retest. Selective IgA deficiency RULED OUT (serum IgA 1.66 g/L is normal) — no need to retest. Vitamin D OPTIMAL at 150 nmol/L on 2,000 IU/day — keep doing what you're doing.
+</div>
+</section>
+
+<section>
+<h2>8. Caveats &amp; tolerance notes</h2>
+<ul>
+<li><strong>Not medical advice.</strong> Run the supplement stack + plan changes by your GP or integrative practitioner, especially with the peptide stack and the eGFR finding.</li>
+<li><strong>If you pause Reta and bulk:</strong> calories shift to ~2,800-3,000 — re-do meal sizes. Don't do this until kidney function is confirmed.</li>
+<li><strong>Bone broth tolerance:</strong> 1 in 5 people don't tolerate bone broth (high glutamate + histamine). If you get headaches, anxiety or jitteriness within 30 min of drinking it, drop to 100ml and watch for symptoms. Some people can't tolerate it at all — sub L-glutamine 5g in water instead.</li>
+<li><strong>Smoked salmon, biltong, deli meats:</strong> Buy nitrate-free where possible. Cheap supermarket smoked salmon often has dextrose, additives. Read the label — should just be salmon, salt, smoke.</li>
+<li><strong>Pomegranate juice has fructose</strong> (~30g/cup). If bloating worsens, switch to pomegranate extract capsules (1,000mg) instead. Same polyphenol benefit, no fructose load.</li>
+<li><strong>Pre-bed Greek yoghurt 200g</strong> works for most. If you wake bloated, halve the portion or switch to casein protein in water.</li>
+<li><strong>Oxalate caution:</strong> Despite removing high-oxalate foods, jasmine rice and Greek yoghurt are still moderate oxalate. If you've ever had a kidney stone, ask your GP about citrate supplementation.</li>
+<li><strong>Plan assumes ~90 min Sunday prep + 45 min one weeknight.</strong> Tell me if that's wrong and we shift to ready-cooked options (My Muscle Chef, Soulara, Macros) for some lunches.</li>
+<li><strong>Gym programming is in a separate file:</strong> <code>Training-Program-12-Week.html</code> — open the same way (Netlify Drop or Cloudflare). Built around your L5/S1 + Revo Charlestown equipment + "all muscle heads" requirement.</li>
+<li><strong>If you want to push for higher muscle gain (~3-4kg in 12 weeks):</strong> pause Reta for the 12-week growth phase, eat 300-400 kcal surplus (~2,800 kcal). DO NOT add Tesamorelin to your existing HGH stack. Talk to your prescriber first. After 12 weeks, resume Reta to lean out.</li>
+</ul>
+</section>
+
+</main>
+
+<script>
+// Persist checkbox state across reloads
+function saveCheck(box) {
+  localStorage.setItem('mp_' + box.id, box.checked ? '1' : '0');
+  box.closest('li').classList.toggle('checked', box.checked);
+  updateProgress();
+}
+function loadChecks() {
+  document.querySelectorAll('.shop-list input[type="checkbox"]').forEach(box => {
+    if (localStorage.getItem('mp_' + box.id) === '1') {
+      box.checked = true;
+      box.closest('li').classList.add('checked');
+    }
+    box.addEventListener('change', () => saveCheck(box));
+    // Make whole row tappable
+    box.closest('li').addEventListener('click', e => {
+      if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+        box.checked = !box.checked;
+        saveCheck(box);
+      }
+    });
+  });
+  updateProgress();
+}
+function updateProgress() {
+  document.querySelectorAll('.week-block').forEach(block => {
+    const wk = block.dataset.week;
+    const boxes = block.querySelectorAll('input[type="checkbox"]');
+    const checked = block.querySelectorAll('input[type="checkbox"]:checked');
+    const el = document.getElementById('prog-' + wk);
+    if (el) el.textContent = `${checked.length} of ${boxes.length} items`;
+  });
+}
+function resetWeek(wk) {
+  if (!confirm('Reset all ticks for ' + wk.toUpperCase() + '?')) return;
+  document.querySelectorAll(`[data-week="${wk}"] input[type="checkbox"]`).forEach(box => {
+    box.checked = false;
+    localStorage.removeItem('mp_' + box.id);
+    box.closest('li').classList.remove('checked');
+  });
+  updateProgress();
+}
+function toggleCol(header) {
+  header.parentElement.classList.toggle('open');
+}
+document.addEventListener('DOMContentLoaded', loadChecks);
+</script>
+
+</body>
+</html>
