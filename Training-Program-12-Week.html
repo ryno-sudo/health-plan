@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a4d3a">
+<title>12-Week Training Program — L5/S1-Safe Recomp</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  line-height: 1.55;
+  color: #1a1a1a;
+  background: #f5f1ea;
+  font-size: 16px;
+  padding-bottom: 80px;
+}
+nav {
+  position: sticky;
+  top: 0;
+  background: #1a4d3a;
+  color: #fff;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+nav .nav-inner {
+  display: flex;
+  padding: 0 8px;
+  min-width: max-content;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 14px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  border-bottom: 3px solid transparent;
+}
+nav a:active { background: #133829; }
+header {
+  padding: 24px 18px 20px;
+  background: linear-gradient(180deg, #1a4d3a 0%, #2a6b54 100%);
+  color: #fff;
+}
+header h1 { font-size: 22px; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+header .sub { font-size: 14px; opacity: 0.9; }
+main { padding: 18px; max-width: 900px; margin: 0 auto; }
+section { margin-bottom: 28px; }
+h2 {
+  font-size: 19px;
+  color: #1a4d3a;
+  border-bottom: 2px solid #1a4d3a;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+  margin-top: 8px;
+}
+h3 { font-size: 16px; color: #1a4d3a; margin: 16px 0 8px; }
+h4 { font-size: 15px; color: #2a6b54; margin: 12px 0 6px; }
+p { margin-bottom: 10px; }
+ul { margin: 6px 0 12px 20px; }
+li { margin-bottom: 4px; }
+strong { color: #1a4d3a; }
+.callout {
+  background: #fff3cd;
+  border-left: 4px solid #d4a82f;
+  padding: 12px 14px;
+  border-radius: 4px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.callout-red {
+  background: #fde8e8;
+  border-left-color: #c0392b;
+}
+.meal-card {
+  background: #fff;
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-left: 3px solid #2a6b54;
+}
+.meal-card .meal-id {
+  display: inline-block;
+  background: #1a4d3a;
+  color: #fff;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  margin-right: 6px;
+}
+.meal-card .macros {
+  font-size: 12px;
+  color: #6b6b6b;
+  margin-top: 4px;
+  font-style: italic;
+}
+.recipe-toggle {
+  margin-top: 10px;
+  border-top: 1px dashed #d4ccbe;
+  padding-top: 8px;
+}
+.recipe-toggle summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a4d3a;
+  padding: 4px 0;
+  list-style: none;
+  user-select: none;
+}
+.recipe-toggle summary::-webkit-details-marker { display: none; }
+.recipe-toggle summary::before {
+  content: "▶ ";
+  font-size: 10px;
+  display: inline-block;
+  transition: transform 0.15s;
+  color: #2a6b54;
+}
+.recipe-toggle[open] summary::before { transform: rotate(90deg); }
+.recipe-toggle .recipe-content {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: #faf8f3;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.recipe-toggle .recipe-meta {
+  font-size: 11px;
+  color: #6b6b6b;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+}
+.recipe-toggle ol { margin: 6px 0 0 18px; padding: 0; }
+.recipe-toggle ol li { margin-bottom: 4px; font-size: 13px; }
+.recipe-toggle .tip {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: #fff3cd;
+  border-left: 3px solid #d4a82f;
+  border-radius: 3px;
+  font-size: 12px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 13px;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+th, td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid #e8e3da;
+  vertical-align: top;
+}
+th {
+  background: #1a4d3a;
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+tr:last-child td { border-bottom: none; }
+.reta-night { background: #fde8e8; }
+
+/* Shopping list */
+.week-block {
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #1a4d3a;
+}
+.week-header h3 { margin: 0; }
+.progress {
+  font-size: 13px;
+  color: #6b6b6b;
+  font-weight: 600;
+}
+.shop-cat {
+  margin-top: 12px;
+  font-weight: 700;
+  color: #2a6b54;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.shop-list {
+  list-style: none;
+  margin: 8px 0 0 0;
+  padding: 0;
+}
+.shop-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0ece4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.shop-list li:last-child { border-bottom: none; }
+.shop-list input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  accent-color: #1a4d3a;
+  cursor: pointer;
+}
+.shop-list label {
+  flex: 1;
+  cursor: pointer;
+  font-size: 15px;
+}
+.shop-list li.checked label {
+  text-decoration: line-through;
+  color: #9a9a9a;
+}
+.reset-btn {
+  background: #f0ece4;
+  border: 1px solid #d4ccbe;
+  color: #6b6b6b;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.reset-btn:active { background: #e0dccf; }
+.collapsible {
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+.collapsible-header {
+  padding: 12px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #2a6b54;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.collapsible-header::after {
+  content: "+";
+  font-size: 20px;
+  font-weight: 300;
+}
+.collapsible.open .collapsible-header::after { content: "−"; }
+.collapsible-body { padding: 0 14px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+.collapsible.open .collapsible-body { padding: 14px; max-height: none; }
+@media (min-width: 700px) {
+  body { font-size: 17px; }
+  header h1 { font-size: 28px; }
+  h2 { font-size: 22px; }
+  nav a { font-size: 15px; padding: 16px 18px; }
+}
+
+/* ── Shop tags & seasonal indicators ───────────────── */
+.shop-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-left: 5px;
+  vertical-align: middle;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+.st-cw      { background: #c62828; color: #fff; }
+.st-aldi    { background: #1565c0; color: #fff; }
+.st-butcher { background: #5d4037; color: #fff; }
+.st-fish    { background: #0277bd; color: #fff; }
+.st-chemist { background: #6a1b9a; color: #fff; }
+.st-iherb   { background: #2e7d32; color: #fff; }
+.st-harris  { background: #e64a19; color: #fff; }
+.st-bakery  { background: #795548; color: #fff; }
+.season-warn{ font-size: 10px; color: #c62828; font-weight: 700; margin-left: 3px; }
+.season-ok  { font-size: 10px; color: #2e7d32; font-weight: 700; margin-left: 3px; }
+</style>
+<style>
+/* ── Training-specific additions ─────────────────────── */
+.pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin: 2px 4px 2px 0;
+  vertical-align: middle;
+  letter-spacing: 0.2px;
+}
+.pill-push   { background: #1565c0; color: #fff; }
+.pill-pull   { background: #6a1b9a; color: #fff; }
+.pill-legA   { background: #b0561a; color: #fff; }
+.pill-legB   { background: #c62828; color: #fff; }
+.pill-upper  { background: #00695c; color: #fff; }
+.pill-rest   { background: #6b6b6b; color: #fff; }
+.pill-cardio { background: #2e7d32; color: #fff; }
+
+.day-card {
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  overflow: hidden;
+  border-left: 4px solid #2a6b54;
+}
+.day-card .day-head {
+  padding: 12px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #1a4d3a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #faf8f3;
+  user-select: none;
+}
+.day-card .day-head .day-title { font-size: 15px; }
+.day-card .day-head .day-sub { font-size: 12px; color: #6b6b6b; font-weight: 500; }
+.day-card .day-head::after {
+  content: "+";
+  font-size: 22px;
+  font-weight: 300;
+  color: #2a6b54;
+  margin-left: 8px;
+}
+.day-card.open .day-head::after { content: "−"; }
+.day-card .day-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 14px;
+}
+.day-card.open .day-body { padding: 14px; max-height: none; }
+.day-card table { margin-top: 0; }
+.day-card th.ex { width: 40%; }
+
+.heads {
+  font-size: 12px;
+  color: #6b6b6b;
+  font-style: italic;
+}
+.cue {
+  background: #eef5f1;
+  border-left: 3px solid #2a6b54;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 10px 0;
+  font-size: 13px;
+}
+.warn {
+  background: #fde8e8;
+  border-left: 4px solid #c0392b;
+  padding: 10px 14px;
+  border-radius: 4px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.do-dont {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 12px 0;
+}
+@media (min-width: 640px) { .do-dont { grid-template-columns: 1fr 1fr; } }
+.do-box, .dont-box {
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+}
+.do-box { background: #e8f5e9; border: 1px solid #a5d6a7; }
+.dont-box { background: #fde8e8; border: 1px solid #ef9a9a; }
+.do-box h4 { color: #1b5e20; margin: 0 0 6px; }
+.dont-box h4 { color: #b71c1c; margin: 0 0 6px; }
+.do-box ul, .dont-box ul { margin: 0 0 0 18px; }
+
+.block-badge {
+  display: inline-block;
+  background: #1a4d3a;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+.rpe { font-weight: 700; color: #b0561a; white-space: nowrap; }
+.wk-swatch { font-weight:700; }
+
+.log-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.log-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0ece4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.log-list li:last-child { border-bottom: none; }
+.log-list input[type="checkbox"] { width: 22px; height: 22px; flex-shrink: 0; accent-color: #1a4d3a; cursor: pointer; }
+.log-list label { flex: 1; cursor: pointer; font-size: 15px; }
+.log-list li.checked label { text-decoration: line-through; color: #9a9a9a; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#strategy">Strategy</a>
+    <a href="#back">Back Rules</a>
+    <a href="#split">Split</a>
+    <a href="#blocks">12 Weeks</a>
+    <a href="#workouts">Workouts</a>
+    <a href="#cardio">Cardio</a>
+    <a href="#track">Track</a>
+  </div>
+</nav>
+
+<header>
+  <h1>12-Week Training Program</h1>
+  <div class="sub">L5/S1-Safe Recomp · 90kg · Revo Charlestown · "all muscle heads" · pairs with the 4-Week Meal Plan · May 2026</div>
+</header>
+
+<main>
+
+<section id="strategy">
+<h2>1. Strategy</h2>
+
+<div class="callout">
+<strong>The one-line version:</strong> 5 lifting days a week, every session chosen to build muscle <em>without loading your L5/S1 disc in a compromised position</em>. No barbell on your spine, no conventional deadlift, no loaded rounding. You'll still hit every muscle — and every <em>head</em> of every muscle — using machines, cables, chest-supported and lying variations that Revo Charlestown has in abundance. TRT + Mast means your recovery ceiling is high, so frequency and volume are the levers, not ego-loading a barbell.
+</div>
+
+<div class="callout callout-red">
+<strong>Read this before you touch a weight:</strong> This program is built around a known <strong>L5/S1 disc issue</strong>. Every exercise below is either spine-neutral or actively decompressive. If you swap something in from memory (heavy back squats, bent barbell rows, conventional deads), you're outside the plan and taking on the exact risk it's designed to remove. When in doubt, pick the machine version.
+</div>
+
+<h3>Goals — two scenarios (matches the meal plan)</h3>
+<table>
+<tr><th>Target</th><th>Recomp (default — Reta continues)</th><th>Growth (Reta paused 12 wks)</th></tr>
+<tr><td>Bodyweight</td><td>Hold ~90kg, +1.5–2.5kg lean</td><td>+3–4kg (≈300–400 kcal surplus)</td></tr>
+<tr><td>Calories</td><td>~2,450 kcal (maintenance)</td><td>~2,800 kcal</td></tr>
+<tr><td>Training goal</td><td>Recomposition — build while leaning</td><td>Maximise hypertrophy</td></tr>
+<tr><td>Program changes</td><td>None — run as written</td><td>Same split; add the optional 4th set on primary lifts in Block 2–3, push closer to failure on machines</td></tr>
+</table>
+<div class="callout">
+The <strong>training doesn't change much between the two scenarios</strong> — the meal plan does. Same 5-day split, same exercises. In a surplus you simply recover better and can add the noted extra sets. Don't start the growth surplus until your cystatin C eGFR result is back (see the meal plan's bloodwork section).
+</div>
+
+<h3>Working around Reta injection timing</h3>
+<div class="callout">
+Reta goes in <strong>Sunday &amp; Wednesday nights</strong>. Appetite and energy dip Mon–Tue and Thu–Fri; they return Saturday. So the split is arranged to put the <strong>most demanding, most-fuelled session (quad-focused legs) on Saturday</strong>, and lighter, pump-style or posterior-chain work on the low-fuel days. On any day you feel flat, use the <strong>autoregulation rule</strong> in section 5 — drop a set, not the whole session.
+</div>
+
+<h3>Cardiovascular context</h3>
+<div class="callout callout-red">
+Your <strong>LDL is 3.9</strong> (flagged high) and you're on TRT + Mast. Zone-2 cardio isn't optional garnish here — it's part of the cardiac-risk management the meal plan calls out (ApoB/Lp(a) pending). The cardio prescription in section 6 is a real part of the program, not a nice-to-have.
+</div>
+</section>
+
+<section id="back">
+<h2>2. L5/S1 — the rules that don't bend</h2>
+
+<div class="warn">
+<strong>Non-negotiable:</strong> if you get shooting pain down a leg, numbness, tingling in the foot, or any loss of bladder/bowel control — <strong>stop training and see a doctor</strong>. That's nerve-root territory, not soreness. This program manages a disc; it does not treat acute radiculopathy.
+</div>
+
+<div class="do-dont">
+  <div class="do-box">
+    <h4>✓ Build on these</h4>
+    <ul>
+      <li>Machines &amp; cables (spine supported or unloaded)</li>
+      <li>Chest-supported rows &amp; reverse flyes</li>
+      <li>Leg press, hack squat, pendulum (controlled depth)</li>
+      <li>Lying &amp; seated leg curls</li>
+      <li>45° back extensions &amp; hip thrusts (hinge from the hip, neutral spine)</li>
+      <li>Split squats with a hand on support</li>
+      <li>Anti-movement core: McGill Big 3, Pallof, dead bug, carries</li>
+    </ul>
+  </div>
+  <div class="dont-box">
+    <h4>✗ Not in this program</h4>
+    <ul>
+      <li>Barbell back &amp; front squats (axial load)</li>
+      <li>Conventional &amp; sumo deadlifts</li>
+      <li>Barbell bent-over rows / Pendlay rows</li>
+      <li>Standing barbell overhead press (lumbar hyperextension)</li>
+      <li>Heavy good mornings, jefferson curls</li>
+      <li>Sit-ups, decline crunches, loaded Russian twists (loaded spinal flexion/rotation)</li>
+      <li>Standing barbell calf raise (bar on spine)</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Every session starts here — the McGill Big 3 (5 min)</h3>
+<p>These are the spine's "brace" builders. Do them as your war-up primer before <em>every</em> lifting day. They protect the disc by teaching the core to lock the lumbar spine still while the hips move.</p>
+<table>
+<tr><th>Move</th><th>Prescription</th><th>Cue</th></tr>
+<tr><td>Curl-up (McGill)</td><td>3 holds × 8–10s per set, 2 sets</td><td>Hands under low back, one knee bent, lift head/shoulders a few cm only. Do NOT flatten your back to the floor.</td></tr>
+<tr><td>Side plank</td><td>3 × 10s each side, build to 3 × 20s</td><td>From knees first if needed. Straight line ear-to-hip. Brace, breathe.</td></tr>
+<tr><td>Bird dog</td><td>3 × 8 reps each side, 6–8s hold</td><td>Opposite arm + leg, sweep the floor, square hips. Draw a square with the toe. No lumbar sag.</td></tr>
+</table>
+
+<div class="cue"><strong>Bracing standard for all lifts:</strong> before every working set, take a breath into your belly, brace like you're about to be lightly punched, and keep that brace for the rep. Hinge from the hips, keep the ribcage stacked over the pelvis, and never let the low back round under a load or hyperextend to finish a rep.</div>
+
+<h3>Decompression finisher (2 min, end of each session)</h3>
+<ul>
+<li><strong>Dead hang</strong> from a bar, 2 × 20–30s (if grip/shoulders allow) — gentle traction.</li>
+<li><strong>Child's pose or 90/90 hip-flexor breathing</strong>, 1–2 min — resets the lumbar.</li>
+<li>Skip loaded stretching of the hamstrings in end-range spinal flexion.</li>
+</ul>
+</section>
+<section id="split">
+<h2>3. The weekly split</h2>
+
+<p>Five lifting days, two full rest days. Each muscle is trained roughly twice a week, and legs are split into a <strong>hamstring/glute day</strong> (low spinal demand, midweek) and a <strong>quad day</strong> (Saturday, when you're best fuelled). Upper body gets a dedicated push day, pull day, and a mixed weak-point upper day.</p>
+
+<table>
+<tr><th>Day</th><th>Session</th><th>Focus</th><th>Fuel state</th></tr>
+<tr><td><strong>Mon</strong></td><td><span class="pill pill-push">PUSH</span></td><td>Chest · shoulders · triceps (all heads)</td><td>Suppressed (post-Sun Reta)</td></tr>
+<tr><td><strong>Tue</strong></td><td><span class="pill pill-pull">PULL</span></td><td>Back · rear delts · biceps · forearms</td><td>Suppressed</td></tr>
+<tr><td><strong>Wed</strong></td><td><span class="pill pill-legA">LEGS A</span></td><td>Hamstrings · glutes · calves · core (low spine load)</td><td>Reta night — keep it tidy</td></tr>
+<tr><td><strong>Thu</strong></td><td><span class="pill pill-rest">REST</span> <span class="pill pill-cardio">+ Zone 2</span></td><td>Recovery walk / incline treadmill 30–40 min</td><td>Suppressed</td></tr>
+<tr><td><strong>Fri</strong></td><td><span class="pill pill-upper">UPPER</span></td><td>Chest/back/delts/arms — weak-point &amp; pump</td><td>Suppressed</td></tr>
+<tr><td><strong>Sat</strong></td><td><span class="pill pill-legB">LEGS B</span></td><td>Quads · glutes · calves · core (best day)</td><td>Fuelled — go hardest here</td></tr>
+<tr><td><strong>Sun</strong></td><td><span class="pill pill-rest">REST</span> <span class="pill pill-cardio">+ Zone 2</span></td><td>Long easy walk 45–60 min · Reta night</td><td>Appetite returning</td></tr>
+</table>
+
+<div class="callout">
+<strong>Timing (from the meal plan):</strong> pre-gym snack 3:30pm (banana + 30g whey), train ~4:00–5:15pm, post-gym 5:30pm (40g whey + kefir/colostrum). Keep sessions to <strong>60–75 min</strong> — long enough for the work, short enough that the migrating motor complex and your sleep aren't compromised.
+</div>
+
+<div class="callout">
+<strong>If you can only train 4 days:</strong> drop Friday's Upper day and fold its priority work (lateral raises, arms, any lagging area) into Mon/Tue. If you can only do 3: run Push / Pull / Legs (combine A+B into one balanced leg day, quad + ham).
+</div>
+</section>
+
+<section id="blocks">
+<h2>4. The 12-week arc</h2>
+
+<p>Three 4-week blocks. Same split throughout — what changes is <strong>volume, rep range and proximity to failure</strong>. Weeks build, then week 12 is a deload + retest. This is classic accumulation → intensification → realise, kept safe for the disc the whole way.</p>
+
+<table>
+<tr><th>Block</th><th>Weeks</th><th>Emphasis</th><th>Reps</th><th>Effort</th><th>Sets / muscle / wk</th></tr>
+<tr><td><span class="block-badge">1</span>Foundation</td><td>1–4</td><td>Re-groove patterns, build the brace, own the machines</td><td>10–15</td><td><span class="rpe">RPE 7</span> (3 in reserve)</td><td>~10–12</td></tr>
+<tr><td><span class="block-badge">2</span>Accumulation</td><td>5–8</td><td>Add volume — the growth driver</td><td>8–15</td><td><span class="rpe">RPE 8</span> (2 in reserve)</td><td>~14–18</td></tr>
+<tr><td><span class="block-badge">3</span>Intensify</td><td>9–11</td><td>Heavier in safe ranges + intensity techniques</td><td>6–12</td><td><span class="rpe">RPE 8–9</span> (1–2 in reserve)</td><td>~14–16</td></tr>
+<tr><td><span class="block-badge">D</span>Deload/Test</td><td>12</td><td>Cut volume ~50%, retest key lifts, photos + measures</td><td>8–10</td><td><span class="rpe">RPE 6</span></td><td>~6–8</td></tr>
+</table>
+
+<h3>How to progress within a block — double progression</h3>
+<div class="callout">
+Each exercise has a rep range (say 10–15). Pick a load you can do for the <em>bottom</em> of the range at the target RPE. <strong>Add reps week to week</strong> until you hit the top of the range on all sets — then <strong>add the smallest load increment</strong> and drop back to the bottom of the range. Repeat. That's it. On machines and cables the jumps are small, which is exactly what a recomp on maintenance calories wants.
+</div>
+
+<h3>Intensity techniques (Block 2–3 only, machines/cables only)</h3>
+<ul>
+<li><strong>Myo-reps / rest-pause:</strong> after a hard set, rest 15s, squeeze out 3–5 more, repeat 2–3 times. Great on leg extension, curls, lateral raises, pushdowns.</li>
+<li><strong>Drop sets:</strong> run a set to near-failure, strip ~20%, go again. Best as the <em>last</em> set of an isolation movement, never on a spine-loaded pattern.</li>
+<li><strong>Lengthened partials:</strong> at failure, keep pumping partial reps in the <em>stretched</em> position (bottom of a fly, stretch of an overhead extension). Strong hypertrophy stimulus, low joint cost.</li>
+</ul>
+<div class="warn">Never use intensity techniques on the 45° back extension, hip thrust, split squat, or any hinge — failure there is where spine form breaks. Keep those clean, 1–2 reps in reserve, always.</div>
+
+<h3>Block-by-block collapsibles</h3>
+
+<div class="collapsible">
+  <div class="collapsible-header" onclick="toggleCol(this)">Block 1 · Weeks 1–4 · Foundation</div>
+  <div class="collapsible-body">
+    <ul>
+      <li><strong>Goal:</strong> perfect the machine setups, groove the brace, build work capacity. You are deliberately leaving reps in the tank.</li>
+      <li>All working sets at <span class="rpe">RPE 7</span> — stop with ~3 clean reps left.</li>
+      <li>Use the workout tables in section 5 at the <em>lower</em> set count (skip any set marked "opt").</li>
+      <li>Week 4 is still a build week — don't deload yet.</li>
+      <li>Prioritise learning: leg press foot position, hack squat depth that your back tolerates, cable angles for the delts. Film a set occasionally to check your lumbar stays neutral.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="collapsible">
+  <div class="collapsible-header" onclick="toggleCol(this)">Block 2 · Weeks 5–8 · Accumulation</div>
+  <div class="collapsible-body">
+    <ul>
+      <li><strong>Goal:</strong> more total sets — this block does most of the muscle-building.</li>
+      <li>Add the "opt" sets in the workout tables. Push to <span class="rpe">RPE 8</span> (~2 in reserve).</li>
+      <li>Introduce ONE intensity technique per session on an isolation lift (not before week 6).</li>
+      <li>If in the growth scenario (Reta paused, surplus): this is where the extra recovery pays — add a 4th set to primary chest/back/quad lifts.</li>
+      <li>Watch sleep and the gut markers from the meal plan. If bloating/sleep degrade, you're overreaching — pull volume back a notch.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="collapsible">
+  <div class="collapsible-header" onclick="toggleCol(this)">Block 3 · Weeks 9–11 · Intensify</div>
+  <div class="collapsible-body">
+    <ul>
+      <li><strong>Goal:</strong> add load in safe rep ranges (6–12), express the muscle you've built.</li>
+      <li><span class="rpe">RPE 8–9</span> on machines — 1–2 in reserve. The last set of isolations can touch failure.</li>
+      <li>Keep hinge/split-squat patterns at RPE 8 max — form over ego, always.</li>
+      <li>Use myo-reps / drop sets / lengthened partials freely on machines and cables.</li>
+      <li>By now the double-progression should have your top-set numbers meaningfully up from week 1 — that's your "top-set on key lifts" tracking metric from the meal plan.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="collapsible">
+  <div class="collapsible-header" onclick="toggleCol(this)">Week 12 · Deload &amp; Retest</div>
+  <div class="collapsible-body">
+    <ul>
+      <li><strong>Goal:</strong> shed fatigue, confirm progress, set up the next 12 weeks.</li>
+      <li>Cut every exercise to ~2 sets, keep the load but stop at <span class="rpe">RPE 6</span> (4 in reserve). You should leave the gym feeling <em>fresher</em> each day.</li>
+      <li>Mid-week, retest 2–3 key lifts for a top set (e.g. leg press, chest-supported row, machine chest press, lateral raise load) — record reps × load vs week 1.</li>
+      <li>Take Saturday-morning progress photos + waist-at-navel measure (same as the meal plan's tracking).</li>
+      <li>Book the follow-up bloods the meal plan lists (cystatin C eGFR, ApoB/Lp(a), Hct). Decide recomp vs growth for the next block based on the eGFR result.</li>
+    </ul>
+  </div>
+</div>
+</section>
+<section id="workouts">
+<h2>5. The workouts</h2>
+
+<p>Tap a day to expand. Set counts show <strong>base</strong> (Block 1) with "+1 opt" meaning add that set in Block 2–3. RPE follows the block. Every exercise lists the <span class="heads">muscle heads it targets</span> so nothing gets missed — that's the "all muscle heads" brief. Substitutions are in the drop-downs if a machine's taken.</p>
+
+<div class="callout">
+<strong>Warm-up before every session:</strong> 5 min easy cardio → McGill Big 3 (section 2) → 2 ramp-up sets on the first exercise (light, building to working weight). Total ~10 min. Don't skip the Big 3 — it's your disc's insurance.
+</div>
+
+<!-- ============ PUSH ============ -->
+<div class="day-card">
+  <div class="day-head" onclick="toggleDay(this)">
+    <span><span class="pill pill-push">PUSH</span> <span class="day-title">Monday — Chest · Shoulders · Triceps</span><br><span class="day-sub">every head of the pecs, delts &amp; triceps</span></span>
+  </div>
+  <div class="day-body">
+    <table>
+      <tr><th class="ex">Exercise</th><th>Sets × reps</th><th>Heads / cue</th></tr>
+      <tr><td>Machine or Hammer chest press</td><td>3 (+1 opt) × 8–12</td><td class="heads">Sternal (mid) pec — supported back, full stretch</td></tr>
+      <tr><td>Incline DB or incline machine press</td><td>3 × 10–12</td><td class="heads">Clavicular (upper) pec + anterior delt</td></tr>
+      <tr><td>Weighted dip (upright) <em>or</em> decline machine press</td><td>3 × 8–12</td><td class="heads">Costal (lower) pec — lean slightly forward</td></tr>
+      <tr><td>Cable fly (mix high-to-low &amp; low-to-high wks)</td><td>3 × 12–15</td><td class="heads">Whole pec, peak contraction + stretch</td></tr>
+      <tr><td>Seated DB / machine shoulder press</td><td>3 × 8–12</td><td class="heads">Anterior + medial delt — back supported, no bar behind neck</td></tr>
+      <tr><td>Cable / DB lateral raise</td><td>4 × 12–20</td><td class="heads">Medial delt — the width driver. Lead with the elbow</td></tr>
+      <tr><td>Overhead cable / DB triceps extension</td><td>3 × 10–12</td><td class="heads">Long head of triceps — full overhead stretch</td></tr>
+      <tr><td>Rope / bar pushdown</td><td>3 × 12–15</td><td class="heads">Lateral + medial head triceps</td></tr>
+    </table>
+    <div class="cue">Lateral raises get 4 sets on purpose — the medial delt is the biggest visual win and it recovers fast. Run these as myo-reps in Block 2–3.</div>
+    <details class="recipe-toggle"><summary>Substitutions &amp; notes</summary>
+      <div class="recipe-content">
+        <div class="recipe-meta">If a machine is taken</div>
+        <ul>
+          <li>Chest press → Smith-machine flat press (feet planted, don't arch the low back off the bench) or DB press.</li>
+          <li>Shoulder press → seated Smith press to forehead, or standing landmine press (spine stays vertical — safe).</li>
+          <li>Overhead extension → skull-crusher on a bench (keep it, low spine cost) or cross-body cable.</li>
+          <li>Dips aggravating shoulders? → decline cable press or machine decline.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ============ PULL ============ -->
+<div class="day-card">
+  <div class="day-head" onclick="toggleDay(this)">
+    <span><span class="pill pill-pull">PULL</span> <span class="day-title">Tuesday — Back · Rear Delts · Biceps · Forearms</span><br><span class="day-sub">width, thickness &amp; both heads of the biceps — zero spinal load</span></span>
+  </div>
+  <div class="day-body">
+    <table>
+      <tr><th class="ex">Exercise</th><th>Sets × reps</th><th>Heads / cue</th></tr>
+      <tr><td>Wide-grip lat pulldown</td><td>3 (+1 opt) × 10–12</td><td class="heads">Lats — upper/outer, width. Drive elbows down</td></tr>
+      <tr><td>Chest-supported row (machine or incline-bench DB)</td><td>3 × 10–12</td><td class="heads">Mid-back — rhomboids, mid-traps, lats thickness. <strong>Chest pad takes the spine out of it</strong></td></tr>
+      <tr><td>Neutral-grip / close pulldown</td><td>3 × 10–12</td><td class="heads">Lower lats + teres. Different angle = fuller back</td></tr>
+      <tr><td>Seated cable row (chest tall, no torso swing)</td><td>3 × 10–12</td><td class="heads">Mid-back + lats. Brace, pull with the back not the low-back lean</td></tr>
+      <tr><td>Straight-arm cable pulldown</td><td>2 × 12–15</td><td class="heads">Lats in isolation — pure stretch-to-contract</td></tr>
+      <tr><td>Reverse pec-deck / cable rear-delt fly</td><td>3 × 15–20</td><td class="heads">Posterior delt — the head pressing &amp; lateral raises miss</td></tr>
+      <tr><td>Machine or DB shrug (upright, no bar on spine)</td><td>3 × 12–15</td><td class="heads">Upper traps — hold the top 1s</td></tr>
+      <tr><td>Incline DB curl</td><td>3 × 10–12</td><td class="heads">Long (outer) head biceps — arms behind body = stretch</td></tr>
+      <tr><td>Preacher / spider curl</td><td>3 × 10–12</td><td class="heads">Short (inner) head biceps — peak contraction</td></tr>
+      <tr><td>Hammer / rope curl</td><td>2 × 12–15</td><td class="heads">Brachialis + brachioradialis (forearm)</td></tr>
+    </table>
+    <div class="cue">Chest-supported and cable movements are chosen so your lats and mid-back get hammered while your lumbar disc does nothing. This is how you build a big back with a bad back.</div>
+    <details class="recipe-toggle"><summary>Substitutions &amp; notes</summary>
+      <div class="recipe-content">
+        <div class="recipe-meta">Options</div>
+        <ul>
+          <li>No chest-supported row machine → lie chest-down on a 30° incline bench with DBs, or use a seal row bench.</li>
+          <li>Add weighted or assisted <strong>neutral-grip pull-ups</strong> if your shoulders/back like them — great and spine-neutral.</li>
+          <li>Forearm extra: reverse cable curl or wrist curls, 2 × 15, if grip is a limiter.</li>
+          <li>Rear delts can move earlier in the session if they're a weak point — prioritise what lags.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ============ LEGS A ============ -->
+<div class="day-card">
+  <div class="day-head" onclick="toggleDay(this)">
+    <span><span class="pill pill-legA">LEGS A</span> <span class="day-title">Wednesday — Hamstrings · Glutes · Calves · Core</span><br><span class="day-sub">posterior chain via hinges that spare the disc · Reta night = keep it clean</span></span>
+  </div>
+  <div class="day-body">
+    <table>
+      <tr><th class="ex">Exercise</th><th>Sets × reps</th><th>Heads / cue</th></tr>
+      <tr><td>Seated leg curl</td><td>3 (+1 opt) × 10–12</td><td class="heads">Hamstrings — seated bias emphasises the long head. Full stretch at top</td></tr>
+      <tr><td>Lying leg curl (toes-out one set, toes-in one set)</td><td>3 × 10–12</td><td class="heads">Hamstrings — foot rotation hits inner (semi-) vs outer (biceps femoris) heads</td></tr>
+      <tr><td>45° back extension (glute-ham, <strong>hinge from hip, neutral spine</strong>)</td><td>3 × 12–15</td><td class="heads">Glute max + hamstrings — round the hip, NOT the spine. Bodyweight → hold a plate at chest</td></tr>
+      <tr><td>Machine hip thrust <em>or</em> glute-bridge machine</td><td>3 × 10–12</td><td class="heads">Glute max — squeeze hard at lockout, don't hyperextend the low back</td></tr>
+      <tr><td>Cable glute kickback</td><td>2 × 12–15 / leg</td><td class="heads">Glute max — upper fibres, contraction focus</td></tr>
+      <tr><td>Hip abduction machine (lean forward slightly)</td><td>3 × 15–20</td><td class="heads">Glute medius + minimus — the "shelf" &amp; hip stability</td></tr>
+      <tr><td>Seated calf raise</td><td>4 × 12–15</td><td class="heads">Soleus — bent knee isolates it. Slow, full stretch</td></tr>
+      <tr><td>Pallof press</td><td>2 × 10 / side</td><td class="heads">Anti-rotation core — direct disc protection</td></tr>
+      <tr><td>Dead bug (weighted opt)</td><td>2 × 8 / side</td><td class="heads">Anti-extension core</td></tr>
+    </table>
+    <div class="warn">The 45° back extension and hip thrust are your two hinge patterns — keep them at RPE 8, 1–2 reps in reserve, form immaculate. If your back feels off on a Reta-suppressed Wednesday, swap the back extension for more seated leg curl and skip the plate load.</div>
+    <details class="recipe-toggle"><summary>Substitutions &amp; notes</summary>
+      <div class="recipe-content">
+        <div class="recipe-meta">Options</div>
+        <ul>
+          <li>No hip-thrust machine → Smith-machine hip thrust (bench + pad) or DB hip thrust. Never load the bar across a rounded spine — set the bar on the hips with the back flat against the bench.</li>
+          <li>Glute-ham developer (GHD) raise if Revo has one and your hamstrings can handle it — excellent, spine-neutral.</li>
+          <li>RDL only if you can keep a <em>perfectly neutral</em> spine with light DBs — otherwise the 45° extension replaces it entirely. When unsure, don't.</li>
+          <li>Standing calf work here → use the machine with shoulder pads (load through the shoulders/hips, not a bar on the spine) or leg-press calf press.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ============ UPPER ============ -->
+<div class="day-card">
+  <div class="day-head" onclick="toggleDay(this)">
+    <span><span class="pill pill-upper">UPPER</span> <span class="day-title">Friday — Weak-Point Upper &amp; Pump</span><br><span class="day-sub">second hit on chest/back/delts/arms — bias whatever's lagging</span></span>
+  </div>
+  <div class="day-body">
+    <table>
+      <tr><th class="ex">Exercise</th><th>Sets × reps</th><th>Heads / cue</th></tr>
+      <tr><td>Incline machine / DB press</td><td>3 × 10–12</td><td class="heads">Upper pec + anterior delt (upper chest usually lags — lead with it)</td></tr>
+      <tr><td>Chest-supported row (different grip than Tue)</td><td>3 × 10–12</td><td class="heads">Mid-back thickness, second weekly hit</td></tr>
+      <tr><td>Pec deck</td><td>3 × 12–15</td><td class="heads">Sternal pec — pure contraction, safe stretch</td></tr>
+      <tr><td>Lat pulldown (grip you didn't use Tue)</td><td>3 × 10–12</td><td class="heads">Lats — second weekly hit, new angle</td></tr>
+      <tr><td>Lateral raise (cable one arm, or lean-away)</td><td>4 × 12–20</td><td class="heads">Medial delt — high frequency for width</td></tr>
+      <tr><td>Face pull / reverse fly</td><td>3 × 15–20</td><td class="heads">Rear delt + external rotators — shoulder health</td></tr>
+      <tr><td>Superset: cable curl + rope pushdown</td><td>3 × 12–15 each</td><td class="heads">Biceps (both heads) + triceps (lateral/medial) — arm pump to finish</td></tr>
+      <tr><td>Overhead rope extension</td><td>2 × 12–15</td><td class="heads">Triceps long head — second weekly stretch hit</td></tr>
+    </table>
+    <div class="cue">Friday is the "even things up" day — spend the extra sets on whatever's behind (upper chest, rear delts, arms, side delts). This is where intensity techniques earn their keep in Block 2–3.</div>
+    <details class="recipe-toggle"><summary>How to bias a weak point</summary>
+      <div class="recipe-content">
+        <div class="recipe-meta">Pick ONE focus for the block</div>
+        <ul>
+          <li><strong>Shoulders/width:</strong> make it lateral raises × 5–6 sets across the session, add an upright cable row.</li>
+          <li><strong>Arms:</strong> add a second biceps + triceps superset, run drop sets on the last set.</li>
+          <li><strong>Upper chest:</strong> start with two incline variations, add a low-to-high cable fly.</li>
+          <li><strong>Back detail:</strong> add straight-arm pulldown + a second rear-delt movement.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ============ LEGS B ============ -->
+<div class="day-card">
+  <div class="day-head" onclick="toggleDay(this)">
+    <span><span class="pill pill-legB">LEGS B</span> <span class="day-title">Saturday — Quads · Glutes · Calves · Core</span><br><span class="day-sub">your best-fuelled day — push hardest here · all four quad heads</span></span>
+  </div>
+  <div class="day-body">
+    <table>
+      <tr><th class="ex">Exercise</th><th>Sets × reps</th><th>Heads / cue</th></tr>
+      <tr><td>Leg press (feet mid, shoulder-width)</td><td>4 × 10–12</td><td class="heads">Whole quad + glute. <strong>Stop before your pelvis tucks/rounds at the bottom</strong> — that depth is the disc's limit</td></tr>
+      <tr><td>Hack squat <em>or</em> pendulum squat (controlled depth)</td><td>3 × 10–12</td><td class="heads">Quads — vastus lateralis/medialis/intermedius. Back stays flat on the pad</td></tr>
+      <tr><td>Bulgarian split squat (DBs, hand on rack for balance)</td><td>3 × 10–12 / leg</td><td class="heads">Quad + glute, unilateral — torso upright, minimal spinal load</td></tr>
+      <tr><td>Leg extension (toes-neutral; one set toes-out for VMO)</td><td>4 × 12–15</td><td class="heads">All four quad heads incl. rectus femoris + VMO teardrop</td></tr>
+      <tr><td>Walking lunge (light DBs) <em>or</em> reverse lunge</td><td>2 × 12 / leg</td><td class="heads">Quad + glute, contraction &amp; stretch under load</td></tr>
+      <tr><td>Standing calf (shoulder-pad machine) — toes straight/in/out across sets</td><td>4 × 12–15</td><td class="heads">Gastrocnemius — both heads via toe angle. Pause the stretch 1s</td></tr>
+      <tr><td>Cable / captain's-chair knee raise (no swinging)</td><td>3 × 12–15</td><td class="heads">Lower abs — controlled, no lumbar snapping</td></tr>
+      <tr><td>Side plank + bird dog (Big 3 top-up)</td><td>2 rounds</td><td class="heads">Lateral core + spinal stability to finish</td></tr>
+    </table>
+    <div class="warn">Leg press depth is your single biggest disc risk. Set the range so your lower back <em>never</em> peels off the pad. A slightly shorter ROM you keep forever beats a deep rep that flares you for a week. Film it once and check.</div>
+    <details class="recipe-toggle"><summary>Substitutions &amp; notes</summary>
+      <div class="recipe-content">
+        <div class="recipe-meta">Options</div>
+        <ul>
+          <li>No pendulum/hack → belt squat (superb, decompresses the spine — use it if Revo has one) or Smith-machine squat with feet forward, back tall.</li>
+          <li>Split squat too taxing on a low-fuel week → machine leg press single-leg, or more leg extension volume.</li>
+          <li>Seated leg curl 2 sets here too if you want extra weekly hamstring volume — it's fine to double up.</li>
+          <li>Belt squat + leg press + hack gives you a full quad day with literally zero load on the spine — the ideal Revo setup if the belt-squat is free.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</div>
+
+<h3>Autoregulation — the low-fuel-day rule</h3>
+<div class="callout">
+On Reta-suppressed days when you feel flat, don't grind or skip. Instead:
+<ul style="margin-top:6px;">
+<li><strong>Keep</strong> the first 2 exercises of the day at full effort.</li>
+<li><strong>Cut</strong> the last set of every remaining exercise (run the "base" count, skip all "opt" sets).</li>
+<li><strong>Never</strong> compromise the hinge or split-squat form to hit a number — those are the drop-first movements.</li>
+</ul>
+A slightly shorter session done well beats a full session done fatigued and sloppy — especially with a disc to protect.
+</div>
+</section>
+<section id="cardio">
+<h2>6. Cardio &amp; conditioning</h2>
+
+<div class="callout callout-red">
+This is prescribed, not optional. Your <strong>LDL 3.9</strong> + TRT + Mast puts cardiovascular health on the priority list (see the meal plan — ApoB/Lp(a) pending). Zone-2 work improves lipid handling, mitochondrial density and recovery, and the walking doubles as the gut-motility tool the meal plan already asks for (post-meal walks stimulate the migrating motor complex).
+</div>
+
+<table>
+<tr><th>Type</th><th>When</th><th>Dose</th><th>Why</th></tr>
+<tr><td><strong>Zone 2</strong> (incline walk / bike / cross-trainer)</td><td>Thu + Sun (rest days)</td><td>30–60 min, nose-breathing pace, can hold a conversation</td><td>Lipids, cardiac health, recovery, low joint/spine cost</td></tr>
+<tr><td><strong>Post-meal walks</strong></td><td>Daily, after main meals</td><td>10–15 min easy</td><td>Motility (MMC), glucose disposal — straight from the meal plan</td></tr>
+<tr><td><strong>Daily steps</strong></td><td>Every day</td><td>Target 8–10k</td><td>NEAT — the quiet engine of recomp</td></tr>
+<tr><td><strong>Optional finisher</strong></td><td>1×/wk, only if recovering well</td><td>6–8 × 20s hard / 90s easy on bike or ski-erg</td><td>VO₂ + conditioning. <em>Bike/erg only — no spine-loaded intervals</em></td></tr>
+</table>
+
+<div class="cue"><strong>Zone-2 heart-rate guide:</strong> roughly 180 − age, or simply the pace where you could nose-breathe and still talk. Incline treadmill walking is ideal here — it's spine-friendly, and the gentle load is good for you. Skip running if your disc doesn't love the impact; the bike and cross-trainer give the same aerobic return with none of the jarring.</div>
+
+<div class="warn">Don't add hard intervals on top of a hypertrophy block if sleep or the gut markers are sliding — cardio is there to <em>support</em> the lifting and your heart, not compete with recovery. Zone 2 first; intervals only when you're genuinely fresh.</div>
+</section>
+
+<section id="track">
+<h2>7. Track it</h2>
+
+<p>These mirror the meal plan's weekly tracking so both files feed the same picture. The point isn't to log everything — it's to catch the trend and to have real numbers for your next bloods and program review.</p>
+
+<h3>Log every session (tap to tick — saves on this device)</h3>
+<div class="week-block" data-week="wk">
+  <div class="week-header">
+    <h3>This week</h3>
+    <button class="reset-btn" onclick="resetWeek('wk')">Reset</button>
+  </div>
+  <div class="progress" id="prog-wk">0 of 7 items</div>
+  <ul class="log-list">
+    <li><input type="checkbox" id="tp_mon"><label for="tp_mon">Mon — Push</label></li>
+    <li><input type="checkbox" id="tp_tue"><label for="tp_tue">Tue — Pull</label></li>
+    <li><input type="checkbox" id="tp_wed"><label for="tp_wed">Wed — Legs A (ham/glute)</label></li>
+    <li><input type="checkbox" id="tp_thu"><label for="tp_thu">Thu — Zone 2 cardio</label></li>
+    <li><input type="checkbox" id="tp_fri"><label for="tp_fri">Fri — Upper</label></li>
+    <li><input type="checkbox" id="tp_sat"><label for="tp_sat">Sat — Legs B (quad)</label></li>
+    <li><input type="checkbox" id="tp_sun"><label for="tp_sun">Sun — Zone 2 walk</label></li>
+  </ul>
+</div>
+
+<h3>Weekly metrics</h3>
+<table>
+<tr><th>Metric</th><th>When</th><th>What good looks like</th></tr>
+<tr><td>Bodyweight (fasted)</td><td>Sat AM</td><td>Recomp: roughly stable. Growth: +0.2–0.35kg/wk</td></tr>
+<tr><td>Waist at navel</td><td>Sat AM</td><td>Flat or shrinking even as weight holds = recomp working</td></tr>
+<tr><td>Top set on 2–3 key lifts</td><td>Every session for those lifts</td><td>Reps or load creeping up block to block</td></tr>
+<tr><td>Low-back status (0–10)</td><td>Daily</td><td>Stable/improving. A creeping ache = pull hinge volume, revisit form</td></tr>
+<tr><td>Sleep quality (1–10)</td><td>Daily</td><td>≥7. Dropping = you're overreaching, deload sooner</td></tr>
+<tr><td>Session energy on Reta days</td><td>Mon/Tue/Thu/Fri</td><td>Note it — informs when to autoregulate</td></tr>
+</table>
+
+<div class="callout">
+<strong>Key lifts to track for the "top-set" metric:</strong> Leg press, Chest-supported row, Machine chest press, and Lateral raise load. Pick these four, write the best set (load × reps) each week. By week 12 the trend across these is your objective proof the program worked.
+</div>
+
+<h3>Milestones</h3>
+<ul>
+<li><strong>Week 4:</strong> machines dialled, brace automatic, back stable — ready to add volume.</li>
+<li><strong>Week 8:</strong> visibly fuller (delts/back), top sets up ~1 rep or a load notch across the board.</li>
+<li><strong>Week 12:</strong> deload + retest, progress photos, book bloods (cystatin C eGFR, ApoB/Lp(a), Hct), decide recomp vs growth for the next 12.</li>
+</ul>
+</section>
+
+<section id="caveats">
+<h2>8. Caveats</h2>
+
+<div class="callout callout-red">
+<strong>Not medical advice.</strong> This is a training template built around the constraints you gave — an L5/S1 disc, Revo Charlestown's equipment, and full muscular coverage. Clear it with your physio or doctor before starting, especially given the disc and the peptide/hormone stack. If you have current imaging or a physio's loading guidance, <em>their</em> limits override anything here.
+</div>
+
+<ul>
+<li><strong>Disc flare protocol:</strong> if the back flares, don't push through. Drop to McGill Big 3 + walking + upper-body machines that don't involve the low back (seated chest press, pulldown, curls, pushdowns) until it settles, then rebuild the leg days from lighter loads. A flare is a detour, not a reset to zero.</li>
+<li><strong>Radicular symptoms</strong> (leg pain, numbness, foot tingling, any bladder/bowel change) → stop, see a doctor. Repeated from section 2 because it matters most.</li>
+<li><strong>The growth surplus waits for your kidneys.</strong> Don't start the +2,800 kcal growth phase until the cystatin C eGFR result confirms your kidney function (meal plan, bloodwork #1). Train the same either way; just don't bulk on an unconfirmed eGFR.</li>
+<li><strong>Hct on TRT:</strong> your 0.49 is upper-normal. Hard training + TRT can nudge it — the meal plan's 3-monthly FBC covers this. Stay well hydrated (within the plan's CKD-aware water targets).</li>
+<li><strong>Deload if:</strong> sleep drops two weeks running, joints ache persistently, top sets fall, or motivation tanks. An early deload costs you nothing; an injury costs the block.</li>
+<li><strong>Equipment gaps:</strong> if Revo lacks a specific machine, use the substitutions in each day's drop-down. The principle — spine-neutral or decompressive, all heads covered — is what to preserve, not the exact machine.</li>
+</ul>
+
+<div class="callout">
+<strong>Companion file:</strong> nutrition, supplement timing (pre/post-gym whey + colostrum), and the bloodwork roadmap live in <strong>Meal-Plan.html</strong>. Run the two together — the training builds the stimulus, the meal plan feeds it and manages the gut, kidney and lipid findings.
+</div>
+</section>
+
+</main>
+
+<script>
+function saveCheck(box) {
+  localStorage.setItem('tp_store_' + box.id, box.checked ? '1' : '0');
+  box.closest('li').classList.toggle('checked', box.checked);
+  updateProgress();
+}
+function loadChecks() {
+  document.querySelectorAll('.log-list input[type="checkbox"]').forEach(box => {
+    if (localStorage.getItem('tp_store_' + box.id) === '1') {
+      box.checked = true;
+      box.closest('li').classList.add('checked');
+    }
+    box.addEventListener('change', () => saveCheck(box));
+    box.closest('li').addEventListener('click', e => {
+      if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+        box.checked = !box.checked;
+        saveCheck(box);
+      }
+    });
+  });
+  updateProgress();
+}
+function updateProgress() {
+  document.querySelectorAll('.week-block').forEach(block => {
+    const wk = block.dataset.week;
+    const boxes = block.querySelectorAll('input[type="checkbox"]');
+    const checked = block.querySelectorAll('input[type="checkbox"]:checked');
+    const el = document.getElementById('prog-' + wk);
+    if (el) el.textContent = `${checked.length} of ${boxes.length} items`;
+  });
+}
+function resetWeek(wk) {
+  if (!confirm('Reset all ticks for this week?')) return;
+  document.querySelectorAll(`[data-week="${wk}"] input[type="checkbox"]`).forEach(box => {
+    box.checked = false;
+    localStorage.removeItem('tp_store_' + box.id);
+    box.closest('li').classList.remove('checked');
+  });
+  updateProgress();
+}
+function toggleCol(header) {
+  header.parentElement.classList.toggle('open');
+}
+function toggleDay(header) {
+  header.parentElement.classList.toggle('open');
+}
+document.addEventListener('DOMContentLoaded', loadChecks);
+</script>
+
+</body>
+</html>
