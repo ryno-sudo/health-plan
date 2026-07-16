@@ -39,7 +39,7 @@ This is a single-user app for a specific, complex protocol. Hard-code these as t
 ## 3. Feature modules (MVP scope in bold)
 
 1. **Today view** — the home screen: meals, doses/injections, session, "running low" chips.
-2. **Meal Plan** — 4-week phased schedule, macro scenarios, AVOID list, per-meal recipes.
+2. **Meal Plan** — 4-week phased schedule, macro scenarios, **low-histamine mode**, AVOID list, per-meal recipes.
 3. **Recipe engine** — TM7 + slow cooker, scalable, batch-prep aware.
 4. **Supps & Peptides scheduler** — the hard part: escalation, cycling, inventory, reorder.
 5. **Training program** — the 5:30am split (§6), logging, progressive overload.
@@ -54,7 +54,7 @@ This is a single-user app for a specific, complex protocol. Hard-code these as t
 Keep it local-first. This is health data for one person — **no cloud account required**. SQLite (or IndexedDB via a wrapper) on-device; optional encrypted export.
 
 ```
-Protocol            one active protocol, holds goal-mode + proteinScenario flag
+Protocol            one active protocol, holds goal-mode + proteinScenario + lowHistamineMode flags
 Item                supp | peptide | medication  (see fields below)
 DoseSchedule        per Item: amount, unit, route, timing, day-pattern, with-food
 DoseEvent           a logged take/injection (timestamp, amount, site, skipped?)
@@ -62,11 +62,12 @@ EscalationRule      per Item: "after N weeks at dose X → suggest dose Y (confi
 Cycle               per Item: onWeeks / offWeeks (e.g. Allicin 2 on / 2 off)
 Inventory           per Item: qtyOnHand, unitSize, reorderThreshold, vendor, url, leadTimeDays
 Meal                slot (breakfast/lunch/dinner/snack), phase-week, macros, recipeId
-Recipe              method (TM7 | slowcooker | stovetop), steps[], scaleFactor, batchYield
+Recipe              method (TM7 | slowcooker | stovetop), steps[], scaleFactor, batchYield,
+                    histamineLevel(low|moderate|high), histamineReason, lowHistamineVariantId?
 TrainingDay         A | B | C, exercises[]
 Exercise            name, sets, repRange, load, substitution (L5/S1-safe), muscleTargets[]
 SetLog              per exercise per session: weight, reps, rpe, date
-Metric             bodyweight, waist, bloating(1-10), sleep(1-10), transit, sickDays
+Metric             bodyweight, waist, bloating(1-10), sleep(1-10), transit, sickDays, focus(1-10)
 LabMarker           name, lastValue, lastDate, retestIntervalWeeks, priority
 ```
 
@@ -184,16 +185,57 @@ Built for **3–4 mornings/week, ~50 min, L5/S1-safe, all muscle heads hit**. A 
 - **4-week phased schedule:** Wk1 strict gut reset → Wk2 reintroduce variety (onion/garlic back in *cooked*) → Wk3–4 full variety.
 - **Two macro scenarios** (kidney-gated): normal-protein ~200g/day vs CKD-protein 110–130g/day. One toggle flips every meal's portions and the shopping list.
 - **Goal-mode toggle:** Lean (Reta on) vs Growth (Reta paused, +300–400 kcal → ~2,800 kcal).
+- **Low-Histamine mode toggle** (new — see §7.2): filters/swaps every meal to a low-histamine version and changes the batch-prep strategy.
 - **AVOID list surfaced contextually** (methanogen/gas triggers) — show it on any recipe that would otherwise tempt a swap.
 - **Reta-day eating pattern** shown on Sun/Wed automatically.
 
-### 7.2 Recipe engine — TM7 + slow cooker
+**How the toggles compose:** macro scenario, goal mode, and low-histamine are independent switches that all apply at once. A meal is only shown if it satisfies every active constraint; where the plan's default meal fails one (e.g. a fermented/aged item under low-histamine), the app shows the tagged swap instead of hiding the slot.
+
+### 7.2 Low-Histamine mode
+
+**Why it's relevant to you specifically:** histamine is cleared in the gut largely by the **DAO enzyme**, which is produced by the intestinal lining. Your picture — methanogen overgrowth, low sIgA, compromised mucosa — is exactly the kind that lowers DAO and lets dietary histamine accumulate. So a low-histamine trial isn't a fad here; it's a reasonable n=1 experiment layered on the gut work you're already doing. (The ADHD-trait question is addressed honestly in §7.3.)
+
+**What the mode does:**
+- Tags every `Recipe` and ingredient with `histamineLevel: low | moderate | high` plus a `histamineReason` (aged, fermented, leftover, histamine-liberator, biogenic-amine).
+- When ON, it **hides high/moderate items and surfaces the low-histamine swap** for each meal slot.
+- Shows a persistent note on the few protocol items that *conflict* with low-histamine, so you can decide with your prescriber rather than the app silently dropping them.
+
+**Foods this flags OUT (high-histamine or liberators) — several already in your plan:**
+- **Aged / cured / smoked:** smoked salmon, biltong, deli meats, aged cheese *(already flagged in the plan's tolerance notes — reuse those flags)*.
+- **Fermented:** Greek yoghurt, kombucha, sauerkraut, vinegar, soy/tamari, miso.
+- **Leftovers of cooked protein** — histamine builds as cooked meat/fish sits. **This changes your batch-prep model** (see below).
+- **Bone broth** — long-simmered = high histamine/glutamate *(already flagged)*.
+- **Liberators (not high-histamine themselves but trigger release):** tomato, spinach, avocado, citrus, strawberries, chocolate, shellfish.
+- **Pomegranate juice** stays borderline — keep the extract-capsule swap already noted.
+
+**Low-histamine swaps the app should ship:**
+- Protein: **fresh (or flash-frozen-at-sea) meat/fish cooked and eaten same day**; freeze extra portions *immediately* rather than fridge-storing 4 days.
+- Dairy: swap Greek yoghurt → fresh ricotta/cottage-style or a casein/collagen shake (collagen is low-histamine).
+- Broth: swap long bone broth → **fresh, short-cook meat stock (≤2 hr)** or plain L-glutamine in water (the plan's existing bone-broth alternative).
+- Veg: cucumber, zucchini, carrot, pumpkin, broccoli, leafy greens *other than* spinach.
+- Tamari → salt + fresh herbs; vinegar dressings → fresh lemon replaced with EVOO + salt (note: citrus is a mild liberator — test tolerance).
+
+**Batch-prep change (important):** your current model (cook Sunday, eat leftovers 4 days) is the single biggest histamine load in the plan. Under low-histamine mode the **Sunday Prep screen switches from "cook-and-refrigerate" to "portion-and-freeze-immediately + thaw-same-day"**, and the slow-cooker recipes get a "freeze in single portions the moment it's done" note instead of "keeps 4 days in fridge."
+
+**Optional supp support (prescriber-gated, as an `Item`):** **DAO enzyme** before higher-histamine meals, plus vitamin C and B6 as DAO cofactors (watch the existing B6-doubling flag). Add as suggestions, never auto-added.
+
+### 7.3 On the histamine ↔ ADHD-traits claim (honest framing)
+
+Worth being straight with you, because the app shouldn't sell a false promise:
+
+- Histamine **is** a genuine brain neurotransmitter, and the H3 receptor is a real, validated ADHD-adjacent drug target (e.g. pitolisant). So the *idea* that histamine signalling touches attention/arousal isn't crank science.
+- **But "high histamine = ADHD" is not established.** ADHD is a neurodevelopmental condition; histamine intolerance is a peripheral/dietary issue. What overlaps is **symptoms** — brain fog, restlessness, poor sleep, irritability, anxiety — which many things (poor sleep, blood sugar, gut inflammation, stress) also produce. Overlap in symptoms is not the same as shared cause, and a low-histamine diet is **not** a treatment for ADHD.
+- The honest, useful move: treat it as a **self-experiment**. Run low-histamine mode for 3–4 weeks and let your own data decide — which is why §8 adds focus/brain-fog tracking. If your focus genuinely improves alongside the gut markers, that's real signal *for you*, regardless of the label. If it doesn't, you've lost nothing.
+- If attention is a real, persistent concern, that's a conversation for a GP/psychologist — the app organises an experiment, it doesn't diagnose.
+
+### 7.4 Recipe engine — TM7 + slow cooker
 Each `Recipe` carries a `method` and renders method-specific steps. Seed with the existing slow-cooker recipes (beef & root-veg stew, slow lamb shoulder) and **add TM7 versions**.
 
 - **TM7 recipes** store structured steps: `{ time, temp, speed, action }` so each step reads like a Thermomix guided step (e.g. *"Sauté onion — 3 min / 120°C / speed 1"*). Include TM7-native builds of plan meals: bone broth, pumpkin/carrot soups, sauces, protein-rich risottos, hummus-free dips (oxalate-aware), sorbets for the yoghurt swap.
 - **Slow-cooker recipes** store `{ setting(low|high), hours }` + the "set it Sunday morning" batch note.
 - **Both methods scale** by portion count and are **batch-prep aware** (the plan assumes ~90 min Sunday prep + one 45-min weeknight). A "Sunday Prep" screen aggregates every batch task for the week (slow-cook lamb Sat night, cook 4–6 cups rice, roast veg tray, 6 hard-boiled eggs) into one checklist.
 - **Tolerance flags** carried onto recipes: bone broth (histamine/glutamate), pomegranate juice (fructose), yoghurt (bloating), oxalate caution.
+- **Histamine tag** on every recipe (`histamineLevel` + `histamineReason`) so Low-Histamine mode (§7.2) can filter and swap. Each high/moderate recipe should carry a low-histamine variant where one exists (e.g. short-cook meat stock in place of long bone broth; freeze-immediately note in place of "keeps 4 days").
 
 **Recipe acceptance test:** pick any plan meal → app offers a TM7 route *and* a slow-cooker/stovetop route where sensible, scaled to the chosen portions, with the correct tolerance flags shown.
 
@@ -201,8 +243,8 @@ Each `Recipe` carries a `method` and renders method-specific steps. Seed with th
 
 ## 8. Progress & bloodwork
 
-- **Weekly log (Sat fasted):** bodyweight, waist@navel, bowel transit, bloating 1–10, sleep 1–10, sick-days count (sIgA proxy), top-set lifts.
-- **Charts:** each metric over time; overlay protocol changes (dose escalations, cycle on/off, Reta pause) as vertical markers so cause/effect is visible.
+- **Weekly log (Sat fasted):** bodyweight, waist@navel, bowel transit, bloating 1–10, sleep 1–10, sick-days count (sIgA proxy), **focus/brain-fog 1–10** (tests the low-histamine → attention hypothesis, §7.3), top-set lifts.
+- **Charts:** each metric over time; overlay protocol changes (dose escalations, cycle on/off, Reta pause, **low-histamine mode on/off**) as vertical markers so cause/effect is visible — the focus line against the low-histamine marker is the n=1 read-out on the ADHD-traits question.
 - **Bloodwork milestones** as scheduled reminders in priority order: (1) cystatin C eGFR + urine ACR — gates the protein scenario; (2) HFE screen + iron studies — gates liver frequency; (3) ApoB + Lp(a); (4) FBC/Hct q3mo on TRT; (5) HbA1c; (6) PSA quarterly; (7) repeat gut-mapping at 12 wk.
 - Confirming a lab result can **auto-flip a plan setting** (e.g. cystatin C confirms kidney OK → switch protein scenario back to 200g and restore creatine 10g, *with a confirm step*).
 
@@ -231,7 +273,7 @@ Scaffold PWA, data model (§4), migrate current HTML content in, Dexie/SQLite la
 **Phase 1 — MVP (2–3 wk)** — the four "5am questions"
 - Today view (meals + doses + session + low-stock chips)
 - Supps/peptides daily+weekly scheduling incl. Wed-night ordered sequence + site rotation
-- Meal plan with 4-week phases + macro/goal toggles
+- Meal plan with 4-week phases + macro/goal/low-histamine toggles
 - Training module: A/B/C days (§6) + set logging + last-session numbers + double-progression prompt
 - Weekly progress log
 
@@ -270,4 +312,5 @@ Multi-device sync (opt-in), wearable import (sleep/HR), prescriber-shareable PDF
 3. Exact current peptide doses to seed `currentDose` (kept out of this file deliberately — enter in-app).
 4. Which plan meals you most want TM7 versions of first (soups/broth/sauces are the highest-value TM7 wins).
 5. 3-day vs 4-day training default week, and preferred deload cadence.
+6. Whether to start with Low-Histamine mode ON for a 3–4 week n=1 trial (tracking the focus metric), or default OFF and turn it on later — and whether to seed a DAO enzyme as a prescriber-gated `Item`.
 ```
