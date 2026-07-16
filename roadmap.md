@@ -54,7 +54,7 @@ This is a single-user app for a specific, complex protocol. Hard-code these as t
 Keep it local-first. This is health data for one person — **no cloud account required**. SQLite (or IndexedDB via a wrapper) on-device; optional encrypted export.
 
 ```
-Protocol            one active protocol, holds goal-mode + proteinScenario + lowHistamineMode flags
+Protocol            one active protocol, holds goal-mode + proteinScenario + histamineMode(off|low|strict) flags
 Item                supp | peptide | medication  (see fields below)
 DoseSchedule        per Item: amount, unit, route, timing, day-pattern, with-food
 DoseEvent           a logged take/injection (timestamp, amount, site, skipped?)
@@ -63,7 +63,8 @@ Cycle               per Item: onWeeks / offWeeks (e.g. Allicin 2 on / 2 off)
 Inventory           per Item: qtyOnHand, unitSize, reorderThreshold, vendor, url, leadTimeDays
 Meal                slot (breakfast/lunch/dinner/snack), phase-week, macros, recipeId
 Recipe              method (TM7 | slowcooker | stovetop), steps[], scaleFactor, batchYield,
-                    histamineLevel(low|moderate|high), histamineReason, lowHistamineVariantId?
+                    histamineLevel(low|moderate|high), histamineReason, tierSafe[](low|strict),
+                    lowHistamineVariantId?
 TrainingDay         A | B | C, exercises[]
 Exercise            name, sets, repRange, load, substitution (L5/S1-safe), muscleTargets[]
 SetLog              per exercise per session: weight, reps, rpe, date
@@ -195,10 +196,16 @@ Built for **3–4 mornings/week, ~50 min, L5/S1-safe, all muscle heads hit**. A 
 
 **Why it's relevant to you specifically:** histamine is cleared in the gut largely by the **DAO enzyme**, which is produced by the intestinal lining. Your picture — methanogen overgrowth, low sIgA, compromised mucosa — is exactly the kind that lowers DAO and lets dietary histamine accumulate. So a low-histamine trial isn't a fad here; it's a reasonable n=1 experiment layered on the gut work you're already doing. (The ADHD-trait question is addressed honestly in §7.3.)
 
+**Two tiers (there is no true "zero-histamine"):** the toggle is not on/off but three-state — `off | low | strict`.
+- **LOW** — everyday: fresh protein cooked same day, freeze extras immediately, one reheat-from-frozen OK, no aged/fermented/cured/smoked, no liberators (spinach/tomato/avocado/citrus).
+- **STRICT (very-low, "closest to none")** — a 2–4 week elimination window: LOW plus eat-within-the-hour, no reheating, no leftovers, no long stock, no citrus, peel veg, salt + fresh herbs only.
+- All food carries trace histamine and gut flora make it regardless of diet, so STRICT is the practical floor — the app should label it "very-low," never "zero."
+
 **What the mode does:**
-- Tags every `Recipe` and ingredient with `histamineLevel: low | moderate | high` plus a `histamineReason` (aged, fermented, leftover, histamine-liberator, biogenic-amine).
-- When ON, it **hides high/moderate items and surfaces the low-histamine swap** for each meal slot.
+- Tags every `Recipe` and ingredient with `histamineLevel: low | moderate | high` plus a `histamineReason` (aged, fermented, leftover, histamine-liberator, biogenic-amine), and a `tierSafe: [low, strict]` list.
+- When set to LOW it hides high/moderate items and surfaces the low swap; when set to STRICT it further hides anything not `strict`-safe (reheated leftovers, long stock, citrus).
 - Shows a persistent note on the few protocol items that *conflict* with low-histamine, so you can decide with your prescriber rather than the app silently dropping them.
+- **Recipes live in `Low-Histamine-Recipes.md`** — TM7 (structured time/temp/speed) + slow-cooker swaps, the freeze-portioning protocol (Protocol 0), and a plan-default→swap table. Seed the recipe engine from that file.
 
 **Foods this flags OUT (high-histamine or liberators) — several already in your plan:**
 - **Aged / cured / smoked:** smoked salmon, biltong, deli meats, aged cheese *(already flagged in the plan's tolerance notes — reuse those flags)*.
