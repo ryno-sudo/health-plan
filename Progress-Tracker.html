@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a4d3a">
+<title>Progress Tracker</title>
+<style>
+  :root { --fs: 18px; --green:#1a4d3a; --green2:#2a6b54; --bg:#f4f6f5; --card:#fff; --line:#dce3e0; --ink:#1c2622; --muted:#5c6b64; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: var(--fs); line-height: 1.5; color: var(--ink); background: var(--bg);
+    margin: 0; padding: 0 0 90px;
+  }
+  header {
+    background: var(--green); color: #fff; padding: 16px 16px 14px; position: sticky; top: 0; z-index: 20;
+  }
+  header h1 { margin: 0; font-size: 1.35em; font-weight: 700; }
+  header .sub { font-size: 0.85em; opacity: .9; margin-top: 2px; }
+  .fontctl { position: absolute; top: 14px; right: 14px; display: flex; gap: 6px; }
+  .fontctl button {
+    width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.5); background: rgba(255,255,255,.12);
+    color: #fff; border-radius: 10px; font-size: 18px; font-weight: 700;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 16px; }
+  .card h2 { margin: 0 0 12px; font-size: 1.15em; color: var(--green); }
+  label { display: block; font-weight: 600; margin: 12px 0 5px; font-size: 0.95em; }
+  label .hint { font-weight: 400; color: var(--muted); font-size: 0.85em; }
+  input, select, textarea {
+    width: 100%; font-size: 1em; font-family: inherit; padding: 13px 12px;
+    border: 1.5px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink);
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green2); }
+  input[type=number] { -moz-appearance: textfield; }
+  .row { display: flex; gap: 10px; }
+  .row > div { flex: 1; }
+  .btn {
+    display: block; width: 100%; margin-top: 16px; padding: 15px; font-size: 1.05em; font-weight: 700;
+    background: var(--green); color: #fff; border: none; border-radius: 12px;
+  }
+  .btn:active { background: var(--green2); }
+  .btn.secondary { background: #fff; color: var(--green); border: 1.5px solid var(--green); }
+  .saved { color: var(--green2); font-weight: 700; text-align: center; margin-top: 10px; min-height: 1.2em; }
+  /* tab bar */
+  nav.tabs {
+    position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: #fff;
+    border-top: 1px solid var(--line); z-index: 30;
+  }
+  nav.tabs button {
+    flex: 1; padding: 12px 4px 10px; background: none; border: none; color: var(--muted);
+    font-size: 0.8em; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  }
+  nav.tabs button .ic { font-size: 1.5em; line-height: 1; }
+  nav.tabs button.active { color: var(--green); }
+  .tabpage { display: none; }
+  .tabpage.active { display: block; }
+  /* lift exercise rows */
+  .ex { border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+  .ex .name { font-weight: 700; font-size: 1.02em; }
+  .ex .target { color: var(--muted); font-size: 0.85em; margin-top: 2px; }
+  .ex .last { font-size: 0.85em; margin-top: 6px; padding: 6px 10px; background: #eef4f1; border-radius: 8px; color: var(--green2); font-weight: 600; }
+  .ex .last.beat { background: #fff6e6; color: #8a5a00; }
+  .ex .inputs { display: flex; gap: 10px; margin-top: 10px; }
+  .ex .inputs > div { flex: 1; }
+  .ex .inputs label { margin: 0 0 4px; font-size: 0.82em; }
+  /* history */
+  table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+  th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--green); font-size: 0.85em; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .spark { width: 100%; height: 70px; margin-top: 8px; }
+  .muted { color: var(--muted); font-size: 0.9em; }
+  .del { color: #b03030; background: none; border: none; font-size: 0.9em; font-weight: 600; padding: 4px; }
+  .pill { display:inline-block; background:#eef4f1; color:var(--green2); font-size:0.8em; font-weight:700; padding:3px 9px; border-radius:20px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Progress Tracker</h1>
+  <div class="sub">Weight · lifts · metrics — saved on this device</div>
+  <div class="fontctl">
+    <button onclick="bumpFont(-1)" aria-label="Smaller font">A−</button>
+    <button onclick="bumpFont(1)" aria-label="Larger font">A+</button>
+  </div>
+</header>
+
+<main>
+  <!-- ===== BODY & METRICS ===== -->
+  <section id="tab-body" class="tabpage active">
+    <div class="card">
+      <h2>Log today's numbers</h2>
+      <label>Date</label>
+      <input type="date" id="m-date">
+      <div class="row">
+        <div>
+          <label>Bodyweight <span class="hint">kg</span></label>
+          <input type="number" id="m-weight" inputmode="decimal" step="0.1" placeholder="e.g. 92.4">
+        </div>
+        <div>
+          <label>Waist <span class="hint">cm, navel</span></label>
+          <input type="number" id="m-waist" inputmode="decimal" step="0.1" placeholder="e.g. 88">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Bloating <span class="hint">1–10</span></label>
+          <input type="number" id="m-bloat" inputmode="numeric" min="1" max="10" placeholder="1–10">
+        </div>
+        <div>
+          <label>Sleep <span class="hint">1–10</span></label>
+          <input type="number" id="m-sleep" inputmode="numeric" min="1" max="10" placeholder="1–10">
+        </div>
+        <div>
+          <label>Focus <span class="hint">1–10</span></label>
+          <input type="number" id="m-focus" inputmode="numeric" min="1" max="10" placeholder="1–10">
+        </div>
+      </div>
+      <label>Bowel transit</label>
+      <select id="m-transit">
+        <option value="">—</option>
+        <option>Daily, formed ✓</option>
+        <option>Loose</option>
+        <option>Constipated</option>
+        <option>None today</option>
+      </select>
+      <label>Note <span class="hint">optional — e.g. meals fresh vs reheated</span></label>
+      <textarea id="m-note" rows="2" placeholder="Anything worth remembering"></textarea>
+      <button class="btn" onclick="saveMetric()">Save today</button>
+      <div class="saved" id="m-saved"></div>
+    </div>
+
+    <div class="card">
+      <h2>Bodyweight trend</h2>
+      <svg class="spark" id="spark" viewBox="0 0 320 70" preserveAspectRatio="none"></svg>
+      <div class="muted" id="spark-lbl">No entries yet.</div>
+    </div>
+
+    <div class="card">
+      <h2>Recent entries</h2>
+      <div id="metric-history"></div>
+    </div>
+  </section>
+
+  <!-- ===== LIFTS ===== -->
+  <section id="tab-lifts" class="tabpage">
+    <div class="card">
+      <h2>Log a session</h2>
+      <label>Date</label>
+      <input type="date" id="l-date">
+      <label>Training day</label>
+      <select id="l-day" onchange="renderExercises()">
+        <option value="A">Day A — Push / Quad</option>
+        <option value="B">Day B — Hinge / Legs</option>
+        <option value="C">Day C — Pull / Back / Traps</option>
+      </select>
+      <div id="exercises"></div>
+      <button class="btn" onclick="saveSession()">Save session</button>
+      <div class="saved" id="l-saved"></div>
+      <p class="muted" style="margin-top:10px">Fill weight + reps for the sets you did. The <span class="pill">last time</span> box shows what to beat (double progression). Blank exercises are skipped.</p>
+    </div>
+    <div class="card">
+      <h2>Recent sessions</h2>
+      <div id="lift-history"></div>
+    </div>
+  </section>
+
+  <!-- ===== BACKUP ===== -->
+  <section id="tab-backup" class="tabpage">
+    <div class="card">
+      <h2>Backup &amp; restore</h2>
+      <p class="muted">Your data lives only on this device/browser. Export a backup regularly, or to move to a new phone.</p>
+      <button class="btn secondary" onclick="exportData()">⬇︎ Export backup (file)</button>
+      <label style="margin-top:16px">Restore from a backup file</label>
+      <input type="file" id="importer" accept="application/json" onchange="importData(event)">
+      <button class="btn secondary" style="margin-top:20px;color:#b03030;border-color:#b03030" onclick="wipe()">Erase all data</button>
+    </div>
+    <div class="card">
+      <h2>Summary</h2>
+      <div id="summary"></div>
+    </div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <button class="active" data-tab="tab-body" onclick="showTab(this)"><span class="ic">⚖️</span>Body</button>
+  <button data-tab="tab-lifts" onclick="showTab(this)"><span class="ic">🏋️</span>Lifts</button>
+  <button data-tab="tab-backup" onclick="showTab(this)"><span class="ic">💾</span>Backup</button>
+</nav>
+
+<script>
+/* ---------- storage ---------- */
+const K_METRICS = 'hp_metrics_v1';
+const K_LIFTS   = 'hp_lifts_v1';
+const K_FONT    = 'hp_fontsize';
+const load = k => { try { return JSON.parse(localStorage.getItem(k)) || []; } catch(e){ return []; } };
+const save = (k,v) => localStorage.setItem(k, JSON.stringify(v));
+const todayStr = () => { const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+
+/* ---------- exercise library (from the 5:30am A/B/C routine) ---------- */
+const ROUTINE = {
+  A: [
+    ['Machine / Flat DB Press','3 × 6–10'],
+    ['Leg Press','3 × 8–12'],
+    ['Incline DB Press','3 × 8–12'],
+    ['Seated DB Shoulder Press','3 × 8–12'],
+    ['Cable Triceps Pushdown','3 × 10–15'],
+    ['Wrist Curl','3 × 12–15'],
+    ['Pallof Press','3 × 10 / side'],
+  ],
+  B: [
+    ['Hip Thrust / RDL','3 × 8–12'],
+    ['Walking Lunge / Split Squat','3 × 8–10 / leg'],
+    ['Seated Leg Curl','3 × 10–12'],
+    ['Leg Extension','3 × 12–15'],
+    ['Standing Calf Raise','4 × 12–15'],
+    ['Cable Crunch / Dead Bug','3 × 12'],
+    ['Hanging Knee Raise','3 × 10–12'],
+  ],
+  C: [
+    ['Straight-Arm Pulldown','3 × 12–15'],
+    ['Lat Pulldown','3 × 8–12'],
+    ['Chest-Supported Row','3 × 8–12'],
+    ['Face Pull','3 × 15'],
+    ['Rear-Delt Fly','3 × 12–15'],
+    ['DB Shrugs (3s hold)','3 × 10–12'],
+    ['DB Biceps Curl','3 × 8–12'],
+    ['Hammer Curl','3 × 10–12'],
+    ['Cable Rope / Incline Curl','3 × 12–15'],
+  ]
+};
+
+/* ---------- tabs ---------- */
+function showTab(btn){
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tabpage').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(btn.dataset.tab).classList.add('active');
+  if(btn.dataset.tab==='tab-backup') renderSummary();
+}
+
+/* ---------- font size ---------- */
+function applyFont(){ document.documentElement.style.setProperty('--fs', (localStorage.getItem(K_FONT)||18)+'px'); }
+function bumpFont(dir){
+  let s = parseInt(localStorage.getItem(K_FONT)||18) + dir*1;
+  s = Math.max(15, Math.min(26, s));
+  localStorage.setItem(K_FONT, s); applyFont();
+}
+
+/* ---------- metrics ---------- */
+function saveMetric(){
+  const e = {
+    date: document.getElementById('m-date').value || todayStr(),
+    weight: val('m-weight'), waist: val('m-waist'),
+    bloat: val('m-bloat'), sleep: val('m-sleep'), focus: val('m-focus'),
+    transit: document.getElementById('m-transit').value,
+    note: document.getElementById('m-note').value.trim()
+  };
+  if(!e.weight && !e.waist && !e.bloat && !e.sleep && !e.focus && !e.transit && !e.note){
+    flash('m-saved','Enter at least one value first'); return;
+  }
+  let arr = load(K_METRICS).filter(x => x.date !== e.date); // one entry per day, overwrite
+  arr.push(e); arr.sort((a,b)=> a.date < b.date ? 1 : -1);
+  save(K_METRICS, arr);
+  ['m-weight','m-waist','m-bloat','m-sleep','m-focus','m-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('m-transit').value='';
+  flash('m-saved','✓ Saved'); renderMetrics(); renderSpark();
+}
+function val(id){ const v=document.getElementById(id).value; return v===''?null:parseFloat(v); }
+
+function renderMetrics(){
+  const arr = load(K_METRICS);
+  const box = document.getElementById('metric-history');
+  if(!arr.length){ box.innerHTML='<p class="muted">Nothing logged yet.</p>'; return; }
+  let h = '<table><tr><th>Date</th><th class="num">Wt</th><th class="num">Waist</th><th class="num">Bloat</th><th class="num">Sleep</th><th class="num">Focus</th><th></th></tr>';
+  arr.slice(0,30).forEach((e,i)=>{
+    h += `<tr><td>${fmtD(e.date)}</td><td class="num">${e.weight??'–'}</td><td class="num">${e.waist??'–'}</td><td class="num">${e.bloat??'–'}</td><td class="num">${e.sleep??'–'}</td><td class="num">${e.focus??'–'}</td><td><button class="del" onclick="delMetric('${e.date}')">✕</button></td></tr>`;
+    if(e.note) h += `<tr><td colspan="7" class="muted" style="padding-top:0">↳ ${esc(e.note)}</td></tr>`;
+  });
+  box.innerHTML = h + '</table>';
+}
+function delMetric(date){
+  if(!confirm('Delete '+fmtD(date)+'?')) return;
+  save(K_METRICS, load(K_METRICS).filter(x=>x.date!==date));
+  renderMetrics(); renderSpark();
+}
+
+function renderSpark(){
+  const arr = load(K_METRICS).filter(e=>e.weight!=null).slice(0,30).reverse();
+  const svg = document.getElementById('spark'), lbl = document.getElementById('spark-lbl');
+  if(arr.length<2){ svg.innerHTML=''; lbl.textContent = arr.length? 'Log one more day to see the trend.' : 'No entries yet.'; return; }
+  const ws = arr.map(e=>e.weight), min=Math.min(...ws), max=Math.max(...ws), range=(max-min)||1;
+  const W=320,H=70,pad=6;
+  const pts = arr.map((e,i)=>{
+    const x = pad + i*(W-2*pad)/(arr.length-1);
+    const y = pad + (1-(e.weight-min)/range)*(H-2*pad);
+    return [x,y];
+  });
+  const line = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const dots = pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.5" fill="#1a4d3a"/>`).join('');
+  svg.innerHTML = `<path d="${line}" fill="none" stroke="#1a4d3a" stroke-width="2"/>${dots}`;
+  const first=ws[0], last=ws[ws.length-1], diff=(last-first).toFixed(1);
+  lbl.innerHTML = `${arr.length} entries · <b>${last} kg</b> now · ${diff>=0?'+':''}${diff} kg since ${fmtD(arr[0].date)} · range ${min}–${max}`;
+}
+
+/* ---------- lifts ---------- */
+function lastFor(day, name){
+  const arr = load(K_LIFTS);
+  for(const s of arr){ if(s.day===day){ const ex = s.exercises.find(x=>x.name===name); if(ex) return {date:s.date, ...ex}; } }
+  return null;
+}
+function renderExercises(){
+  const day = document.getElementById('l-day').value;
+  const box = document.getElementById('exercises');
+  box.innerHTML = ROUTINE[day].map((ex,i)=>{
+    const last = lastFor(day, ex[0]);
+    const lastHtml = last
+      ? `<div class="last">Last time (${fmtD(last.date)}): <b>${last.weight}${last.unit||'kg'} × ${last.reps}</b> — beat it</div>`
+      : `<div class="last" style="background:#f0f0f0;color:#666">No history yet — set your baseline</div>`;
+    return `<div class="ex" data-name="${esc(ex[0])}">
+      <div class="name">${ex[0]}</div>
+      <div class="target">Target ${ex[1]}</div>
+      ${lastHtml}
+      <div class="inputs">
+        <div><label>Weight (kg)</label><input type="number" inputmode="decimal" step="0.5" class="l-w" placeholder="${last?last.weight:''}"></div>
+        <div><label>Reps</label><input type="number" inputmode="numeric" class="l-r" placeholder="${last?last.reps:''}"></div>
+        <div><label>Sets</label><input type="number" inputmode="numeric" class="l-s" placeholder="3"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function saveSession(){
+  const day = document.getElementById('l-day').value;
+  const date = document.getElementById('l-date').value || todayStr();
+  const exs = [];
+  document.querySelectorAll('#exercises .ex').forEach(div=>{
+    const w = div.querySelector('.l-w').value, r = div.querySelector('.l-r').value, s = div.querySelector('.l-s').value;
+    if(w!=='' && r!==''){ exs.push({ name: div.dataset.name, weight: parseFloat(w), reps: parseInt(r), sets: s?parseInt(s):null, unit:'kg' }); }
+  });
+  if(!exs.length){ flash('l-saved','Enter weight + reps for at least one lift'); return; }
+  let arr = load(K_LIFTS);
+  arr.push({ date, day, exercises: exs });
+  arr.sort((a,b)=> a.date < b.date ? 1 : -1);
+  save(K_LIFTS, arr);
+  flash('l-saved','✓ Session saved ('+exs.length+' lifts)');
+  renderExercises(); renderLifts();
+}
+function renderLifts(){
+  const arr = load(K_LIFTS), box = document.getElementById('lift-history');
+  if(!arr.length){ box.innerHTML='<p class="muted">No sessions logged yet.</p>'; return; }
+  box.innerHTML = arr.slice(0,15).map((s,i)=>{
+    const rows = s.exercises.map(e=>`<tr><td>${esc(e.name)}</td><td class="num">${e.weight}kg × ${e.reps}${e.sets?' × '+e.sets:''}</td></tr>`).join('');
+    return `<div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <b>${fmtD(s.date)} · Day ${s.day}</b>
+        <button class="del" onclick="delSession(${i},'${s.date}','${s.day}')">✕</button>
+      </div>
+      <table>${rows}</table>
+    </div>`;
+  }).join('');
+}
+function delSession(idx, date, day){
+  if(!confirm('Delete '+fmtD(date)+' Day '+day+'?')) return;
+  const arr = load(K_LIFTS); arr.splice(idx,1); save(K_LIFTS,arr); renderLifts(); renderExercises();
+}
+
+/* ---------- backup ---------- */
+function exportData(){
+  const data = { exported: todayStr(), metrics: load(K_METRICS), lifts: load(K_LIFTS) };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'health-tracker-backup-'+todayStr()+'.json';
+  a.click();
+}
+function importData(ev){
+  const f = ev.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const d = JSON.parse(r.result);
+      if(!confirm('Restore this backup? It replaces current data.')) return;
+      if(d.metrics) save(K_METRICS, d.metrics);
+      if(d.lifts) save(K_LIFTS, d.lifts);
+      renderAll(); alert('Restored ✓');
+    } catch(e){ alert('That file could not be read.'); }
+  };
+  r.readAsText(f);
+}
+function wipe(){
+  if(!confirm('Erase ALL logged data on this device? This cannot be undone.')) return;
+  if(!confirm('Really erase everything?')) return;
+  localStorage.removeItem(K_METRICS); localStorage.removeItem(K_LIFTS); renderAll();
+}
+function renderSummary(){
+  const m = load(K_METRICS), l = load(K_LIFTS);
+  document.getElementById('summary').innerHTML =
+    `<p><b>${m.length}</b> day(s) of body metrics logged.<br><b>${l.length}</b> training session(s) logged.</p>
+     <p class="muted">Data is stored in this browser only. Clearing browser data will erase it — keep a backup.</p>`;
+}
+
+/* ---------- helpers ---------- */
+function flash(id,msg){ const e=document.getElementById(id); e.textContent=msg; setTimeout(()=>{ if(e.textContent===msg) e.textContent=''; }, 2500); }
+function fmtD(s){ const [y,mo,da]=s.split('-'); return da+'/'+mo; }
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function renderAll(){ renderMetrics(); renderSpark(); renderExercises(); renderLifts(); renderSummary(); }
+
+/* ---------- init ---------- */
+applyFont();
+document.getElementById('m-date').value = todayStr();
+document.getElementById('l-date').value = todayStr();
+renderAll();
+</script>
+</body>
+</html>
