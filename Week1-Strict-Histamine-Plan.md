@@ -47,7 +47,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 
 ---
 
-## Mon 20 July — Day A (Push / Quad) · HCG day
+## Mon 20 July — Day 1 (Shoulders · Traps · Triceps) · HCG day
 
 | Meal | Food |
 |---|---|
@@ -56,7 +56,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 | Snack | Fresh ricotta + blueberries |
 | Dinner | Pan-seared fresh chicken thigh 180 g + roasted peeled pumpkin & carrot + steamed green beans, EVOO + rosemary |
 
-- **Training:** Day A — leg press (no squat, L5/S1), machine/DB press, incline DB, seated shoulder press, pushdown, wrist curl, Pallof.
+- **Training:** Day 1 — seated DB press, cable lateral raise, reverse pec-deck, paused DB shrugs, face pull, overhead triceps extension, rope pushdown. (Full detail + logging in `Workout-Program.html`.)
 - **Injections:** AM HGH+GHKCu · **evening HCG sub-Q** · pre-bed HGH+DSIP.
 - **Prep tonight:** thaw Tue's beef; nothing else.
 
@@ -73,7 +73,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 - **Injections:** AM HGH+GHKCu · pre-bed HGH+DSIP.
 - **Prep tonight:** thaw Wed's chicken; re-make ricotta if low.
 
-## Wed 22 July — Day B (Legs / Hinge) · BUSIEST NIGHT (HCG + Reta + TRT + Mast) · Reta day = lighter dinner
+## Wed 22 July — Day 2 (Back · Rear Delts · Biceps) · BUSIEST NIGHT (HCG + Reta + TRT + Mast) · Reta day = lighter dinner
 
 | Meal | Food |
 |---|---|
@@ -82,7 +82,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 | Snack | Fresh ricotta + blueberries |
 | Dinner (light) | **Meat-stock risotto** (recipe 7) small portion — easy on the stomach for a Reta night |
 
-- **Training:** Day B — hip thrust/RDL (hip thrust preferred, L5/S1), lunges/split squat, leg curl, leg extension, calf raise, dead bug, hanging knee raise.
+- **Training:** Day 2 — lat pulldown, chest-supported row, straight-arm pulldown, cable rear-delt fly, incline curl, EZ-bar curl, hammer curl, wrist-curl superset. (Full detail + logging in `Workout-Program.html`.)
 - **Injections — run the ordered sequence (roadmap §5.1):**
   1. Dinner ~6pm (light)
   2. ~19:30 HCG sub-Q (site 1)
@@ -105,7 +105,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 - **Injections:** AM HGH+GHKCu · pre-bed HGH+DSIP.
 - **Shop:** buy Fri–Sun's protein fresh today; freeze immediately what's not for tomorrow.
 
-## Fri 24 July — Day C (Pull / Back / Traps) · HCG day
+## Fri 24 July — Day 3 (Chest · Legs · Core) · HCG day
 
 | Meal | Food |
 |---|---|
@@ -114,10 +114,10 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 | Snack | Fresh ricotta + blueberries |
 | Dinner | Fresh lamb (seared, 180 g) + rice + roasted peeled carrot, rosemary + EVOO |
 
-- **Training:** Day C — straight-arm pulldown + lat pulldown, chest-supported row, face pull + rear-delt fly, DB shrugs (traps), biceps + hammer + rope curl.
+- **Training:** Day 3 — incline DB press (30°), high-to-low cable fly, lateral raise, leg press, seated leg curl, leg extension, calf raise, Pallof press, hanging knee raise/dead bug. (Full detail + logging in `Workout-Program.html`.)
 - **Injections:** AM HGH+GHKCu · **evening HCG sub-Q** · pre-bed HGH+DSIP.
 
-## Sat 25 July — Optional Day A (4-day week)
+## Sat 25 July — Optional Day 1 repeat (4-day week)
 
 | Meal | Food |
 |---|---|
@@ -126,7 +126,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 | Snack | Boiled eggs (cook fresh) + peeled cucumber |
 | Dinner | Fresh chicken 180 g + roasted pumpkin + steamed broccoli, EVOO + thyme |
 
-- **Training:** optional Day A (repeat) for a 4-day week, or rest if you only want 3. Log bodyweight/waist fasted this morning (roadmap §8).
+- **Training:** optional Day 1 repeat (delts/traps/arms — your priority muscles) for a 4-day week, or rest if you only want 3. Log bodyweight/waist fasted this morning (roadmap §8).
 - **Injections:** AM HGH+GHKCu · pre-bed HGH+DSIP.
 
 ## Sun 26 July — Rest · Reta + TRT + Mast night · Reta day = lighter dinner
