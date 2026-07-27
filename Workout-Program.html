@@ -145,10 +145,20 @@
       </div>
       <label>Bowel transit</label>
       <select id="m-transit"><option value="">—</option><option>Daily, formed ✓</option><option>Loose</option><option>Constipated</option><option>None today</option></select>
+      <label>Sleep detail <span class="hint">optional — powers the snapshot below</span></label>
+      <div class="mrow">
+        <div><input type="time" id="m-lightsout" aria-label="Lights out"><div class="hint" style="text-align:center;margin-top:3px">lights out</div></div>
+        <div><input type="time" id="m-woke" aria-label="Woke for good"><div class="hint" style="text-align:center;margin-top:3px">woke for good</div></div>
+        <div><input type="number" id="m-wakings" inputmode="numeric" min="0" placeholder="0"><div class="hint" style="text-align:center;margin-top:3px">night wakings</div></div>
+      </div>
       <label>Note <span class="hint">optional — e.g. meals fresh vs reheated, energy</span></label>
       <textarea id="m-note" rows="2" placeholder="Anything worth remembering"></textarea>
       <button class="btn" style="margin-top:14px" onclick="saveMetric()">Save today</button>
       <div class="saved" id="m-saved"></div>
+    </div>
+    <div class="mcard">
+      <h2>Sleep snapshot</h2>
+      <div id="sleep-snap" class="muted">Log lights-out + woke times above to see your hours and 7-night averages.</div>
     </div>
     <div class="mcard">
       <h2>Bodyweight trend</h2>
@@ -166,6 +176,33 @@
     <div class="mcard">
       <h2>Recent entries</h2>
       <div id="metric-history"></div>
+    </div>
+    <div class="mcard">
+      <details>
+        <summary style="font-weight:800;color:var(--brand);cursor:pointer;font-size:1.05em">😴 Your sleep protocol (tap to open)</summary>
+        <div style="padding-top:12px">
+          <p style="margin:0 0 6px"><b>The target:</b> asleep by ~9:15pm for a 5:30am wake = a real 8 hours. Everything below serves that.</p>
+          <p style="margin:10px 0 4px"><b>Evening (shift the whole block ~1 hr earlier):</b></p>
+          <ul style="margin:4px 0;padding-left:20px">
+            <li><b>~8:30pm — brain-dump.</b> Write tomorrow's to-dos + any worries on paper. A racing 3am mind is an unprocessed-day mind.</li>
+            <li>Warm shower (the temperature drop after makes you sleepy), then dim the lights.</li>
+            <li>10 min slow breathing (in 4s, out 6–8s). No email/screens in the last hour.</li>
+            <li>Injection/yoghurt block moved earlier — <i>confirm the peptide timing with your prescriber</i>.</li>
+          </ul>
+          <p style="margin:10px 0 4px"><b>Daytime:</b> caffeine cut-off ~10–11am · bright light outside within 30 min of waking · don't overtrain a hard cut (cortisol feeds the 3am wake).</p>
+          <details style="margin-top:10px">
+            <summary style="font-weight:800;color:var(--accent);cursor:pointer">🌙 Awake right now? Tap here — 3am rescue</summary>
+            <ol style="margin:8px 0;padding-left:20px">
+              <li><b>Do NOT check the clock or your phone.</b> No light, no time-anxiety.</li>
+              <li><b>Do NOT problem-solve.</b> The 3am brain is not the one to trust with it.</li>
+              <li>Slow breathing: in for 4, out for 8. A few minutes.</li>
+              <li>Give the talking part of your brain a boring job: count down from 300 by 3s, or a slow body scan from toes up.</li>
+              <li>Still awake after ~20 min? Get up, keep it dark, read something dull, come back only when sleepy. Don't lie there fighting it.</li>
+            </ol>
+          </details>
+          <p class="muted" style="margin-top:10px">If daytime sleepiness lingers after 3–4 weeks of this (and given you're on TRT), get a formal home sleep test as a fallback — self-assessment isn't the same as a study.</p>
+        </div>
+      </details>
     </div>
   </div>
 
@@ -429,11 +466,11 @@ function importData(ev){
   const f=ev.target.files[0]; if(!f)return; const r=new FileReader();
   r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!confirm('Restore backup? Replaces current data.'))return;
     if(d.logs)save(K_LOGS,d.logs); if(d.notes)save(K_NOTES,d.notes); if(d.metrics)save(K_METRICS,d.metrics);
-    renderDays(); showDayById(CURRENT); renderHist(); renderMetrics(); renderSpark(); renderFB(); alert("Restored ✓");
+    renderDays(); showDayById(CURRENT); renderHist(); renderMetrics(); renderSpark(); renderFB(); renderSleep(); alert("Restored ✓");
   }catch(e){ alert('Could not read that file.'); } };
   r.readAsText(f);
 }
-function wipe(){ if(!confirm('Erase ALL logs, notes and body metrics on this device?'))return; if(!confirm('Really erase everything?'))return; localStorage.removeItem(K_LOGS); localStorage.removeItem(K_NOTES); localStorage.removeItem(K_METRICS); renderDays(); showDayById(CURRENT); renderHist(); renderMetrics(); renderSpark(); renderFB(); }
+function wipe(){ if(!confirm('Erase ALL logs, notes and body metrics on this device?'))return; if(!confirm('Really erase everything?'))return; localStorage.removeItem(K_LOGS); localStorage.removeItem(K_NOTES); localStorage.removeItem(K_METRICS); renderDays(); showDayById(CURRENT); renderHist(); renderMetrics(); renderSpark(); renderFB(); renderSleep(); }
 
 /* ================= mode toggle ================= */
 function showMode(m){
@@ -441,22 +478,46 @@ function showMode(m){
   document.getElementById('view-body').style.display  = m==='body'?'':'none';
   document.getElementById('mode-train').classList.toggle('active',m!=='body');
   document.getElementById('mode-body').classList.toggle('active',m==='body');
-  if(m==="body"){ renderMetrics(); renderSpark(); renderFB(); }
+  if(m==="body"){ renderMetrics(); renderSpark(); renderFB(); renderSleep(); }
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
 /* ================= body metrics ================= */
 function mval(id){ const v=document.getElementById(id).value; return v===''?null:parseFloat(v); }
 function saveMetric(){
+  const lo=document.getElementById('m-lightsout').value, wk=document.getElementById('m-woke').value;
   const e={ date:document.getElementById('m-date').value||todayStr(),
     weight:mval('m-weight'), waist:mval('m-waist'), bloat:mval('m-bloat'),
     sleep:mval('m-sleep'), focus:mval('m-focus'),
-    transit:document.getElementById('m-transit').value, note:document.getElementById('m-note').value.trim() };
-  if(!e.weight&&!e.waist&&!e.bloat&&!e.sleep&&!e.focus&&!e.transit&&!e.note){ mflash('Enter at least one value first'); return; }
+    transit:document.getElementById('m-transit').value, note:document.getElementById('m-note').value.trim(),
+    lightsout:lo||null, woke:wk||null, wakings:mval('m-wakings'), hours:hoursBetween(lo,wk) };
+  if(!e.weight&&!e.waist&&!e.bloat&&!e.sleep&&!e.focus&&!e.transit&&!e.note&&!e.lightsout&&!e.woke&&e.wakings==null){ mflash('Enter at least one value first'); return; }
   let arr=load(K_METRICS,[]).filter(x=>x.date!==e.date); arr.push(e); arr.sort((a,b)=>a.date<b.date?1:-1); save(K_METRICS,arr);
-  ['m-weight','m-waist','m-bloat','m-sleep','m-focus','m-note'].forEach(id=>document.getElementById(id).value='');
+  ['m-weight','m-waist','m-bloat','m-sleep','m-focus','m-note','m-lightsout','m-woke','m-wakings'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('m-transit').value='';
-  mflash("✓ Saved"); renderMetrics(); renderSpark(); renderFB();
+  mflash("✓ Saved"); renderMetrics(); renderSpark(); renderFB(); renderSleep();
+}
+function hoursBetween(lo,wk){
+  if(!lo||!wk) return null;
+  const [a,b]=lo.split(':').map(Number), [c,d]=wk.split(':').map(Number);
+  let s=a*60+b, e=c*60+d; if(e<=s) e+=1440;         // crosses midnight
+  return Math.round((e-s)/6)/10;                     // hours, 1 dp
+}
+function renderSleep(){
+  const arr=load(K_METRICS,[]).slice().sort((a,b)=>a.date<b.date?-1:1);
+  const withH=arr.filter(e=>e.hours!=null);
+  const box=document.getElementById('sleep-snap');
+  if(!withH.length){ box.innerHTML='Log lights-out + woke times above to see your hours and 7-night averages.'; return; }
+  const last=withH[withH.length-1], recent=withH.slice(-7);
+  const avg=(list,key)=>{ const v=list.map(e=>e[key]).filter(x=>x!=null); return v.length? v.reduce((a,c)=>a+c,0)/v.length : null; };
+  const ah=avg(recent,'hours'), aw=avg(recent,'wakings'), aq=avg(recent,'sleep');
+  const gap=8-ah;
+  box.innerHTML =
+    `<div style="font-size:1.35em;font-weight:800;color:var(--brand)">${last.hours} h <span style="font-size:.55em;font-weight:600;color:var(--muted)">last night</span></div>`
+    + `<div style="margin-top:6px">Last ${recent.length} night${recent.length>1?'s':''}: avg <b>${ah.toFixed(1)} h</b>`
+      + `${aw!=null?` · <b>${aw.toFixed(1)}</b> waking${aw>=1.5||aw<0.5?'s':''}/night`:''}`
+      + `${aq!=null?` · quality <b>${aq.toFixed(1)}/10</b>`:''}.</div>`
+    + `<div class="muted" style="margin-top:6px">${ah>=7.75?'You\'re hitting the 8-hour target — keep the routine locked in.':`About <b>${gap.toFixed(1)} h</b> short of 8 — bringing lights-out earlier is the fastest way to close it.`}</div>`;
 }
 function mflash(msg){ const e=document.getElementById('m-saved'); e.textContent=msg; setTimeout(()=>{ if(e.textContent===msg) e.textContent=''; },2600); }
 function renderMetrics(){
@@ -469,7 +530,7 @@ function renderMetrics(){
   });
   box.innerHTML=h+'</table>';
 }
-function delMetric(date){ if(!confirm('Delete '+fmtD(date)+'?'))return; save(K_METRICS,load(K_METRICS,[]).filter(x=>x.date!==date)); renderMetrics(); renderSpark(); }
+function delMetric(date){ if(!confirm('Delete '+fmtD(date)+'?'))return; save(K_METRICS,load(K_METRICS,[]).filter(x=>x.date!==date)); renderMetrics(); renderSpark(); renderFB(); renderSleep(); }
 function renderSpark(){
   const arr=load(K_METRICS,[]).filter(e=>e.weight!=null).slice(0,30).reverse();
   const svg=document.getElementById('spark'), lbl=document.getElementById('spark-lbl');
