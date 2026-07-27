@@ -67,6 +67,23 @@
   .footer{ margin-top:18px; }
   .footer .btn.sec{ margin-bottom:10px; }
   .muted{ color:var(--muted); font-size:.9em; }
+  /* top-level mode toggle + body metrics */
+  .modebar{ display:flex; gap:8px; margin-bottom:16px; }
+  .modebar button{ flex:1; padding:13px; border:1.5px solid var(--line); background:#fff; color:var(--muted); border-radius:12px; font-weight:800; font-size:.95em; }
+  .modebar button.active{ background:var(--brand2); color:#fff; border-color:var(--brand2); }
+  .mcard{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:16px; }
+  .mcard h2{ margin:0 0 8px; font-size:1.1em; color:var(--brand); }
+  .mrow{ display:flex; gap:10px; } .mrow>div{ flex:1; }
+  .mcard label{ display:block; font-weight:700; margin:12px 0 5px; font-size:.9em; }
+  .mcard label .hint{ font-weight:400; color:var(--muted); font-size:.82em; }
+  .mcard input,.mcard select,.mcard textarea{ width:100%; font-size:1em; font-family:inherit; padding:12px 11px; border:1.5px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); }
+  .mcard input:focus,.mcard select:focus,.mcard textarea:focus{ outline:none; border-color:var(--brand2); }
+  .spark{ width:100%; height:70px; margin-top:8px; }
+  .mtable{ width:100%; border-collapse:collapse; font-size:.9em; }
+  .mtable th,.mtable td{ text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); }
+  .mtable th{ color:var(--brand); font-size:.85em; }
+  .mtable td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  .mdel{ color:#b03030; background:none; border:none; font-size:.9em; font-weight:700; padding:4px; }
 </style>
 </head>
 <body>
@@ -80,6 +97,12 @@
 </header>
 
 <main>
+  <div class="modebar">
+    <button id="mode-train" class="active" onclick="showMode('train')">🏋️ Training</button>
+    <button id="mode-body" onclick="showMode('body')">⚖️ Body &amp; Metrics</button>
+  </div>
+
+  <div id="view-train">
   <div class="intro">
     <h2>Read this once — it's the whole strategy</h2>
     <div class="banner"><b>Definition comes from the kitchen, not the gym.</b> Your meal plan + the calorie deficit (and Reta) strip the fat. This program's job is to <b>build and defend the muscles that make you look shredded</b> — big 3D delts, thick traps, full arms — so as the fat drops, <i>those</i> pop. Don't expect the weights to "tone"; expect them to hold and grow the showpieces while you diet.</div>
@@ -101,6 +124,40 @@
   <div class="savebar">
     <button class="btn" onclick="saveSession()">💾 Save today's session</button>
     <div class="saved" id="saved"></div>
+  </div>
+  </div><!-- /view-train -->
+
+  <div id="view-body" style="display:none">
+    <div class="mcard">
+      <h2>Log today's numbers</h2>
+      <p class="muted" style="margin:0 0 6px">Bodyweight, waist &amp; how you feel — the same tracker as before, now in one app. One entry per day (re-saving overwrites today).</p>
+      <label>Date</label>
+      <input type="date" id="m-date">
+      <div class="mrow">
+        <div><label>Bodyweight <span class="hint">kg</span></label><input type="number" id="m-weight" inputmode="decimal" step="0.1" placeholder="e.g. 92.4"></div>
+        <div><label>Waist <span class="hint">cm, navel</span></label><input type="number" id="m-waist" inputmode="decimal" step="0.1" placeholder="e.g. 88"></div>
+      </div>
+      <div class="mrow">
+        <div><label>Bloating <span class="hint">1–10</span></label><input type="number" id="m-bloat" inputmode="numeric" min="1" max="10"></div>
+        <div><label>Sleep <span class="hint">1–10</span></label><input type="number" id="m-sleep" inputmode="numeric" min="1" max="10"></div>
+        <div><label>Focus <span class="hint">1–10</span></label><input type="number" id="m-focus" inputmode="numeric" min="1" max="10"></div>
+      </div>
+      <label>Bowel transit</label>
+      <select id="m-transit"><option value="">—</option><option>Daily, formed ✓</option><option>Loose</option><option>Constipated</option><option>None today</option></select>
+      <label>Note <span class="hint">optional — e.g. meals fresh vs reheated, energy</span></label>
+      <textarea id="m-note" rows="2" placeholder="Anything worth remembering"></textarea>
+      <button class="btn" style="margin-top:14px" onclick="saveMetric()">Save today</button>
+      <div class="saved" id="m-saved"></div>
+    </div>
+    <div class="mcard">
+      <h2>Bodyweight trend</h2>
+      <svg class="spark" id="spark" viewBox="0 0 320 70" preserveAspectRatio="none"></svg>
+      <div class="muted" id="spark-lbl">No entries yet.</div>
+    </div>
+    <div class="mcard">
+      <h2>Recent entries</h2>
+      <div id="metric-history"></div>
+    </div>
   </div>
 
   <div class="footer">
@@ -247,7 +304,7 @@ const PROGRAM = {
 };
 
 /* ================= storage ================= */
-const K_LOGS='wk_logs_v1', K_NOTES='wk_notes_v1', K_FONT='wk_font';
+const K_LOGS='wk_logs_v1', K_NOTES='wk_notes_v1', K_FONT='wk_font', K_METRICS='hp_metrics_v1';
 const load=(k,d)=>{ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch(e){ return d; } };
 const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const todayStr=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
@@ -355,23 +412,73 @@ function renderHist(){
 }
 function delLog(i){ if(!confirm('Delete this session?'))return; const l=load(K_LOGS,[]); l.splice(i,1); save(K_LOGS,l); renderDays(); showDayById(CURRENT); renderHist(); }
 function exportData(){
-  const data={exported:todayStr(), logs:load(K_LOGS,[]), notes:load(K_NOTES,{})};
+  const data={exported:todayStr(), logs:load(K_LOGS,[]), notes:load(K_NOTES,{}), metrics:load(K_METRICS,[])};
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
-  a.download='training-backup-'+todayStr()+'.json'; a.click();
+  a.download='health-backup-'+todayStr()+'.json'; a.click();
 }
 function importData(ev){
   const f=ev.target.files[0]; if(!f)return; const r=new FileReader();
   r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!confirm('Restore backup? Replaces current data.'))return;
-    if(d.logs)save(K_LOGS,d.logs); if(d.notes)save(K_NOTES,d.notes); renderDays(); showDayById(CURRENT); renderHist(); alert('Restored ✓');
+    if(d.logs)save(K_LOGS,d.logs); if(d.notes)save(K_NOTES,d.notes); if(d.metrics)save(K_METRICS,d.metrics);
+    renderDays(); showDayById(CURRENT); renderHist(); renderMetrics(); renderSpark(); alert('Restored ✓');
   }catch(e){ alert('Could not read that file.'); } };
   r.readAsText(f);
 }
-function wipe(){ if(!confirm('Erase ALL logs and notes on this device?'))return; if(!confirm('Really erase everything?'))return; localStorage.removeItem(K_LOGS); localStorage.removeItem(K_NOTES); renderDays(); showDayById(CURRENT); renderHist(); }
+function wipe(){ if(!confirm('Erase ALL logs, notes and body metrics on this device?'))return; if(!confirm('Really erase everything?'))return; localStorage.removeItem(K_LOGS); localStorage.removeItem(K_NOTES); localStorage.removeItem(K_METRICS); renderDays(); showDayById(CURRENT); renderHist(); renderMetrics(); renderSpark(); }
+
+/* ================= mode toggle ================= */
+function showMode(m){
+  document.getElementById('view-train').style.display = m==='body'?'none':'';
+  document.getElementById('view-body').style.display  = m==='body'?'':'none';
+  document.getElementById('mode-train').classList.toggle('active',m!=='body');
+  document.getElementById('mode-body').classList.toggle('active',m==='body');
+  if(m==='body'){ renderMetrics(); renderSpark(); }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================= body metrics ================= */
+function mval(id){ const v=document.getElementById(id).value; return v===''?null:parseFloat(v); }
+function saveMetric(){
+  const e={ date:document.getElementById('m-date').value||todayStr(),
+    weight:mval('m-weight'), waist:mval('m-waist'), bloat:mval('m-bloat'),
+    sleep:mval('m-sleep'), focus:mval('m-focus'),
+    transit:document.getElementById('m-transit').value, note:document.getElementById('m-note').value.trim() };
+  if(!e.weight&&!e.waist&&!e.bloat&&!e.sleep&&!e.focus&&!e.transit&&!e.note){ mflash('Enter at least one value first'); return; }
+  let arr=load(K_METRICS,[]).filter(x=>x.date!==e.date); arr.push(e); arr.sort((a,b)=>a.date<b.date?1:-1); save(K_METRICS,arr);
+  ['m-weight','m-waist','m-bloat','m-sleep','m-focus','m-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('m-transit').value='';
+  mflash('✓ Saved'); renderMetrics(); renderSpark();
+}
+function mflash(msg){ const e=document.getElementById('m-saved'); e.textContent=msg; setTimeout(()=>{ if(e.textContent===msg) e.textContent=''; },2600); }
+function renderMetrics(){
+  const arr=load(K_METRICS,[]), box=document.getElementById('metric-history');
+  if(!arr.length){ box.innerHTML='<p class="muted">Nothing logged yet.</p>'; return; }
+  let h='<table class="mtable"><tr><th>Date</th><th class="num">Wt</th><th class="num">Waist</th><th class="num">Bloat</th><th class="num">Sleep</th><th class="num">Focus</th><th></th></tr>';
+  arr.slice(0,30).forEach(e=>{
+    h+=`<tr><td>${fmtD(e.date)}</td><td class="num">${e.weight??'–'}</td><td class="num">${e.waist??'–'}</td><td class="num">${e.bloat??'–'}</td><td class="num">${e.sleep??'–'}</td><td class="num">${e.focus??'–'}</td><td><button class="mdel" onclick="delMetric('${e.date}')">✕</button></td></tr>`;
+    if(e.note) h+=`<tr><td colspan="7" class="muted" style="padding-top:0">↳ ${esc(e.note)}</td></tr>`;
+  });
+  box.innerHTML=h+'</table>';
+}
+function delMetric(date){ if(!confirm('Delete '+fmtD(date)+'?'))return; save(K_METRICS,load(K_METRICS,[]).filter(x=>x.date!==date)); renderMetrics(); renderSpark(); }
+function renderSpark(){
+  const arr=load(K_METRICS,[]).filter(e=>e.weight!=null).slice(0,30).reverse();
+  const svg=document.getElementById('spark'), lbl=document.getElementById('spark-lbl');
+  if(arr.length<2){ svg.innerHTML=''; lbl.textContent=arr.length?'Log one more day to see the trend.':'No entries yet.'; return; }
+  const ws=arr.map(e=>e.weight), min=Math.min(...ws), max=Math.max(...ws), range=(max-min)||1, W=320,H=70,pad=6;
+  const pts=arr.map((e,i)=>[ pad+i*(W-2*pad)/(arr.length-1), pad+(1-(e.weight-min)/range)*(H-2*pad) ]);
+  const line=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.5" fill="#15384a"/>`).join('');
+  svg.innerHTML=`<path d="${line}" fill="none" stroke="#15384a" stroke-width="2"/>${dots}`;
+  const first=ws[0], last=ws[ws.length-1], diff=(last-first).toFixed(1);
+  lbl.innerHTML=`${arr.length} entries · <b>${last} kg</b> now · ${diff>=0?'+':''}${diff} kg since ${fmtD(arr[0].date)} · range ${min}–${max}`;
+}
 
 /* ================= init ================= */
 applyFont();
 renderDays();
 renderHist();
+document.getElementById('m-date').value=todayStr();
 </script>
 </body>
 </html>
