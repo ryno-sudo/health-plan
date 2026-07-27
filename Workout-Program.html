@@ -84,6 +84,7 @@
   .mtable th{ color:var(--brand); font-size:.85em; }
   .mtable td.num{ text-align:right; font-variant-numeric:tabular-nums; }
   .mdel{ color:#b03030; background:none; border:none; font-size:.9em; font-weight:700; padding:4px; }
+  .lg{ font-weight:700; font-size:.85em; } .lg-f{ color:var(--ok); } .lg-b{ color:var(--accent); }
 </style>
 </head>
 <body>
@@ -153,6 +154,14 @@
       <h2>Bodyweight trend</h2>
       <svg class="spark" id="spark" viewBox="0 0 320 70" preserveAspectRatio="none"></svg>
       <div class="muted" id="spark-lbl">No entries yet.</div>
+    </div>
+    <div class="mcard">
+      <h2>Focus &amp; bloating trend</h2>
+      <div style="margin-bottom:4px"><span class="lg lg-f">● Focus (higher = better)</span> &nbsp; <span class="lg lg-b">● Bloating (lower = better)</span></div>
+      <svg class="spark" id="fbchart" viewBox="0 0 320 90" preserveAspectRatio="none" style="height:100px"></svg>
+      <label>Low-histamine (strict) start date</label>
+      <input type="date" id="fb-start" onchange="onStartChange()">
+      <div class="muted" id="fb-readout" style="margin-top:8px"></div>
     </div>
     <div class="mcard">
       <h2>Recent entries</h2>
@@ -304,7 +313,7 @@ const PROGRAM = {
 };
 
 /* ================= storage ================= */
-const K_LOGS='wk_logs_v1', K_NOTES='wk_notes_v1', K_FONT='wk_font', K_METRICS='hp_metrics_v1';
+const K_LOGS='wk_logs_v1', K_NOTES='wk_notes_v1', K_FONT='wk_font', K_METRICS='hp_metrics_v1', K_HSTART='wk_hist_start';
 const load=(k,d)=>{ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch(e){ return d; } };
 const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const todayStr=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
@@ -420,11 +429,11 @@ function importData(ev){
   const f=ev.target.files[0]; if(!f)return; const r=new FileReader();
   r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!confirm('Restore backup? Replaces current data.'))return;
     if(d.logs)save(K_LOGS,d.logs); if(d.notes)save(K_NOTES,d.notes); if(d.metrics)save(K_METRICS,d.metrics);
-    renderDays(); showDayById(CURRENT); renderHist(); renderMetrics(); renderSpark(); alert('Restored ✓');
+    renderDays(); showDayById(CURRENT); renderHist(); renderMetrics(); renderSpark(); renderFB(); alert("Restored ✓");
   }catch(e){ alert('Could not read that file.'); } };
   r.readAsText(f);
 }
-function wipe(){ if(!confirm('Erase ALL logs, notes and body metrics on this device?'))return; if(!confirm('Really erase everything?'))return; localStorage.removeItem(K_LOGS); localStorage.removeItem(K_NOTES); localStorage.removeItem(K_METRICS); renderDays(); showDayById(CURRENT); renderHist(); renderMetrics(); renderSpark(); }
+function wipe(){ if(!confirm('Erase ALL logs, notes and body metrics on this device?'))return; if(!confirm('Really erase everything?'))return; localStorage.removeItem(K_LOGS); localStorage.removeItem(K_NOTES); localStorage.removeItem(K_METRICS); renderDays(); showDayById(CURRENT); renderHist(); renderMetrics(); renderSpark(); renderFB(); }
 
 /* ================= mode toggle ================= */
 function showMode(m){
@@ -432,7 +441,7 @@ function showMode(m){
   document.getElementById('view-body').style.display  = m==='body'?'':'none';
   document.getElementById('mode-train').classList.toggle('active',m!=='body');
   document.getElementById('mode-body').classList.toggle('active',m==='body');
-  if(m==='body'){ renderMetrics(); renderSpark(); }
+  if(m==="body"){ renderMetrics(); renderSpark(); renderFB(); }
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -447,7 +456,7 @@ function saveMetric(){
   let arr=load(K_METRICS,[]).filter(x=>x.date!==e.date); arr.push(e); arr.sort((a,b)=>a.date<b.date?1:-1); save(K_METRICS,arr);
   ['m-weight','m-waist','m-bloat','m-sleep','m-focus','m-note'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('m-transit').value='';
-  mflash('✓ Saved'); renderMetrics(); renderSpark();
+  mflash("✓ Saved"); renderMetrics(); renderSpark(); renderFB();
 }
 function mflash(msg){ const e=document.getElementById('m-saved'); e.textContent=msg; setTimeout(()=>{ if(e.textContent===msg) e.textContent=''; },2600); }
 function renderMetrics(){
@@ -474,11 +483,49 @@ function renderSpark(){
   lbl.innerHTML=`${arr.length} entries · <b>${last} kg</b> now · ${diff>=0?'+':''}${diff} kg since ${fmtD(arr[0].date)} · range ${min}–${max}`;
 }
 
+/* ================= focus & bloating trend ================= */
+function renderFB(){
+  const arr = load(K_METRICS,[]).slice().sort((a,b)=>a.date<b.date?-1:1); // chronological
+  const svg=document.getElementById('fbchart'), out=document.getElementById('fb-readout');
+  const withAny = arr.filter(e=>e.focus!=null||e.bloat!=null);
+  if(withAny.length<2){ svg.innerHTML=''; out.textContent = withAny.length?'Log focus/bloating on another day to see the trend.':'No focus/bloating entries yet — fill them in above.'; return; }
+  const W=320,H=90,padX=6,padY=8, n=arr.length;
+  const x=i=> n===1?W/2 : padX + i*(W-2*padX)/(n-1);
+  const y=v=> padY + (1-(v-1)/9)*(H-2*padY);        // fixed 1–10 scale
+  function lineFor(key,color){
+    const pts=[]; arr.forEach((e,i)=>{ if(e[key]!=null) pts.push([x(i),y(e[key])]); });
+    if(!pts.length) return '';
+    const path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+    const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.3" fill="${color}"/>`).join('');
+    return `<path d="${path}" fill="none" stroke="${color}" stroke-width="2"/>${dots}`;
+  }
+  const start=load(K_HSTART,'2026-07-20');
+  const idx=arr.findIndex(e=>e.date>=start);
+  let marker='';
+  if(idx>=0){ const mx=x(idx).toFixed(1); marker=`<line x1="${mx}" y1="0" x2="${mx}" y2="${H}" stroke="#8a8a8a" stroke-width="1" stroke-dasharray="3 3"/>`; }
+  const mid=y(5).toFixed(1);
+  svg.innerHTML = `<line x1="0" y1="${mid}" x2="${W}" y2="${mid}" stroke="#e6e6e6" stroke-width="1"/>${marker}`
+    + lineFor('bloat','#b8541c') + lineFor('focus','#1a7a4c');
+  // before/after readout
+  const before=arr.filter(e=>e.date<start), after=arr.filter(e=>e.date>=start);
+  const avg=(list,key)=>{ const v=list.filter(e=>e[key]!=null).map(e=>e[key]); return v.length? v.reduce((a,c)=>a+c,0)/v.length : null; };
+  if(before.length && after.length){
+    const fb=avg(before,'focus'), fa=avg(after,'focus'), bb=avg(before,'bloat'), ba=avg(after,'bloat'), parts=[];
+    if(fb!=null&&fa!=null) parts.push(`focus ${fb.toFixed(1)}→${fa.toFixed(1)} (${fa-fb>=0?'+':''}${(fa-fb).toFixed(1)})`);
+    if(bb!=null&&ba!=null) parts.push(`bloating ${bb.toFixed(1)}→${ba.toFixed(1)} (${ba-bb>=0?'+':''}${(ba-bb).toFixed(1)})`);
+    out.innerHTML = `Since strict start (${fmtD(start)}): ` + (parts.length?'<b>'+parts.join('</b>, <b>')+'</b>':'nothing logged either side yet') + ` — focus up &amp; bloating down means it's working.`;
+  } else {
+    out.innerHTML = `Dashed line = your strict start (${fmtD(start)}). Log focus + bloating before and after it to see the shift.`;
+  }
+}
+function onStartChange(){ save(K_HSTART, document.getElementById('fb-start').value||'2026-07-20'); renderFB(); }
+
 /* ================= init ================= */
 applyFont();
 renderDays();
 renderHist();
 document.getElementById('m-date').value=todayStr();
+document.getElementById('fb-start').value=load(K_HSTART,'2026-07-20');
 </script>
 </body>
 </html>
