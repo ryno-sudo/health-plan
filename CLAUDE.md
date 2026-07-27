@@ -17,9 +17,9 @@ Read this first. It's the standing profile + decisions so Ryno never has to repe
 - **eGFR 58 unresolved** — possibly creatine artifact. Cystatin C eGFR + urine ACR is the #1 outstanding test. Until then: creatine 5 g (down from 10), and meal portions carry two protein scenarios (~200 g/day vs 110–130 g/day if CKD confirmed).
 - **Transferrin sat 48%** — HFE screen outstanding; liver capped at chicken liver 1×/week.
 - Gut: **methanogen overgrowth (IMO), low sIgA, high TMAO** → the whole meal plan is gut-focused; no onion/garlic wk 1 of the reset.
-- Stack (prescriber-managed — never adjust doses, only flag questions): TRT + Masteron (Sun/Wed), HCG (Mon/Wed/Fri), Reta (Sun/Wed), HGH + GHKCu (AM), HGH + DSIP (pre-bed). Wednesday night is the busiest injection sequence.
+- Stack (prescriber-managed — never adjust doses, only flag questions): TRT + Masteron (Sun/Wed), HCG (Mon/Wed/Fri), Reta (Sun/Wed), GHKCu (AM). **HGH and DSIP are PAUSED (not taking, as of Jul 2026)** — no pre-bed injections currently; don't cite the "9:30pm injection block" as a sleep factor while paused. He cycles peptides, so they may return — update this line when they do.
 - **Histamine experiment:** strict low-histamine tier started **Mon 20 Jul 2026** (2–4 wks), then relax to LOW tier. Tracking focus/bloating daily to judge it (he's curious about a histamine↔ADHD-traits link — treat as n=1 experiment, not established science).
-- **Sleep:** wakes 2–4am "wide awake, mind racing" = hyperarousal pattern; lights-out was 9:30–10:30pm (too late for 5:30am wake). Plan: whole evening earlier (asleep ~9:15pm), 8:30pm brain-dump, caffeine cut-off 10–11am, 3am stimulus-control rescue. Cannot promise outcomes — track hours in the app.
+- **Sleep:** wakes 2–4am "wide awake, mind racing" = hyperarousal pattern; lights-out was 9:30–10:30pm (too late for 5:30am wake). Plan: whole evening earlier (asleep ~9:15pm), 8:30pm brain-dump, caffeine cut-off 10–11am, 3am stimulus-control rescue. Cannot promise outcomes — track hours in the app. Note: the 2–4am waking happens **without** DSIP/HGH in play (paused), so it's not peptide-rebound; hyperarousal + short window remain the working explanation.
 
 ## The files (what's canonical)
 | File | Role |

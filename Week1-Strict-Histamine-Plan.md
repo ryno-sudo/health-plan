@@ -18,14 +18,14 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 
 | Time | What |
 |---|---|
-| **5:15** | Wake. **AM injections fasted:** HGH sub-Q + GHKCu sub-Q (rotate sites). S. boulardii 1 cap. |
+| **5:15** | Wake. GHKCu sub-Q fasted *(HGH currently paused — not taking)*. S. boulardii 1 cap. |
 | **5:30–6:20** | Train (see each day). Warm-up: bike/row 3 min + band work + glute bridges, brace L5/S1. |
 | **6:30** | Post-workout: colostrum 10 g + collagen 20 g in water. |
 | **~7:00** | Breakfast + **AM supps:** Vit D3 2,000 IU, B-complex, **Creatine 5 g**, PHGG, Mito Xcell, short-cook meat stock 200 ml + L-glutamine 5 g *(replaces bone broth — histamine)*. |
 | **~12:30** | Lunch (biggest meal) + digestive enzymes + HCl. *(Allicin/curcumin start week 2 — skip this week.)* |
 | **~15:30** | Snack. |
 | **~18:00** | Dinner. |
-| **~21:30** | **Pre-bed:** HGH sub-Q + DSIP sub-Q, Mg glycinate 400 mg, Zinc carnosine 75 mg, L-glutamine 5 g, **fresh ricotta 200 g + collagen 10 g** *(replaces Greek yoghurt — fermented)*. |
+| **~21:30** | **Pre-bed:** Mg glycinate 400 mg, Zinc carnosine 75 mg, L-glutamine 5 g, **fresh ricotta 200 g + collagen 10 g** *(replaces Greek yoghurt — fermented)*. *(HGH + DSIP currently paused — no pre-bed injections.)* |
 
 **Day-specific injections layered on top:** HCG = **Mon/Wed/Fri** · Reta = **Sun/Wed** · TRT + Mast = **Sun/Wed**.
 
@@ -57,7 +57,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 | Dinner | Pan-seared fresh chicken thigh 180 g + roasted peeled pumpkin & carrot + steamed green beans, EVOO + rosemary |
 
 - **Training:** Day 1 — seated DB press, cable lateral raise, reverse pec-deck, paused DB shrugs, face pull, overhead triceps extension, rope pushdown. (Full detail + logging in `Workout-Program.html`.)
-- **Injections:** AM HGH+GHKCu · **evening HCG sub-Q** · pre-bed HGH+DSIP.
+- **Injections:** AM GHKCu · **evening HCG sub-Q**. *(HGH/DSIP paused.)*
 - **Prep tonight:** thaw Tue's beef; nothing else.
 
 ## Tue 21 July — Rest
@@ -70,7 +70,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 | Dinner | Fresh beef 180 g + mashed potato (EVOO, no butter for strict) + steamed broccoli |
 
 - **Training:** rest / optional 20-min walk.
-- **Injections:** AM HGH+GHKCu · pre-bed HGH+DSIP.
+- **Injections:** AM GHKCu only. *(HGH/DSIP paused.)*
 - **Prep tonight:** thaw Wed's chicken; re-make ricotta if low.
 
 ## Wed 22 July — Day 2 (Back · Rear Delts · Biceps) · BUSIEST NIGHT (HCG + Reta + TRT + Mast) · Reta day = lighter dinner
@@ -88,8 +88,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
   2. ~19:30 HCG sub-Q (site 1)
   3. ~20:00 Reta sub-Q (opposite abdomen)
   4. ~20:00 TRT + Mast IM (glute)
-  5. ~21:30 HGH + DSIP sub-Q (separate sites)
-  6. Pre-bed ricotta + collagen + Mg + zinc carnosine + glutamine
+  5. Pre-bed ricotta + collagen + Mg + zinc carnosine + glutamine
 - **Prep tonight:** thaw Thu's protein.
 
 ## Thu 23 July — Rest · (shop fresh fish/meat today)
@@ -102,7 +101,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 | Dinner | **Ultra-fresh white fish** pan-seared (if same-day fresh) + rice + steamed broccoli — *else fresh chicken*, EVOO + parsley |
 
 - **Training:** rest.
-- **Injections:** AM HGH+GHKCu · pre-bed HGH+DSIP.
+- **Injections:** AM GHKCu only. *(HGH/DSIP paused.)*
 - **Shop:** buy Fri–Sun's protein fresh today; freeze immediately what's not for tomorrow.
 
 ## Fri 24 July — Day 3 (Chest · Legs · Core) · HCG day
@@ -115,7 +114,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 | Dinner | Fresh lamb (seared, 180 g) + rice + roasted peeled carrot, rosemary + EVOO |
 
 - **Training:** Day 3 — incline DB press (30°), high-to-low cable fly, lateral raise, leg press, seated leg curl, leg extension, calf raise, Pallof press, hanging knee raise/dead bug. (Full detail + logging in `Workout-Program.html`.)
-- **Injections:** AM HGH+GHKCu · **evening HCG sub-Q** · pre-bed HGH+DSIP.
+- **Injections:** AM GHKCu · **evening HCG sub-Q**. *(HGH/DSIP paused.)*
 
 ## Sat 25 July — Optional Day 1 repeat (4-day week)
 
@@ -127,7 +126,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
 | Dinner | Fresh chicken 180 g + roasted pumpkin + steamed broccoli, EVOO + thyme |
 
 - **Training:** optional Day 1 repeat (delts/traps/arms — your priority muscles) for a 4-day week, or rest if you only want 3. Log bodyweight/waist fasted this morning (roadmap §8).
-- **Injections:** AM HGH+GHKCu · pre-bed HGH+DSIP.
+- **Injections:** AM GHKCu only. *(HGH/DSIP paused.)*
 
 ## Sun 26 July — Rest · Reta + TRT + Mast night · Reta day = lighter dinner
 
@@ -142,8 +141,7 @@ Recipes referenced (e.g. "recipe 4") are in `Low-Histamine-Recipes.md`. Strict r
   1. Light dinner ~6pm
   2. ~20:00 Reta sub-Q (abdomen) — *no HCG on Sunday*
   3. ~20:00 TRT + Mast IM (glute)
-  4. ~21:30 HGH + DSIP sub-Q
-  5. Pre-bed ricotta + collagen + Mg + zinc carnosine + glutamine
+  4. Pre-bed ricotta + collagen + Mg + zinc carnosine + glutamine
 - **Prep for Week 2:** re-make stock + ricotta + rice; shop fresh. Week 2 can relax toward LOW tier (onion/garlic back in *cooked*, one reheat-from-frozen OK) — or hold strict another week if the focus/bloating signal is trending good.
 
 ---

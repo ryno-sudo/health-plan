@@ -30,7 +30,7 @@ This is a single-user app for a specific, complex protocol. Hard-code these as t
 | **Gut** | Methanogen overgrowth (IMO), low sIgA, elevated TMAO. Drives food AVOID list + supp priorities. |
 | **Kidney flag** | eGFR 58 unconfirmed (possible creatine artifact). **Protein has TWO scenarios** until cystatin C eGFR confirmed — the app must carry both and switch on one setting. Creatine dropped 10g→5g. |
 | **Iron flag** | Transferrin sat 48% — liver limited to chicken liver 1×/week until HFE screen clears. |
-| **Hormone/peptide stack** | TRT, Masteron, HCG, Reta, HGH, GHKCu, DSIP — each on its own schedule (see §5). |
+| **Hormone/peptide stack** | TRT, Masteron, HCG, Reta, GHKCu active; **HGH + DSIP currently paused (Jul 2026)** — seed them as `active:false` Items so they slot back in when he resumes. Each on its own schedule (see §5). |
 | **Equipment** | Home + Revo Charlestown gym; TM7; slow cooker. |
 | **Goal mode toggle** | "Lean (Reta on)" vs "Growth (Reta paused, +300–400 kcal)" — flips macros app-wide. |
 
@@ -91,17 +91,16 @@ This is the module that justifies building an app instead of using the HTML file
 ### 5.1 Daily/weekly scheduling
 Each `Item` renders into Today view by `timing` + `dayPattern`. Seed data from `Meal-Plan.html` §6:
 
-- **AM (daily):** HGH, GHKCu, Vit D3 2,000 IU, B-complex, Creatine **5g** (reduced), PHGG, Mito Xcell, bone broth + L-glutamine 5g, colostrum (split dose).
+- **AM (daily):** GHKCu *(HGH paused)*, Vit D3 2,000 IU, B-complex, Creatine **5g** (reduced), PHGG, Mito Xcell, bone broth + L-glutamine 5g, colostrum (split dose).
 - **With lunch (wk 2–4):** Allicin (cycled), Curcumin+piperine 500mg, digestive enzymes + HCl.
-- **Pre-bed:** HGH, DSIP, Mg glycinate 400mg, Zinc carnosine 75mg, L-glutamine 5g, Greek yoghurt + collagen.
+- **Pre-bed:** Mg glycinate 400mg, Zinc carnosine 75mg, L-glutamine 5g, Greek yoghurt + collagen. *(HGH + DSIP paused — re-add as pre-bed Items on resume.)*
 - **Injection day-patterns:** HCG Mon/Wed/Fri · Reta Sun/Wed · TRT+Mast Sun/Wed.
 - **Wednesday-night sequence** (busiest — render as an *ordered, timed checklist*, not a flat list):
   1. Dinner ~6pm (lighter)
   2. ~7:30 HCG sub-Q (site 1)
   3. ~8:00 Reta sub-Q (opposite abdomen)
   4. ~8:00 TRT + Mast IM (glute)
-  5. ~9:30 HGH + DSIP sub-Q (separate sites)
-  6. Pre-bed yoghurt + Mg + zinc carnosine + glutamine
+  5. Pre-bed yoghurt + Mg + zinc carnosine + glutamine
 
   → Injection-site rotation tracker so the same site isn't hit twice running.
 
