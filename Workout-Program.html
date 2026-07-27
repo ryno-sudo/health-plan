@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#15384a">
+<title>Training Program</title>
+<style>
+  :root{ --fs:18px; --ink:#16211f; --bg:#eef2f3; --card:#fff; --line:#d7e0e2; --brand:#15384a; --brand2:#1f6f8b; --accent:#b8541c; --muted:#5d6b6a; --ok:#1a7a4c; }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif; font-size:var(--fs); line-height:1.55; color:var(--ink); background:var(--bg); margin:0; padding:0 0 40px; }
+  header{ background:var(--brand); color:#fff; padding:16px 16px 14px; position:sticky; top:0; z-index:20; }
+  header h1{ margin:0; font-size:1.3em; font-weight:800; letter-spacing:.2px; }
+  header .sub{ font-size:.82em; opacity:.9; margin-top:3px; }
+  .fontctl{ position:absolute; top:14px; right:14px; display:flex; gap:6px; }
+  .fontctl button{ width:40px; height:40px; border:1px solid rgba(255,255,255,.5); background:rgba(255,255,255,.12); color:#fff; border-radius:10px; font-size:17px; font-weight:800; }
+  main{ max-width:760px; margin:0 auto; padding:16px; }
+  .intro{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:16px; }
+  .intro h2{ margin:0 0 8px; font-size:1.1em; color:var(--brand); }
+  .intro p{ margin:8px 0; }
+  .banner{ background:#fff6ec; border:1px solid #f0d6b8; border-radius:12px; padding:12px 14px; margin:12px 0; font-size:.95em; }
+  .banner b{ color:var(--accent); }
+  /* day tabs */
+  nav.days{ display:flex; gap:8px; margin-bottom:16px; position:sticky; top:64px; z-index:15; padding:8px 0; background:var(--bg); }
+  nav.days button{ flex:1; padding:12px 6px; border:1.5px solid var(--line); background:#fff; color:var(--muted); border-radius:12px; font-size:.9em; font-weight:700; line-height:1.2; }
+  nav.days button.active{ background:var(--brand); color:#fff; border-color:var(--brand); }
+  .day{ display:none; }
+  .day.active{ display:block; }
+  .dayhead{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:14px; }
+  .dayhead h2{ margin:0 0 4px; color:var(--brand); font-size:1.15em; }
+  .dayhead .focus{ color:var(--accent); font-weight:700; font-size:.9em; }
+  .warmup{ margin-top:10px; font-size:.92em; }
+  .warmup summary{ font-weight:700; color:var(--brand2); cursor:pointer; }
+  .warmup ul{ margin:8px 0 0; padding-left:20px; }
+  /* exercise card */
+  .ex{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px; margin-bottom:14px; }
+  .ex .top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .ex .name{ font-weight:800; font-size:1.06em; }
+  .ex .tag{ display:inline-block; font-size:.72em; font-weight:800; padding:3px 9px; border-radius:20px; background:#e7eef0; color:var(--brand2); margin-top:5px; }
+  .ex .tag.pri{ background:#fbe9dc; color:var(--accent); }
+  .rx{ margin:11px 0; padding:10px 12px; background:#eef4f2; border-radius:10px; font-weight:700; color:var(--ink); font-size:.96em; }
+  .rx .why{ display:block; font-weight:400; color:var(--muted); font-size:.86em; margin-top:4px; }
+  details.tech{ margin:8px 0; }
+  details.tech summary{ font-weight:700; color:var(--brand2); cursor:pointer; padding:6px 0; }
+  details.tech ol{ margin:8px 0; padding-left:22px; }
+  details.tech li{ margin-bottom:6px; }
+  .yt{ display:inline-block; margin:6px 0 2px; padding:9px 14px; background:#c4302b; color:#fff; border-radius:10px; text-decoration:none; font-weight:700; font-size:.9em; }
+  .last{ font-size:.86em; margin:10px 0 4px; padding:7px 11px; background:#eef4f1; border-radius:8px; color:var(--ok); font-weight:600; }
+  .last.none{ background:#f0f0f0; color:#666; }
+  .sets{ margin-top:8px; }
+  .setrow{ display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+  .setrow .lbl{ width:52px; font-size:.82em; font-weight:700; color:var(--muted); }
+  .setrow input{ flex:1; width:100%; font-size:1em; font-family:inherit; padding:11px 10px; border:1.5px solid var(--line); border-radius:9px; }
+  .setrow input:focus{ outline:none; border-color:var(--brand2); }
+  label.nlbl{ display:block; font-weight:700; margin:12px 0 5px; font-size:.85em; color:var(--muted); }
+  textarea{ width:100%; font-size:.96em; font-family:inherit; padding:11px 10px; border:1.5px solid var(--line); border-radius:9px; resize:vertical; }
+  textarea:focus{ outline:none; border-color:var(--brand2); }
+  .savebar{ position:sticky; bottom:0; padding:10px 0; background:linear-gradient(to top, var(--bg) 70%, transparent); }
+  .btn{ display:block; width:100%; padding:15px; font-size:1.05em; font-weight:800; background:var(--brand); color:#fff; border:none; border-radius:12px; }
+  .btn:active{ background:var(--brand2); }
+  .btn.sec{ background:#fff; color:var(--brand); border:1.5px solid var(--brand); font-size:.95em; padding:12px; }
+  .saved{ color:var(--ok); font-weight:800; text-align:center; margin-top:8px; min-height:1.2em; }
+  .hist{ font-size:.9em; }
+  .hist table{ width:100%; border-collapse:collapse; }
+  .hist td,.hist th{ text-align:left; padding:7px 6px; border-bottom:1px solid var(--line); }
+  .footer{ margin-top:18px; }
+  .footer .btn.sec{ margin-bottom:10px; }
+  .muted{ color:var(--muted); font-size:.9em; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Training Program</h1>
+  <div class="sub">Cut &amp; sculpt · delts · traps · arms — 3-day (45–54, back &amp; knee safe)</div>
+  <div class="fontctl">
+    <button onclick="bumpFont(-1)" aria-label="Smaller">A−</button>
+    <button onclick="bumpFont(1)" aria-label="Larger">A+</button>
+  </div>
+</header>
+
+<main>
+  <div class="intro">
+    <h2>Read this once — it's the whole strategy</h2>
+    <div class="banner"><b>Definition comes from the kitchen, not the gym.</b> Your meal plan + the calorie deficit (and Reta) strip the fat. This program's job is to <b>build and defend the muscles that make you look shredded</b> — big 3D delts, thick traps, full arms — so as the fat drops, <i>those</i> pop. Don't expect the weights to "tone"; expect them to hold and grow the showpieces while you diet.</div>
+    <p><b>The split (3 days/week):</b> Day 1 Shoulders/Traps/Triceps · Day 2 Back/Rear-delts/Biceps · Day 3 Chest/Legs/Core. Your priority muscles (delts, traps, biceps, triceps) get hit hard and often; legs are trained once to maintain — that's the correct trade-off for your goal and your knees/back.</p>
+    <p><b>How hard:</b> take every working set to <b>1–2 reps in reserve</b> (RIR) — you could just about grind 1–2 more. Only the very last set of an isolation move goes to true failure. <b>Control the lowering</b> (2–3 sec down) on everything — that's where growth and joint safety both live.</p>
+    <p><b>Rest:</b> ~2 min on presses/rows, 60–90 sec on isolation. <b>Progress:</b> when you hit the top of the rep range on all sets, add a little weight next time (double progression). <b>Deload every 6th week:</b> same exercises, half the sets, ~2 RIR — your joints at 45–54 need it.</p>
+    <p><b>Cardio for the shred (not optional):</b> on 2–3 non-lifting days do 30–45 min incline-treadmill walking or bike (zone 2, easy on knees & back) + aim ~8–10k steps daily. That, plus the diet, is what reveals the muscle.</p>
+    <p class="muted">Warm up every joint before the first heavy set — at our age that's the difference between training for years and being sidelined. Each day has a warm-up drop-down. Not medical advice; clear the load with your practitioner given the L5/S1 and eGFR notes.</p>
+  </div>
+
+  <nav class="days">
+    <button class="active" data-day="1" onclick="showDay(this)">Day 1<br>Delts · Traps · Tri</button>
+    <button data-day="2" onclick="showDay(this)">Day 2<br>Back · Rear · Bi</button>
+    <button data-day="3" onclick="showDay(this)">Day 3<br>Chest · Legs · Core</button>
+  </nav>
+
+  <div id="days"></div>
+
+  <div class="savebar">
+    <button class="btn" onclick="saveSession()">💾 Save today's session</button>
+    <div class="saved" id="saved"></div>
+  </div>
+
+  <div class="footer">
+    <details>
+      <summary style="font-weight:700;color:var(--brand2);cursor:pointer;padding:8px 0">📈 Recent sessions</summary>
+      <div class="hist" id="hist"></div>
+    </details>
+    <details style="margin-top:8px">
+      <summary style="font-weight:700;color:var(--brand2);cursor:pointer;padding:8px 0">⚙️ Backup, 4-day version &amp; notes</summary>
+      <div style="padding-top:10px">
+        <button class="btn sec" onclick="exportData()">⬇︎ Export backup file</button>
+        <input type="file" id="importer" accept="application/json" onchange="importData(event)" style="width:100%;margin-bottom:10px">
+        <button class="btn sec" style="color:#b03030;border-color:#b03030" onclick="wipe()">Erase all logs &amp; notes</button>
+        <div class="banner" style="margin-top:14px">
+          <b>Bumping to 4 days?</b> Split Day 1 into two: <b>4A</b> Shoulders + Traps, and put Triceps with Chest. New week:
+          <br>• 4A — Shoulders + Traps &nbsp; • 4B — Back + Biceps &nbsp; • 4C — Chest + Triceps &nbsp; • 4D — Legs + Arms pump (light curls/pushdowns/laterals, higher reps).
+          <br>Same exercises, just more room for the priority muscles. Keep the deload every 6th week.
+        </div>
+        <p class="muted">This app replaces the exercise lists in the old files (roadmap + meal-plan tracker) — follow <b>this one</b>. It saves only on this device; export a backup now and then.</p>
+      </div>
+    </details>
+  </div>
+</main>
+
+<script>
+/* =========================================================
+   THE PROGRAM  (yt = curated YouTube search — always works)
+   ========================================================= */
+const YT = q => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q + ' proper form technique');
+const PROGRAM = {
+  "1": {
+    title: "Day 1 — Shoulders, Traps & Triceps",
+    focus: "Priority day: width + 3D delts, thick traps, horseshoe triceps",
+    warmup: ["3–4 min bike or row to raise temperature","Band pull-aparts ×20 + band face-pulls ×20","Cable/DB external rotations ×15/side (rotator cuff)","2 light feeder sets of lateral raises (very light, high rep)"],
+    exercises: [
+      { name:"Seated DB Shoulder Press", tag:"Front/Side delt", pri:false, sets:3, reps:"8–12", rest:"2 min", tempo:"2s down, no bounce",
+        why:"Back-supported pressing builds delt mass without loading your spine — no standing barbell or behind-neck.",
+        cues:["Bench upright (~85°), back flat against pad, feet planted.","Start DBs at ear height, elbows slightly in front of body (not flared straight out — protects the shoulder).","Press up and slightly together; stop just short of lockout to keep tension.","Lower under control to ear height — that's one rep. No clanging the DBs together."],
+        yt:"seated dumbbell shoulder press" },
+      { name:"Cable Lateral Raise", tag:"Side delt — WIDTH", pri:true, sets:4, reps:"12–20", rest:"60–75 s", tempo:"slow, no swing",
+        why:"The #1 exercise for shoulder width. Cable keeps tension on the side delt through the whole range — do this before you're tired.",
+        cues:["Stand side-on to a low pulley, cable across the front of your body, handle in the far hand.","Lead with the elbow, raise out to the side to shoulder height — pinky slightly higher than thumb (like pouring a jug).","No shrugging — keep the trap relaxed, the delt does the work.","Lower slowly all the way; feel the stretch, don't let the weight drop. One arm at a time is fine."],
+        yt:"cable lateral raise" },
+      { name:"Reverse Pec-Deck (Rear Delt)", tag:"Rear delt — 3D/THICKNESS", pri:true, sets:3, reps:"15–20", rest:"60–75 s", tempo:"squeeze & hold 1s",
+        why:"Rear delts create the 3D 'boulder shoulder' look and balance all your pressing. High reps — they respond to volume, not heavy load.",
+        cues:["Chest against the pad, grab handles with a neutral/thumbs-up grip.","Drive the arms back in a wide arc, leading with the elbows/pinkies.","Squeeze the rear delts at the back, pause 1 sec, don't let momentum fling them.","Keep a soft bend in the elbow fixed the whole set — think 'reverse hug'."],
+        yt:"reverse pec deck rear delt" },
+      { name:"DB Shrug (paused)", tag:"Upper traps — PRIORITY", pri:true, sets:4, reps:"10–15", rest:"75–90 s", tempo:"3s hold at top",
+        why:"Direct upper-trap builder for the yoke you want. The pause at the top is what grows them — most people just bounce and cheat it.",
+        cues:["Heavy DBs at your sides, arms straight, shoulders relaxed to start.","Shrug straight UP toward your ears — not rolling (rolling adds nothing and stresses the joint).","Hold the top hard for 3 full seconds, squeezing the traps.","Lower all the way down and feel the stretch. Straps are fine so grip doesn't limit you."],
+        yt:"dumbbell shrug traps" },
+      { name:"Cable Face Pull (high)", tag:"Mid traps + rear delt", pri:false, sets:3, reps:"15–20", rest:"60 s", tempo:"squeeze, controlled",
+        why:"Builds mid-traps and rear delts and bullet-proofs the shoulder — a must at 45+ to keep pressing pain-free.",
+        cues:["Rope on a high pulley, pull toward your forehead/eyes.","At the end, rotate so knuckles face behind you and elbows are high — 'double biceps' finish.","Squeeze the shoulder blades together, pause briefly.","Light-to-moderate weight; this is about quality contraction, not ego."],
+        yt:"cable face pull" },
+      { name:"Overhead Cable/DB Triceps Extension", tag:"Triceps LONG HEAD — PRIORITY", pri:true, sets:3, reps:"10–15", rest:"75 s", tempo:"3s stretch",
+        why:"The long head is most of your arm's tricep mass and only grows when the arm is overhead (stretched). This is the size move.",
+        cues:["Rope on a low pulley, face away, rope behind your head, elbows pointing forward and tucked.","Extend the arms fully overhead, squeezing the triceps.","Lower under control until you feel a deep stretch behind the arm — keep elbows still, don't let them flare.","Keep a slight forward lean; keep the upper arms locked in place — only the forearms move."],
+        yt:"overhead cable tricep extension long head" },
+      { name:"Triceps Rope Pushdown", tag:"Triceps (lateral head)", pri:false, sets:3, reps:"12–15", rest:"60 s", tempo:"squeeze at bottom",
+        why:"Finishes the triceps with tension in the shortened position — elbow-friendly with a rope.",
+        cues:["Rope on high pulley, elbows pinned to your sides.","Push down and spread the rope apart at the bottom, fully straightening the arms.","Squeeze hard for a beat at the bottom.","Let it come up only to ~90° at the elbow to keep tension; don't let the stack pull your elbows up."],
+        yt:"tricep rope pushdown" }
+    ]
+  },
+  "2": {
+    title: "Day 2 — Back, Rear Delts & Biceps",
+    focus: "Back width + thickness, more rear delt, priority biceps (3 angles)",
+    warmup: ["3–4 min bike or row","Band pull-aparts ×20","2 light scap pulldowns / dead-hangs to open the lats","1–2 light feeder sets on the first movement"],
+    exercises: [
+      { name:"Lat Pulldown (wide)", tag:"Lats — WIDTH", pri:false, sets:3, reps:"8–12", rest:"2 min", tempo:"2s up (controlled)",
+        why:"Builds the V-taper that makes your waist look smaller and shoulders wider — pure aesthetics.",
+        cues:["Grip slightly wider than shoulders, thumbs over the bar.","Pull the bar to your upper chest by driving elbows down and back — lead with the elbows, not the hands.","Slight lean back (~10°), chest up; don't heave with the lower back.","Control the bar all the way up to a full stretch; feel the lats lengthen."],
+        yt:"lat pulldown wide grip" },
+      { name:"Chest-Supported Row", tag:"Back thickness + mid traps", pri:false, sets:3, reps:"8–12", rest:"2 min", tempo:"1s squeeze",
+        why:"Chest-supported = ZERO load on your lower back, so you can row heavy safely. Builds the thick mid-back and traps.",
+        cues:["Chest firmly on the pad the whole set — this is what protects your L5/S1.","Row the handles toward your lower ribs, driving elbows back.","Squeeze the shoulder blades together at the top for a beat.","Lower under control to a full stretch; don't let the chest come off the pad to cheat."],
+        yt:"chest supported row machine" },
+      { name:"Seated Cable Row (neutral grip)", tag:"Mid-back", pri:false, sets:3, reps:"10–12", rest:"90 s", tempo:"controlled",
+        why:"Second row angle for detail and thickness; neutral grip is shoulder- and elbow-friendly.",
+        cues:["Sit tall, slight knee bend, keep the torso still — no big back-and-forth rocking.","Pull the handle to your belly button, elbows close to your sides.","Squeeze the back, pause, then extend the arms to a full stretch (let the shoulder blades spread).","Keep the lower back neutral and braced throughout."],
+        yt:"seated cable row neutral grip" },
+      { name:"Straight-Arm Pulldown", tag:"Lats + lower traps", pri:false, sets:3, reps:"12–15", rest:"60–75 s", tempo:"slow arc",
+        why:"Isolates the lats and trains the lower traps — great for the detailed, sweeping look as you lean out.",
+        cues:["Rope/bar on a high pulley, arms nearly straight (soft elbow, locked).","Keeping arms straight, pull the bar down in an arc to your thighs using the lats.","Squeeze at the bottom; feel it in the lats, not the triceps.","Return slowly overhead to a full lat stretch."],
+        yt:"straight arm pulldown lat" },
+      { name:"Cable Rear-Delt Fly", tag:"Rear delt (2nd hit)", pri:false, sets:3, reps:"15–20", rest:"60 s", tempo:"squeeze & control",
+        why:"Extra rear-delt volume across the week is what builds that capped, 3D shoulder you're after.",
+        cues:["Cross cables (left hand to right pulley and vice-versa) at shoulder height.","Open the arms out and back in a wide arc, leading with the pinky.","Squeeze the rear delts, pause, control the return.","Keep the elbow angle fixed; don't turn it into a row."],
+        yt:"cable rear delt fly" },
+      { name:"Incline DB Curl", tag:"Biceps STRETCH — PRIORITY", pri:true, sets:3, reps:"8–12", rest:"75 s", tempo:"3s down",
+        why:"Curling from behind the body puts the biceps on full stretch — the most growth-productive biceps exercise there is.",
+        cues:["Set an incline bench ~45–60°, sit back, let the arms hang straight down behind the torso.","Curl the DBs up without letting the elbows drift forward — keep them back.","Supinate (turn pinky up) as you curl for a peak squeeze.","Lower all the way to a full stretch under control — don't cut the bottom short."],
+        yt:"incline dumbbell curl" },
+      { name:"EZ-Bar or Cable Curl", tag:"Biceps (mass)", pri:true, sets:3, reps:"10–12", rest:"75 s", tempo:"no swing",
+        why:"The heavy, meat-and-potatoes biceps builder. EZ bar or cable spares the wrists and keeps constant tension.",
+        cues:["Elbows pinned to your sides, shoulder-width grip on an EZ bar (or straight-bar cable).","Curl up by contracting the biceps — no swinging or using the lower back.","Squeeze hard at the top for a beat.","Lower under control to nearly straight; keep tension, don't rest at the bottom."],
+        yt:"ez bar curl" },
+      { name:"Hammer Curl (rope or DB)", tag:"Brachialis — arm THICKNESS", pri:true, sets:3, reps:"10–12", rest:"60 s", tempo:"controlled",
+        why:"Trains the brachialis under the biceps — this is what pushes the biceps up and thickens the whole arm from the side.",
+        cues:["Neutral grip (thumbs up), DBs or a rope on a low cable.","Curl keeping the wrist neutral the whole way — like swinging a hammer.","Keep elbows at your sides; squeeze at the top.","Lower slowly and fully. Don't rush — brachialis loves controlled reps."],
+        yt:"hammer curl" }
+    ]
+  },
+  "3": {
+    title: "Day 3 — Chest, Legs & Core",
+    focus: "Incline chest (no flat), back- & knee-safe legs to maintain, core",
+    warmup: ["3–4 min bike","Bodyweight leg extensions / air squats to knee tolerance (grease the knees)","Band pull-aparts + cuff work before pressing","1–2 light feeder sets on incline press"],
+    exercises: [
+      { name:"Incline DB Press (30°)", tag:"Upper chest — NO FLAT", pri:false, sets:3, reps:"8–12", rest:"2 min", tempo:"2s down",
+        why:"Upper-chest focus builds the 'shelf' that reads as a full, defined chest — and the incline is easier on the shoulder than flat.",
+        cues:["Bench at ~30° (low incline), feet planted, slight arch.","Start DBs at upper-chest level, elbows ~45–60° from the torso (not flared to 90°).","Press up and slightly in; stop short of lockout.","Lower under control to a comfortable stretch — don't dive-bomb into the shoulder."],
+        yt:"incline dumbbell press 30 degrees" },
+      { name:"High-to-Low Cable Fly", tag:"Chest (detail/stretch)", pri:false, sets:3, reps:"12–15", rest:"75 s", tempo:"3s stretch",
+        why:"Constant-tension fly that hits the chest in the stretched position and carves the lower-chest line as you lean out.",
+        cues:["Pulleys set high, step forward, handles in each hand.","With a fixed soft elbow, bring the hands down and together in front of your hips in an arc.","Squeeze the chest at the bottom, cross the hands slightly.","Return slowly to a big chest stretch; keep the elbow angle constant (fly, not press)."],
+        yt:"high to low cable fly" },
+      { name:"Leg Press (moderate ROM)", tag:"Quads/glutes — back & KNEE safe", pri:false, sets:3, reps:"10–15", rest:"2 min", tempo:"2s down, no bounce",
+        why:"Replaces the squat entirely — no spinal loading. Feet a touch higher takes stress off the knees while still building the legs.",
+        cues:["Feet mid-to-high on the platform, shoulder-width; keep the lower back flat against the pad (never let it round at the bottom).","Lower only as far as your knees are comfortable — stop before any pinch; controlled, no bouncing.","Drive through mid-foot/heel; don't lock the knees out hard at the top.","Keep knees tracking over toes, not caving in."],
+        yt:"leg press proper form feet placement" },
+      { name:"Seated Leg Curl", tag:"Hamstrings", pri:false, sets:3, reps:"10–12", rest:"90 s", tempo:"1s squeeze, 3s return",
+        why:"Balances the quads, protects the knee, and fills out the leg from the back. Seated version gives a better stretch than lying.",
+        cues:["Pad just above the heels, thighs strapped down.","Curl the heels under you hard, squeeze the hamstrings at the bottom.","Return slowly to a full stretch — the slow negative is the key.","Keep hips down on the seat; don't let them rise."],
+        yt:"seated leg curl" },
+      { name:"Leg Extension (controlled)", tag:"Quads — knee-friendly", pri:false, sets:3, reps:"15–20", rest:"75 s", tempo:"1s hold, 3s down",
+        why:"Higher reps and a controlled tempo build the quad sweep while being gentle on the knees — no heavy, jerky reps.",
+        cues:["Pad on the lower shin, sit back into the seat.","Extend smoothly to straight, squeeze the quads at the top for a beat (don't snap the knee).","Lower slowly under control — no crashing the stack.","If knees complain, reduce range slightly and keep it light and slow."],
+        yt:"leg extension" },
+      { name:"Standing or Seated Calf Raise", tag:"Calves", pri:false, sets:4, reps:"12–15", rest:"60 s", tempo:"2s up, 3s stretch",
+        why:"Calves need a full stretch and a hard squeeze; the pause at the bottom is what most people skip.",
+        cues:["Balls of the feet on the platform, heels free.","Rise up onto the toes as high as possible, squeeze the calf at the top.","Lower slowly to a deep stretch below the platform, pause 2 sec.","Full range every rep — don't do tiny bounces."],
+        yt:"standing calf raise" },
+      { name:"Pallof Press", tag:"Core — anti-rotation, BACK SAFE", pri:false, sets:3, reps:"10 / side", rest:"45 s", tempo:"3s hold out",
+        why:"Trains the deep core to resist rotation — exactly the stability an L5/S1 back needs, with no crunching or spinal flexion.",
+        cues:["Stand side-on to a cable at chest height, both hands on the handle at your sternum.","Press the handle straight out in front of you; the cable tries to twist you — resist it.","Hold the arms out for 3 sec, keeping hips and shoulders square.","Bring it back to the chest under control. Brace your abs the whole time."],
+        yt:"pallof press" },
+      { name:"Hanging Knee Raise or Dead Bug", tag:"Core — lower abs", pri:false, sets:3, reps:"10–12", rest:"45 s", tempo:"controlled",
+        why:"Lower-ab work that decompresses (hanging) or protects (dead bug) the spine — pick whichever your back likes on the day.",
+        cues:["Hanging: hang from a bar, raise knees toward chest by curling the pelvis up — no swinging.","Lower slowly; don't just drop the legs.","Dead bug option: lie on your back, opposite arm/leg extend while pressing the low back into the floor.","Move slowly and keep the lower back glued down throughout."],
+        yt:"hanging knee raise" }
+    ]
+  }
+};
+
+/* ================= storage ================= */
+const K_LOGS='wk_logs_v1', K_NOTES='wk_notes_v1', K_FONT='wk_font';
+const load=(k,d)=>{ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch(e){ return d; } };
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const todayStr=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const slug=s=>s.replace(/[^a-z0-9]+/gi,'_');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtD=s=>{ const p=s.split('-'); return p[2]+'/'+p[1]; };
+
+let CURRENT="1";
+
+/* ================= font ================= */
+function applyFont(){ document.documentElement.style.setProperty('--fs',(load(K_FONT,18))+'px'); }
+function bumpFont(dir){ let s=Math.max(15,Math.min(26,parseInt(load(K_FONT,18))+dir)); save(K_FONT,s); applyFont(); }
+
+/* ================= render ================= */
+function lastFor(name){
+  const logs=load(K_LOGS,[]);
+  for(const s of logs){ const ex=s.exercises.find(e=>e.name===name); if(ex) return {date:s.date,sets:ex.sets}; }
+  return null;
+}
+function renderDays(){
+  const notes=load(K_NOTES,{});
+  document.getElementById('days').innerHTML = Object.keys(PROGRAM).map(dk=>{
+    const d=PROGRAM[dk];
+    const exHtml=d.exercises.map(ex=>{
+      const key=slug(ex.name);
+      const last=lastFor(ex.name);
+      const lastHtml = last
+        ? `<div class="last">Last (${fmtD(last.date)}): <b>${last.sets.map(s=>s.w+'×'+s.r).join(', ')}</b> — beat it</div>`
+        : `<div class="last none">No history yet — set your baseline today</div>`;
+      let rows='';
+      for(let i=1;i<=ex.sets;i++){
+        rows += `<div class="setrow"><span class="lbl">Set ${i}</span>
+          <input type="number" inputmode="decimal" step="0.5" placeholder="kg" data-k="${key}" data-set="${i}" data-f="w">
+          <input type="number" inputmode="numeric" placeholder="reps" data-k="${key}" data-set="${i}" data-f="r"></div>`;
+      }
+      return `<div class="ex" data-name="${esc(ex.name)}" data-day="${dk}">
+        <div class="top">
+          <div><div class="name">${esc(ex.name)}</div><span class="tag ${ex.pri?'pri':''}">${ex.pri?'★ ':''}${esc(ex.tag)}</span></div>
+        </div>
+        <div class="rx">${ex.sets} sets × ${ex.reps} · rest ${ex.rest} · tempo ${ex.tempo}
+          <span class="why">${esc(ex.why)}</span></div>
+        <details class="tech"><summary>▸ How to do it (technique)</summary>
+          <ol>${ex.cues.map(c=>`<li>${esc(c)}</li>`).join('')}</ol>
+          <a class="yt" href="${YT(ex.yt)}" target="_blank" rel="noopener">▶ Watch form video</a>
+        </details>
+        ${lastHtml}
+        <div class="sets">${rows}</div>
+        <label class="nlbl">Your notes (grip, seat height, aches, what worked)</label>
+        <textarea rows="2" data-note="${key}" placeholder="e.g. seat pos 4, felt L delt — keep elbows lower">${esc(notes[key]||'')}</textarea>
+      </div>`;
+    }).join('');
+    return `<div class="day ${dk===CURRENT?'active':''}" id="day-${dk}">
+      <div class="dayhead"><h2>${esc(d.title)}</h2><div class="focus">${esc(d.focus)}</div>
+        <details class="warmup"><summary>▸ Warm-up (do this first)</summary><ul>${d.warmup.map(w=>`<li>${esc(w)}</li>`).join('')}</ul></details>
+      </div>${exHtml}</div>`;
+  }).join('');
+  // autosave notes
+  document.querySelectorAll('textarea[data-note]').forEach(t=>{
+    t.addEventListener('input',()=>{ const n=load(K_NOTES,{}); n[t.dataset.note]=t.value; save(K_NOTES,n); });
+  });
+}
+function showDay(btn){
+  CURRENT=btn.dataset.day;
+  document.querySelectorAll('nav.days button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.day').forEach(d=>d.classList.remove('active'));
+  document.getElementById('day-'+CURRENT).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function saveSession(){
+  const day=CURRENT, date=todayStr();
+  const exMap={};
+  document.querySelectorAll(`#day-${day} .setrow input`).forEach(inp=>{
+    if(inp.value==='') return;
+    const k=inp.dataset.k, s=inp.dataset.set;
+    exMap[k]=exMap[k]||{};
+    exMap[k][s]=exMap[k][s]||{};
+    exMap[k][s][inp.dataset.f]=inp.value;
+  });
+  const exercises=[];
+  document.querySelectorAll(`#day-${day} .ex`).forEach(div=>{
+    const k=slug(div.dataset.name), data=exMap[k];
+    if(!data) return;
+    const sets=Object.keys(data).sort().map(si=>data[si]).filter(s=>s.w&&s.r).map(s=>({w:parseFloat(s.w),r:parseInt(s.r)}));
+    if(sets.length) exercises.push({name:div.dataset.name, sets});
+  });
+  if(!exercises.length){ flash('Enter weight + reps for at least one set'); return; }
+  const logs=load(K_LOGS,[]);
+  logs.push({date, day, exercises});
+  logs.sort((a,b)=>a.date<b.date?1:-1);
+  save(K_LOGS,logs);
+  document.querySelectorAll(`#day-${day} .setrow input`).forEach(i=>i.value='');
+  flash('✓ Saved '+exercises.length+' exercises');
+  renderDays(); showDayById(day); renderHist();
+}
+function showDayById(dk){ document.querySelectorAll('.day').forEach(d=>d.classList.remove('active')); const el=document.getElementById('day-'+dk); if(el) el.classList.add('active'); }
+function flash(msg){ const e=document.getElementById('saved'); e.textContent=msg; setTimeout(()=>{ if(e.textContent===msg) e.textContent=''; },2600); }
+function renderHist(){
+  const logs=load(K_LOGS,[]), box=document.getElementById('hist');
+  if(!logs.length){ box.innerHTML='<p class="muted">No sessions logged yet.</p>'; return; }
+  box.innerHTML=logs.slice(0,12).map((s,i)=>{
+    const rows=s.exercises.map(e=>`<tr><td>${esc(e.name)}</td><td>${e.sets.map(x=>x.w+'×'+x.r).join(', ')}</td></tr>`).join('');
+    return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between"><b>${fmtD(s.date)} · Day ${s.day}</b><button class="del" style="color:#b03030;background:none;border:none;font-weight:700" onclick="delLog(${i})">✕</button></div><table>${rows}</table></div>`;
+  }).join('');
+}
+function delLog(i){ if(!confirm('Delete this session?'))return; const l=load(K_LOGS,[]); l.splice(i,1); save(K_LOGS,l); renderDays(); showDayById(CURRENT); renderHist(); }
+function exportData(){
+  const data={exported:todayStr(), logs:load(K_LOGS,[]), notes:load(K_NOTES,{})};
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download='training-backup-'+todayStr()+'.json'; a.click();
+}
+function importData(ev){
+  const f=ev.target.files[0]; if(!f)return; const r=new FileReader();
+  r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!confirm('Restore backup? Replaces current data.'))return;
+    if(d.logs)save(K_LOGS,d.logs); if(d.notes)save(K_NOTES,d.notes); renderDays(); showDayById(CURRENT); renderHist(); alert('Restored ✓');
+  }catch(e){ alert('Could not read that file.'); } };
+  r.readAsText(f);
+}
+function wipe(){ if(!confirm('Erase ALL logs and notes on this device?'))return; if(!confirm('Really erase everything?'))return; localStorage.removeItem(K_LOGS); localStorage.removeItem(K_NOTES); renderDays(); showDayById(CURRENT); renderHist(); }
+
+/* ================= init ================= */
+applyFont();
+renderDays();
+renderHist();
+</script>
+</body>
+</html>

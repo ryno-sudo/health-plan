@@ -134,6 +134,8 @@ This is the feature you explicitly asked for.
 
 ## 6. The killer 5:30am routine
 
+> **Canonical training file:** `Workout-Program.html` is the single source of truth for the actual program — a 3-day cut-&-sculpt split (delts/traps/arms priority, back- & knee-safe, no flat bench) with per-exercise technique, video links, and weight/rep/notes logging. The outline below is the design rationale; follow the HTML app for day-to-day training.
+
 Built for **3–4 mornings/week, ~50 min, L5/S1-safe, all muscle heads hit**. A 3-day rotation (A/B/C); on 4-day weeks you run A/B/C then repeat A. Each session: 5-min warm-up → main work → 2-min finisher. Rep tempo controlled; every exercise has an L5/S1-safe note where spinal loading is a risk.
 
 **Warm-up (all days, 5 min):** bike/row 3 min + banded shoulder dislocates + hip airplanes + glute bridges (protect L5/S1 — brace before every working set).
