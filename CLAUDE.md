@@ -7,6 +7,11 @@ Read this first. It's the standing profile + decisions so Ryno never has to repe
 - Goal: **get more shredded/defined first, a little bigger second.** Priority muscles: **side/rear delts, traps, biceps, triceps, forearms.**
 - Reads on his phone — **prefers larger fonts**; apps have A−/A+ controls, keep base ≥18px.
 
+## Food & cooking preferences
+- **Dislikes Brussels sprouts** — never put them in a meal (they're also on the methanogen avoid list, so this costs nothing).
+- **Cooks with a Thermomix TM7 (has a Cookidoo subscription) and a slow cooker** — new meals should offer one of those methods where sensible. TM7 recipes in guided style (time/temp/speed); can't copy Cookidoo's recipes, but give Cookidoo search terms.
+- **All produce must be in season for NSW, Australia** (he's in Newcastle — Revo Charlestown gym). Check the month before writing meals: e.g. winter (Jun–Aug) = pumpkin/roots/brassicas/leek/fennel, apples/pears/citrus/kiwifruit; asparagus is Sep–Dec; pomegranate & stone fruit are not winter. Meal-Plan.html §3 has the winter produce box — update it when seasons change.
+
 ## Hard constraints (never violate)
 - **L5/S1 lower-back injury** → no axial spinal loading: no back squats, no barbell deadlifts/rows from floor, no standing barbell press. Use leg press, chest-supported rows, back-supported pressing, Pallof/dead bug core.
 - **Knees niggle** → knee-friendly leg work: moderate-ROM leg press, controlled high-rep leg extensions, no deep loaded knee stress.
