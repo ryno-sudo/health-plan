@@ -225,6 +225,7 @@
           <br>Same exercises, just more room for the priority muscles. Keep the deload every 6th week.
         </div>
         <p class="muted">This app replaces the exercise lists in the old files (roadmap + meal-plan tracker) — follow <b>this one</b>. It saves only on this device; export a backup now and then.</p>
+        <div class="banner"><b>Where your data lives (important on iPhone):</b> logs are stored per browser <i>and</i> per web address. The Safari tab and the home-screen icon count as <b>separate storage</b> — so always open the app the <b>same way</b> (use the home-screen icon). Same if the site address ever changes: Export a backup on the old one, Import on the new. Mid-workout typing is now auto-saved as a draft, so switching apps between sets can't lose your numbers — but the session only enters your history when you hit <b>Save today's session</b> and see the green count.</div>
       </div>
     </details>
   </div>
@@ -360,9 +361,14 @@ const PROGRAM = {
 };
 
 /* ================= storage ================= */
-const K_LOGS='wk_logs_v1', K_NOTES='wk_notes_v1', K_FONT='wk_font', K_METRICS='hp_metrics_v1', K_HSTART='wk_hist_start';
+const K_LOGS='wk_logs_v1', K_NOTES='wk_notes_v1', K_FONT='wk_font', K_METRICS='hp_metrics_v1', K_HSTART='wk_hist_start', K_DRAFT='wk_draft_v1';
 const load=(k,d)=>{ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch(e){ return d; } };
-const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let STORAGE_OK=true;
+try{ localStorage.setItem('wk__test','1'); localStorage.removeItem('wk__test'); }catch(e){ STORAGE_OK=false; }
+let warnedStorage=false;
+const save=(k,v)=>{ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){
+  if(!warnedStorage){ warnedStorage=true; alert('⚠️ This browser is BLOCKING saving (private mode, or site data blocked). Your logs will NOT be kept. Open the app from your home-screen icon in a normal window.'); }
+} };
 const todayStr=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
 const slug=s=>s.replace(/[^a-z0-9]+/gi,'_');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -421,6 +427,20 @@ function renderDays(){
   document.querySelectorAll('textarea[data-note]').forEach(t=>{
     t.addEventListener('input',()=>{ const n=load(K_NOTES,{}); n[t.dataset.note]=t.value; save(K_NOTES,n); });
   });
+  // draft autosave: every number typed is saved instantly and restored on
+  // reload, so switching apps mid-workout can never lose an unsaved session
+  const draft=load(K_DRAFT,{});
+  document.querySelectorAll('#days .setrow input').forEach(inp=>{
+    const dayId=inp.closest('.day').id.replace('day-','');
+    const v=draft[dayId]?.[inp.dataset.k]?.[inp.dataset.set]?.[inp.dataset.f];
+    if(v!=null && v!=='') inp.value=v;
+    inp.addEventListener('input',()=>{
+      const all=load(K_DRAFT,{});
+      ((all[dayId]=all[dayId]||{})[inp.dataset.k]=all[dayId][inp.dataset.k]||{})[inp.dataset.set]=all[dayId][inp.dataset.k][inp.dataset.set]||{};
+      all[dayId][inp.dataset.k][inp.dataset.set][inp.dataset.f]=inp.value;
+      save(K_DRAFT,all);
+    });
+  });
 }
 function showDay(btn){
   CURRENT=btn.dataset.day;
@@ -447,21 +467,24 @@ function saveSession(){
     const sets=Object.keys(data).sort().map(si=>data[si]).filter(s=>s.w&&s.r).map(s=>({w:parseFloat(s.w),r:parseInt(s.r)}));
     if(sets.length) exercises.push({name:div.dataset.name, sets});
   });
-  if(!exercises.length){ flash('Enter weight + reps for at least one set'); return; }
+  if(!exercises.length){ flash('⚠️ Enter weight + reps for at least one set, then Save'); return; }
   const logs=load(K_LOGS,[]);
   logs.push({date, day, exercises});
   logs.sort((a,b)=>a.date<b.date?1:-1);
   save(K_LOGS,logs);
-  document.querySelectorAll(`#day-${day} .setrow input`).forEach(i=>i.value='');
-  flash('✓ Saved '+exercises.length+' exercises');
+  // verify the write actually landed before telling him it saved
+  const check=load(K_LOGS,[]);
+  if(check.length!==logs.length){ flash('⚠️ SAVE FAILED — this browser is blocking storage. Do not close the app; screenshot your numbers.'); return; }
+  const all=load(K_DRAFT,{}); delete all[day]; save(K_DRAFT,all);   // clear draft only after confirmed save
+  flash('✓ Saved '+exercises.length+' exercise'+(exercises.length>1?'s':'')+' — '+check.length+' session'+(check.length>1?'s':'')+' stored on this device');
   renderDays(); showDayById(day); renderHist();
 }
 function showDayById(dk){ document.querySelectorAll('.day').forEach(d=>d.classList.remove('active')); const el=document.getElementById('day-'+dk); if(el) el.classList.add('active'); }
 function flash(msg){ const e=document.getElementById('saved'); e.textContent=msg; setTimeout(()=>{ if(e.textContent===msg) e.textContent=''; },2600); }
 function renderHist(){
   const logs=load(K_LOGS,[]), box=document.getElementById('hist');
-  if(!logs.length){ box.innerHTML='<p class="muted">No sessions logged yet.</p>'; return; }
-  box.innerHTML=logs.slice(0,12).map((s,i)=>{
+  if(!logs.length){ box.innerHTML='<p class="muted">No sessions logged yet on this device. Type your sets and hit "Save today\'s session" — the green confirmation will show a running count.</p>'; return; }
+  box.innerHTML='<p class="muted"><b>'+logs.length+'</b> session'+(logs.length>1?'s':'')+' stored on this device.</p>'+logs.slice(0,12).map((s,i)=>{
     const rows=s.exercises.map(e=>`<tr><td>${esc(e.name)}</td><td>${e.sets.map(x=>x.w+'×'+x.r).join(', ')}</td></tr>`).join('');
     return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between"><b>${fmtD(s.date)} · Day ${s.day}</b><button class="del" style="color:#b03030;background:none;border:none;font-weight:700" onclick="delLog(${i})">✕</button></div><table>${rows}</table></div>`;
   }).join('');
@@ -593,6 +616,10 @@ function onStartChange(){ save(K_HSTART, document.getElementById('fb-start').val
 
 /* ================= init ================= */
 applyFont();
+if(!STORAGE_OK){
+  document.querySelector('main').insertAdjacentHTML('afterbegin',
+    '<div class="banner" style="background:#fdecea;border-color:#e5a8a1"><b>⚠️ Saving is BLOCKED in this browser</b> — private/incognito mode or blocked site data. Nothing you log here will be kept. Open the app from your home-screen icon in a normal window.</div>');
+}
 renderDays();
 renderHist();
 document.getElementById('m-date').value=todayStr();

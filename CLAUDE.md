@@ -42,6 +42,7 @@ Older/duplicate routines (roadmap §6 A/B/C, Meal-Plan gym references) are desig
 - Netlify is (being) connected to this GitHub repo, deploying branch **`claude/workout-health-roadmap-4dkbb8`**, no build command, publish root.
 - **Every push to that branch auto-deploys.** Never ask Ryno to download files and drag to Netlify Drop again. After changing any HTML, just commit + push.
 - App data lives in localStorage per-site — if the site URL ever changes, remind him to Export backup on the old URL and Import on the new one.
+- iPhone: the Safari tab and the home-screen icon have SEPARATE storage — he must always open via the home-screen icon. The workout app auto-saves in-progress sets as drafts (wk_draft_v1), verifies every save with a read-back, and shows a stored-session count; a red banner appears if the browser blocks storage.
 
 ## Working conventions for Claude
 - Commit + push after every meaningful change (that's what deploys it).
