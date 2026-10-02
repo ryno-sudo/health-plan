@@ -3,9 +3,10 @@
 Read this first. It's the standing profile + decisions so Ryno never has to repeat himself. Update it whenever a decision changes.
 
 ## Who / goals
-- Age **45–54**, trains **5:30am, 3 days/week baseline** (4th day optional = repeat Day 1).
+- Age **48**, trains **5:30am, 3 days/week baseline** (4th day optional = **Day F Functional**, added Oct 2026 — conditioning/carries/core, never replaces Days 1–3).
 - Goal: **get more shredded/defined first, a little bigger second.** Priority muscles: **side/rear delts, traps, biceps, triceps, forearms.**
 - Reads on his phone — **prefers larger fonts**; apps have A−/A+ controls, keep base ≥18px.
+- **Functional kit at Revo:** KBs/DBs, TRX, battle ropes, med balls, rower/ski erg/bike — **NO sled/turf**. **Conditioning engine is weak (gasses quickly)** — intervals are phased in Day F (30/90 → 40/80 → 60/60); progress only when repeatable. No ballistic hinging (heavy KB swings) or jumping — back/knees.
 
 ## Food & cooking preferences
 - **Dislikes Brussels sprouts** — never put them in a meal (they're also on the methanogen avoid list, so this costs nothing).

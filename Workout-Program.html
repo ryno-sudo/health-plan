@@ -90,7 +90,7 @@
 <body>
 <header>
   <h1>Training Program</h1>
-  <div class="sub">Cut &amp; sculpt · delts · traps · arms — 3-day (45–54, back &amp; knee safe)</div>
+  <div class="sub">Cut &amp; sculpt · delts · traps · arms — 3–4 day (48yo, back &amp; knee safe)</div>
   <div class="fontctl">
     <a href="index.html" aria-label="Home" style="width:40px;height:40px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;border-radius:10px;font-size:19px;display:flex;align-items:center;justify-content:center;text-decoration:none;">⌂</a>
     <button onclick="bumpFont(-1)" aria-label="Smaller">A−</button>
@@ -108,7 +108,7 @@
   <div class="intro">
     <h2>Read this once — it's the whole strategy</h2>
     <div class="banner"><b>Definition comes from the kitchen, not the gym.</b> Your meal plan + the calorie deficit (and Reta) strip the fat. This program's job is to <b>build and defend the muscles that make you look shredded</b> — big 3D delts, thick traps, full arms — so as the fat drops, <i>those</i> pop. Don't expect the weights to "tone"; expect them to hold and grow the showpieces while you diet.</div>
-    <p><b>The split (3 days/week):</b> Day 1 Shoulders/Traps/Triceps · Day 2 Back/Rear-delts/Biceps · Day 3 Chest/Legs/Core. Your priority muscles (delts, traps, biceps, triceps) get hit hard and often; legs are trained once to maintain — that's the correct trade-off for your goal and your knees/back.</p>
+    <p><b>The split:</b> Day 1 Shoulders/Traps/Triceps · Day 2 Back/Rear-delts/Biceps · Day 3 Chest/Legs/Core — plus <b>Day F (Functional)</b> as the 4th morning when you train 4. Days 1–3 drive the growth in your priority muscles; Day F is the cut engine (conditioning, carries, core) and never replaces them. On a 3-day week, run 1–2–3; on a 4-day week, 1–2–3–F.</p>
     <p><b>How hard:</b> take every working set to <b>1–2 reps in reserve</b> (RIR) — you could just about grind 1–2 more. Only the very last set of an isolation move goes to true failure. <b>Control the lowering</b> (2–3 sec down) on everything — that's where growth and joint safety both live.</p>
     <p><b>Rest:</b> ~2 min on presses/rows, 60–90 sec on isolation. <b>Progress:</b> when you hit the top of the rep range on all sets, add a little weight next time (double progression). <b>Deload every 6th week:</b> same exercises, half the sets, ~2 RIR — your joints at 45–54 need it.</p>
     <p><b>Running out of time at 5:30am?</b> Never skip the first three exercises of the day — they're ordered by importance. Drop from the bottom of the list instead (the forearm pair on Day 2 is a superset — run them back-to-back with no rest between the two moves, ~7 min total).</p>
@@ -120,6 +120,7 @@
     <button class="active" data-day="1" onclick="showDay(this)">Day 1<br>Delts · Traps · Tri</button>
     <button data-day="2" onclick="showDay(this)">Day 2<br>Back · Rear · Bi</button>
     <button data-day="3" onclick="showDay(this)">Day 3<br>Chest · Legs · Core</button>
+    <button data-day="F" onclick="showDay(this)">Day F<br>Functional</button>
   </nav>
 
   <div id="days"></div>
@@ -220,9 +221,7 @@
         <input type="file" id="importer" accept="application/json" onchange="importData(event)" style="width:100%;margin-bottom:10px">
         <button class="btn sec" style="color:#b03030;border-color:#b03030" onclick="wipe()">Erase all logs &amp; notes</button>
         <div class="banner" style="margin-top:14px">
-          <b>Bumping to 4 days?</b> Split Day 1 into two: <b>4A</b> Shoulders + Traps, and put Triceps with Chest. New week:
-          <br>• 4A — Shoulders + Traps &nbsp; • 4B — Back + Biceps &nbsp; • 4C — Chest + Triceps &nbsp; • 4D — Legs + Arms pump (light curls/pushdowns/laterals, higher reps).
-          <br>Same exercises, just more room for the priority muscles. Keep the deload every 6th week.
+          <b>The 4th day is Day F (Functional).</b> Week shape: Mon Day 1 · Wed Day 2 · Fri Day 3 · Sat (optional) Day F. On a 3-day week just drop Day F — never drop Days 1–3 for it, they drive the growth. Day F also works as a stand-alone on any spare morning. Keep the deload every 6th week (Day F deload = halve the interval count, keep the carries light).
         </div>
         <p class="muted">This app replaces the exercise lists in the old files (roadmap + meal-plan tracker) — follow <b>this one</b>. It saves only on this device; export a backup now and then.</p>
         <div class="banner"><b>Where your data lives (important on iPhone):</b> logs are stored per browser <i>and</i> per web address. The Safari tab and the home-screen icon count as <b>separate storage</b> — so always open the app the <b>same way</b> (use the home-screen icon). Same if the site address ever changes: Export a backup on the old one, Import on the new. Mid-workout typing is now auto-saved as a draft, so switching apps between sets can't lose your numbers — but the session only enters your history when you hit <b>Save today's session</b> and see the green count.</div>
@@ -356,6 +355,45 @@ const PROGRAM = {
         why:"Lower-ab work that decompresses (hanging) or protects (dead bug) the spine — pick whichever your back likes on the day.",
         cues:["Hanging: hang from a bar, raise knees toward chest by curling the pelvis up — no swinging.","Lower slowly; don't just drop the legs.","Dead bug option: lie on your back, opposite arm/leg extend while pressing the low back into the floor.","Move slowly and keep the lower back glued down throughout."],
         yt:"hanging knee raise" }
+    ]
+  },
+  "F": {
+    title: "Day F — Functional (the 4th morning)",
+    focus: "The cut engine: conditioning + carries + core. Built for a gassed-out engine (phased intervals), L5/S1 and knees protected. Never replaces Days 1–3 — it's the add-on.",
+    warmup: ["3 min easy bike or row (conversational pace)","World's greatest stretch ×5/side","90-90 hip switches ×8/side","Dead bug ×8/side + glute bridge ×12 — brace the back before you load anything"],
+    exercises: [
+      { name:"KB Goblet Squat", tag:"Squat pattern — knee & back safe", pri:false, sets:3, reps:"8–12", rest:"75 s", tempo:"2s down, no bounce",
+        why:"The functional squat for your joints: the kettlebell counterweight lets you squat upright with zero bar on your spine, and you choose the knee-comfortable depth.",
+        cues:["Hold a KB by the horns at your chest, elbows tucked down.","Sit down between your hips (not back like a barbell squat) to a depth your knees accept — stop before any pinch.","Chest tall the whole way; the bell keeps you honest.","Drive up through mid-foot. Heavier bell > deeper depth if knees complain."],
+        yt:"goblet squat form" },
+      { name:"Push-Up or TRX Push-Up", tag:"Push pattern — free scapula", pri:false, sets:3, reps:"10–15", rest:"60 s", tempo:"controlled, full lockout",
+        why:"The push-up beats pressing machines for 'functional' because your shoulder blades move freely — shoulder health + chest/triceps in one. TRX handles make it easier (feet back) or harder (feet forward).",
+        cues:["Rigid plank from head to heels — squeeze glutes, brace abs (this is secretly core work).","Hands under shoulders, elbows ~45° from the body, chest to just above the floor.","Push to FULL lockout and spread the shoulder blades at the top.","Too easy? Elevate feet or slow the lowering to 3s. Wrists cranky? Use the TRX or push-up handles."],
+        yt:"perfect push up form" },
+      { name:"TRX Row", tag:"Pull pattern — zero spinal load", pri:false, sets:3, reps:"10–15", rest:"60 s", tempo:"1s squeeze at top",
+        why:"Bodyweight rowing with no load on the lower back; the steeper you walk your feet, the harder it gets — instant progression without plates.",
+        cues:["Straps short, lean back with a dead-straight body line.","Row your chest to the handles, elbows close, squeeze the shoulder blades.","Lower under full control — no sagging hips.","Walk feet forward to make it harder, back to make it easier."],
+        yt:"trx row" },
+      { name:"Farmer's Carry", tag:"Carry — TRAPS + grip + core ★", pri:true, sets:3, reps:"40 m", rest:"90 s", tempo:"tall, brisk walk",
+        why:"The king of functional strength — and a direct trap and forearm builder, which feeds your yoke goal on a day that's mostly conditioning. Carries are among the safest loaded work for an L5/S1 back when done tall.",
+        cues:["Heavy DB or KB in each hand — start ~20–24 kg/hand and earn more.","Stand TALL before you step: shoulders set back and down, ribs stacked over hips, abs braced.","Walk controlled and level — no leaning, no waddling. If your posture breaks, the bells are too heavy.","Log it: weight per hand in the kg box, metres in the reps box (e.g. 24 / 40)."],
+        yt:"farmers carry form" },
+      { name:"Suitcase Carry", tag:"Anti-lean core — back armour", pri:false, sets:2, reps:"30 m / side", rest:"60 s", tempo:"dead level shoulders",
+        why:"One bell, one side: your core fights the sideways pull every step. One of the best-tolerated core exercises there is for cranky lower backs.",
+        cues:["One KB/DB in one hand (~60–70% of your farmer's weight).","Walk 30 m staying PERFECTLY level — imagine a glass of water on each shoulder.","Don't lean away from or toward the bell; the fight to stay level IS the exercise.","Swap hands, repeat. Log weight in kg box, metres in reps box."],
+        yt:"suitcase carry" },
+      { name:"Side Plank", tag:"QL / oblique — L5/S1 gold", pri:false, sets:2, reps:"20–30 s / side", rest:"45 s", tempo:"hold, breathe",
+        why:"The single most back-rehab-approved core hold there is — builds the lateral wall that protects your L5/S1 with near-zero disc load.",
+        cues:["Elbow under shoulder, body in one straight line, hips stacked.","Lift the hips and HOLD — don't let them sag or roll back.","Breathe normally through the hold; don't hold your breath.","Too hard? Bend the knees and hold from there. Log seconds in the reps box."],
+        yt:"side plank form" },
+      { name:"Battle Ropes", tag:"Conditioning — arms & delts bonus", pri:false, sets:4, reps:"20 s on / 40 s off", rest:"(built in)", tempo:"violent waves, loose grip",
+        why:"High heart rate with zero load on your spine or knees — and your delts and arms do the work, so even the conditioning feeds the showpiece muscles.",
+        cues:["Athletic stance, slight knee bend, chest up.","Alternating waves: drive from the shoulders, arms fast but grip relaxed.","20 seconds hard, 40 seconds full rest — 4 rounds. That ratio is deliberate while the engine builds.","Log rounds completed in the reps box. Mix in double waves or slams-style whips for variety."],
+        yt:"battle ropes alternating waves" },
+      { name:"Erg Intervals (Row / Ski / Bike)", tag:"THE ENGINE — phased, don't skip ahead", pri:true, sets:1, reps:"see phase", rest:"easy spin between", tempo:"hard but repeatable",
+        why:"This is what gets you cut and fixes the gassing-out. Phased on purpose: Phase 1 (wks 1–2): 6 × 30s brisk / 90s easy. Phase 2 (wks 3–4): 7 × 40s / 80s. Phase 3 (wk 5+): 6 × 60s / 60s. Move up only when the current phase feels repeatable.",
+        cues:["Pick your weapon: ski erg (most back-friendly, standing), bike (knees-friendliest), or rower (keep the back neutral — legs push, THEN body swings from the hips, then arms; never round).","'Brisk' = you could NOT hold a conversation, but you could repeat the interval. Not a sprint.","Every 'easy' period is genuinely easy — that's what lets you hit the next rep. Gassing out early means you went too hard, not that you're unfit.","Log: intervals completed in the reps box, watts/level in the kg box. When all intervals feel repeatable two sessions running, move to the next phase."],
+        yt:"rowing machine technique legs body arms" }
     ]
   }
 };
